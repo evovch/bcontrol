@@ -13,4 +13,3 @@ HEADERS += \
     bsocket.h \
     bslider.h
 
-
