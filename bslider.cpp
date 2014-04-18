@@ -6,3 +6,4 @@ void bSlider::reset()
 {
     setValue(0);
 }
+
