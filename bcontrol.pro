@@ -6,10 +6,15 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     bsocket.cpp \
-    bslider.cpp
+    bslider.cpp \
+    blabel.cpp
 
 
 HEADERS += \
     bsocket.h \
-    bslider.h
+    bslider.h \
+    blabel.h
+
+FORMS += \
+    main.ui
 

@@ -10,6 +10,9 @@ class bSocket : public QTcpSocket
 public:
     void sendValue(char prefix, int value);
 
+signals:
+    void dataReceived(QString key, QString value);
+
 public slots:
     void reconnect();
     void _onSpeedChanged(int value);

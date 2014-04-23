@@ -18,13 +18,15 @@ void bSocket::_onAngleChanged(int value) {
 void bSocket::_onNewData(void) {
     QByteArray d = readAll();
 
-
     QString str = QString(d);
 
-    QRegExp regexp("done: ([A-Za-z0-9-_]+)\:([A-Za-za0-9-_]+)\r");
+    qDebug() << "got:" << str;
+
+    QRegExp regexp("([A-Za-z0-9-_]+):([A-Za-za0-9-_]+)\n");
     int pos = 0;
     while ( (pos = regexp.indexIn(str, pos)) != -1 )
     {
+        emit dataReceived(regexp.cap(1), regexp.cap(2));
         qDebug() << regexp.cap(1) << " --- " << regexp.cap(2);
         pos += regexp.matchedLength();
     }
@@ -41,7 +43,7 @@ void bSocket::sendValue(char prefix, int value)
         write(&prefix, 1);
         write(":");
         write(str);
-        write("\r");
+        write("\n");
     }
 
     if(state()==QAbstractSocket::UnconnectedState){

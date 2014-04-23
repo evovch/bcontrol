@@ -9,6 +9,7 @@ class bSlider : public QSlider
 
 public:
     bSlider(Qt::Orientation orientation, QWidget *parent = 0);
+    bSlider(QWidget *parent = 0);
 
 public slots:
     void reset();
