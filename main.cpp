@@ -7,28 +7,21 @@
 #include <QApplication>
 #include <QObject>
 #include "bsocket.h"
-#include "bslider.h"
-#include "ui_main.h"
+#include "ui_fhead.h"
 #include "blabel.h"
+#include "ui_pancontrolwidget.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
-    QGridLayout *mainLayout = new QGridLayout;
-
     QWidget *mp = new QWidget;
-    Ui_mainPanel ui;
+    Ui_fhead ui;
     ui.setupUi(mp);
     mp->show();
 
-    bSocket *socket = new bSocket();
-    socket->reconnect();
+    QObject test;
 
-    QObject::connect(ui.angleSlider, SIGNAL(valueChanged(int)), socket, SLOT(_onAngleChanged(int)));
-    QObject::connect(ui.speedSlider, SIGNAL(valueChanged(int)), socket, SLOT(_onSpeedChanged(int)));
-    QObject::connect(ui.speedSlider, SIGNAL(sliderReleased()), ui.speedSlider, SLOT(reset()));
-    QObject::connect(socket, SIGNAL(readyRead()), socket, SLOT(_onNewData()));
-    QObject::connect(socket, SIGNAL(dataReceived(QString, QString)), ui.lPosition, SLOT(_onDataReceived(QString, QString)));
+    QObject::connect(ui.panControl->positionSlider, SIGNAL(valueChanged(int)), ui.panControl, SLOT(_onPositionChanged(int)));
 
     return app.exec();
 }
