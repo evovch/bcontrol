@@ -35,14 +35,14 @@
   <widget class="QProgressBar" name="positionBar">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>0</y>
-     <width>630</width>
+     <width>610</width>
      <height>10</height>
     </rect>
    </property>
    <property name="maximum">
-    <number>720</number>
+    <number>1000</number>
    </property>
    <property name="value">
     <number>200</number>
@@ -57,7 +57,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QSlider" name="positionSlider">
+  <widget class="bSlider" name="positionSlider">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -67,7 +67,7 @@
     </rect>
    </property>
    <property name="maximum">
-    <number>720</number>
+    <number>1000</number>
    </property>
    <property name="value">
     <number>200</number>
@@ -117,4 +117,21 @@
  </customwidgets>
  <resources/>
  <connections/>
+ <designerdata>
+  <property name="gridDeltaX">
+   <number>10</number>
+  </property>
+  <property name="gridDeltaY">
+   <number>10</number>
+  </property>
+  <property name="gridSnapX">
+   <bool>false</bool>
+  </property>
+  <property name="gridSnapY">
+   <bool>false</bool>
+  </property>
+  <property name="gridVisible">
+   <bool>false</bool>
+  </property>
+ </designerdata>
 </ui>

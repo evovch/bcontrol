@@ -5,14 +5,7 @@
 void bSocket::reconnect()
 {
     connectToHost("95.31.42.166", 60000);
-}
-
-void bSocket::_onSpeedChanged(int value) {
-    sendValue('s', value);
-}
-
-void bSocket::_onAngleChanged(int value) {
-    sendValue('a', value);
+    QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
 }
 
 void bSocket::_onNewData(void) {
@@ -20,29 +13,28 @@ void bSocket::_onNewData(void) {
 
     QString str = QString(d);
 
-    qDebug() << "got:" << str;
+//    qDebug() << "got:" << str;
 
-    QRegExp regexp("([A-Za-z0-9-_]+):([A-Za-za0-9-_]+)\n");
+    QRegExp regexp("([A-Za-z0-9-_]+):([A-Za-z0-9-_]+):([A-Za-za0-9-_]+)\n");
     int pos = 0;
     while ( (pos = regexp.indexIn(str, pos)) != -1 )
     {
-        emit dataReceived(regexp.cap(1), regexp.cap(2));
-        qDebug() << regexp.cap(1) << " --- " << regexp.cap(2);
+        emit dataReceived(regexp.cap(1), regexp.cap(2), regexp.cap(3));
+ //       qDebug() << regexp.cap(1) << " --- " << regexp.cap(2) << " --- " << regexp.cap(3);
         pos += regexp.matchedLength();
     }
 
 //    qDebug() << readAll();
 }
 
-void bSocket::sendValue(char prefix, int value)
+void bSocket::send(QString dev, QString key, QString value)
 {
-    char str[20];
-    sprintf(str, "%d", value);
-
     if(state()==QAbstractSocket::ConnectedState){
-        write(&prefix, 1);
-        write(":");
-        write(str);
+        QString str = dev + ":" + key + ":" + value ;
+        QByteArray byteArray = str.toUtf8();
+        const char* cString = byteArray.constData();
+
+        write(cString);
         write("\n");
     }
 

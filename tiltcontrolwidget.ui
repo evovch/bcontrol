@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>70</width>
-    <height>340</height>
+    <width>50</width>
+    <height>360</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>-1</x>
-     <y>40</y>
+     <y>50</y>
      <width>30</width>
      <height>300</height>
     </rect>
@@ -32,17 +32,17 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="positionSlider">
+  <widget class="bSlider" name="positionSlider">
    <property name="geometry">
     <rect>
      <x>29</x>
      <y>40</y>
      <width>20</width>
-     <height>300</height>
+     <height>320</height>
     </rect>
    </property>
    <property name="maximum">
-    <number>720</number>
+    <number>1000</number>
    </property>
    <property name="value">
     <number>200</number>
@@ -63,30 +63,11 @@
     <number>45</number>
    </property>
   </widget>
-  <widget class="QProgressBar" name="positionBar">
-   <property name="geometry">
-    <rect>
-     <x>59</x>
-     <y>40</y>
-     <width>10</width>
-     <height>300</height>
-    </rect>
-   </property>
-   <property name="maximum">
-    <number>720</number>
-   </property>
-   <property name="value">
-    <number>200</number>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
-  </widget>
   <widget class="QLabel" name="coordLabel">
    <property name="geometry">
     <rect>
-     <x>19</x>
-     <y>5</y>
+     <x>6</x>
+     <y>10</y>
      <width>60</width>
      <height>30</height>
     </rect>

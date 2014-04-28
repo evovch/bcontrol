@@ -9,7 +9,8 @@
 #include "bsocket.h"
 #include "ui_fhead.h"
 #include "blabel.h"
-#include "ui_pancontrolwidget.h"
+#include "bclient.h"
+#include "controlgraph.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
@@ -19,9 +20,10 @@ int main(int argc, char* argv[]) {
     ui.setupUi(mp);
     mp->show();
 
-    QObject test;
+    bSocket *socket = new bSocket();
+    socket->reconnect();
 
-    QObject::connect(ui.panControl->positionSlider, SIGNAL(valueChanged(int)), ui.panControl, SLOT(_onPositionChanged(int)));
+    bClient *cl = new bClient(socket, &ui);
 
     return app.exec();
 }

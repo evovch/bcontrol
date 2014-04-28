@@ -13,7 +13,9 @@ SOURCES += \
     pancontrolwidget.cpp \
     slidercontrolwidget.cpp \
     basic.cpp \
-    motorcontrolwidget.cpp
+    motorcontrolwidget.cpp \
+    bclient.cpp \
+    controlgraph.cpp
 
 
 HEADERS += \
@@ -24,7 +26,9 @@ HEADERS += \
     tiltcontrolwidget.h \
     slidercontrolwidget.h \
     pancontrolwidget.h \
-    motorcontrolwidget.h
+    motorcontrolwidget.h \
+    bclient.h \
+    controlgraph.h
 
 FORMS += \
     main.ui \
