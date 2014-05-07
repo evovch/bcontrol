@@ -2,6 +2,7 @@
 #define BSOCKET_H
 
 #include <QtNetwork/QTcpSocket>
+#include <QStringList>
 
 class bSocket : public QTcpSocket
 {
@@ -11,7 +12,7 @@ public:
     void send(QString dev, QString key, QString value);
 
 signals:
-    void dataReceived(QString dev, QString key, QString value);
+    void dataReceived(QString dev, QString key, QString value, QStringList arrayValue);
 
 public slots:
     void reconnect();

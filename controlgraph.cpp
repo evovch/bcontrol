@@ -47,3 +47,37 @@ void controlGraph::mousePressEvent(QMouseEvent * event) {
     emit panPositionRequested(event->x() * range / scene.width());
     emit tiltPositionRequested(event->y() * range / scene.height());
 }
+
+void controlGraph::setFixedPoints(fixedPointHash *fp) {
+    fixedPoints = fp;
+}
+
+void controlGraph::_onFixedPointsUpdated(void){
+    drawFixedPoints();
+}
+
+void controlGraph::drawFixedPoints() {
+    QHash<QString, fixedPoint>::iterator i;
+    QHash<QString, QGraphicsEllipseItem*>::iterator ii;
+
+    for (ii = elliseFixedPointHash.begin(); ii != elliseFixedPointHash.end(); ++ii)delete ii.value();
+    elliseFixedPointHash.clear();
+
+    for (i = fixedPoints->begin(); i != fixedPoints->end(); ++i) {
+        QGraphicsEllipseItem *e = new QGraphicsEllipseItem(0, &scene);
+        e->setRect(1.0 * i->panValue * scene.width() / range - 15, 1.0 * i->tiltValue * scene.height() / range - 15 , 30, 30 );
+
+        QGraphicsSimpleTextItem *et = new QGraphicsSimpleTextItem(e);
+        et->setPos(1.0 * i->panValue * scene.width() / range - 5, 1.0 * i->tiltValue * scene.height() / range - 14);
+        et->setFont(QFont("Calibri", 20, QFont::Bold));
+ //       et->boundingRect(i->panValue-15, i->tiltValue-15, 30, 30 );
+        et->setText(i->name);
+
+        elliseFixedPointHash.insert(i.key(), e);
+    }
+}
+
+
+
+
+

@@ -11,11 +11,12 @@
 #include "blabel.h"
 #include "bclient.h"
 #include "controlgraph.h"
+#include "bcontrolwidget.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
-    QWidget *mp = new QWidget;
+    fhead *mp = new fhead;
     Ui_fhead ui;
     ui.setupUi(mp);
     mp->show();

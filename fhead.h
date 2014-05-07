@@ -15,6 +15,10 @@ public:
     explicit fhead(QWidget *parent = 0);
     ~fhead();
 
+protected:
+    void keyPressEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent *);
+
 private:
     Ui::fhead *ui;
 };
