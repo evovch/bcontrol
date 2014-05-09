@@ -16,7 +16,8 @@ SOURCES += \
     bclient.cpp \
     controlgraph.cpp \
     bcontrolwidget.cpp \
-    fhead.cpp
+    fhead.cpp \
+    bgraphicsellipseitem.cpp
 
 
 HEADERS += \
@@ -30,7 +31,9 @@ HEADERS += \
     bclient.h \
     controlgraph.h \
     bcontrolwidget.h \
-    fhead.h
+    fhead.h \
+    btypes.h \
+    bgraphicsellipseitem.h
 
 FORMS += \
     main.ui \

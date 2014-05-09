@@ -9,7 +9,7 @@ class bSocket : public QTcpSocket
     Q_OBJECT
 
 public:
-    void send(QString dev, QString key, QString value);
+    void send(QString dev, QString key, QString value, QStringList params = QStringList::QStringList());
 
 signals:
     void dataReceived(QString dev, QString key, QString value, QStringList arrayValue);

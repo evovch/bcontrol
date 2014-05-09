@@ -6,19 +6,14 @@
 #include <QGraphicsItem>
 #include <QMouseEvent>
 
+#include "btypes.h"
+#include "bgraphicsellipseitem.h";
+
 class controlGraph : public QGraphicsView
 {
     Q_OBJECT
 public:
     controlGraph(QWidget *parent = 0);
-
-    typedef struct {
-        QString name;
-        int panValue;
-        int tiltValue;
-        int sliderValue;
-    } fixedPoint;
-    typedef QHash<QString, fixedPoint> fixedPointHash;
 
     fixedPointHash *fixedPoints;
 
@@ -36,7 +31,7 @@ private:
     QGraphicsLineItem *lineTilt;
     QGraphicsLineItem *linePan;
 
-    QHash<QString, QGraphicsEllipseItem*> elliseFixedPointHash;
+    QHash<QString, bGraphicsEllipseItem*> elliseFixedPointHash;
 
     void mousePressEvent(QMouseEvent * event);
 

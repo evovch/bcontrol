@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>917</width>
+    <width>1118</width>
     <height>726</height>
    </rect>
   </property>
@@ -78,10 +78,10 @@
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="fixButton">
+  <widget class="QPushButton" name="fixedPointButton">
    <property name="geometry">
     <rect>
-     <x>790</x>
+     <x>990</x>
      <y>70</y>
      <width>110</width>
      <height>40</height>
@@ -99,7 +99,7 @@
   <widget class="QPushButton" name="homeButton">
    <property name="geometry">
     <rect>
-     <x>790</x>
+     <x>990</x>
      <y>30</y>
      <width>110</width>
      <height>40</height>
@@ -117,7 +117,7 @@
   <widget class="QPushButton" name="caprureButton">
    <property name="geometry">
     <rect>
-     <x>790</x>
+     <x>990</x>
      <y>140</y>
      <width>110</width>
      <height>40</height>
@@ -193,6 +193,16 @@
     </property>
    </widget>
   </widget>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>30</y>
+     <width>191</width>
+     <height>441</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
@@ -211,6 +221,12 @@
    <class>sliderControlWidget</class>
    <extends>QWidget</extends>
    <header location="global">slidercontrolwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>fhead</class>
+   <extends>QWidget</extends>
+   <header location="global">fhead.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

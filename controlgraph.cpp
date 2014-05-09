@@ -1,10 +1,13 @@
 #include "controlgraph.h"
 #include <QDebug>
+#include "bgraphicsellipseitem.h"
 
 controlGraph::controlGraph(QWidget *parent) :
     QGraphicsView(parent)
 {
     setRange(1000);
+
+    setInteractive(true);
 
     scene.setSceneRect( 0.0, 0.0, parent->width(), parent->height() );
     setScene(&scene);
@@ -35,17 +38,17 @@ void controlGraph::_onTiltPositionChanged(int value){
 void controlGraph::setPanPosition(int value){
     float linePoint = 1.0 * value * scene.width() / range;
 //    qDebug() << linePoint;
-    linePan->setLine(linePoint, 0, linePoint, scene.width() );
+    linePan->setLine(linePoint, 0, linePoint, scene.height() );
 }
 
 void controlGraph::setTiltPosition(int value){
     float linePoint = 1.0 * value * scene.height() / range;
-    lineTilt->setLine(0, linePoint, scene.height(), linePoint );
+    lineTilt->setLine(0, scene.height()-linePoint, scene.width(), scene.height()-linePoint );
 }
 
 void controlGraph::mousePressEvent(QMouseEvent * event) {
     emit panPositionRequested(event->x() * range / scene.width());
-    emit tiltPositionRequested(event->y() * range / scene.height());
+    emit tiltPositionRequested((scene.height()-event->y()) * range / scene.height());
 }
 
 void controlGraph::setFixedPoints(fixedPointHash *fp) {
@@ -58,19 +61,20 @@ void controlGraph::_onFixedPointsUpdated(void){
 
 void controlGraph::drawFixedPoints() {
     QHash<QString, fixedPoint>::iterator i;
-    QHash<QString, QGraphicsEllipseItem*>::iterator ii;
+    QHash<QString, bGraphicsEllipseItem*>::iterator ii;
 
     for (ii = elliseFixedPointHash.begin(); ii != elliseFixedPointHash.end(); ++ii)delete ii.value();
     elliseFixedPointHash.clear();
 
     for (i = fixedPoints->begin(); i != fixedPoints->end(); ++i) {
-        QGraphicsEllipseItem *e = new QGraphicsEllipseItem(0, &scene);
-        e->setRect(1.0 * i->panValue * scene.width() / range - 15, 1.0 * i->tiltValue * scene.height() / range - 15 , 30, 30 );
+        bGraphicsEllipseItem *e = new bGraphicsEllipseItem(0);
+        scene.addItem(e);
+        e->setRect(1.0 * i->panValue * scene.width() / range - 15, scene.height() - 1.0 * i->tiltValue * scene.height() / range - 15 , 30, 30 );
 
         QGraphicsSimpleTextItem *et = new QGraphicsSimpleTextItem(e);
-        et->setPos(1.0 * i->panValue * scene.width() / range - 5, 1.0 * i->tiltValue * scene.height() / range - 14);
+        et->setPos(1.0 * i->panValue * scene.width() / range - 5, scene.height() - 1.0 * i->tiltValue * scene.height() / range - 14);
         et->setFont(QFont("Calibri", 20, QFont::Bold));
- //       et->boundingRect(i->panValue-15, i->tiltValue-15, 30, 30 );
+
         et->setText(i->name);
 
         elliseFixedPointHash.insert(i.key(), e);
