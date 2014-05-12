@@ -17,7 +17,8 @@ SOURCES += \
     controlgraph.cpp \
     bcontrolwidget.cpp \
     fhead.cpp \
-    bgraphicsellipseitem.cpp
+    bgraphicsellipseitem.cpp \
+    bfixedpointmodel.cpp
 
 
 HEADERS += \
@@ -33,7 +34,8 @@ HEADERS += \
     bcontrolwidget.h \
     fhead.h \
     btypes.h \
-    bgraphicsellipseitem.h
+    bgraphicsellipseitem.h \
+    bfixedpointmodel.h
 
 FORMS += \
     main.ui \

@@ -7,6 +7,7 @@
 #include "controlgraph.h"
 #include <QStringList>
 #include "btypes.h"
+#include "bfixedpointmodel.h"
 
 class bClient : public QObject
 {
@@ -27,7 +28,10 @@ private:
     Ui_fhead *ui;
     controlGraph *cg;
 
+    bFixedPointModel *fpModel;
+
     fixedPointHash fixedPoints;
+    QString currentFixedPointId;
 
 signals:
     void fixedPointsUpdated(void);
@@ -37,6 +41,9 @@ public slots:
     void _onPanPositionChanged(int value);
     void _onTiltSpeedChanged(int value);
     void _onTiltPositionChanged(int value);
+
+    void _onRemoveFixedPoint(QString id);
+    void _onSelectFixedPoint(QString id);
 
     void _onDataReceived(QString, QString, QString, QStringList params);
 
