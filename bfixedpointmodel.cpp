@@ -43,11 +43,11 @@ QVariant bFixedPointModel::data(const QModelIndex &index, int role) const
     }
 
     if (role == Qt::BackgroundColorRole && (index.column() == 0 || index.column() == 1) && id == currentFixedPointId ) {
-        return QColor("cyan");
+        return QColor("#a2c7fb");
     }
 
     if (role == Qt::DecorationRole && index.column() == 2 ) {
-        return QColor("red");
+        return QColor("#fc757b");
     }
 
 

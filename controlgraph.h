@@ -25,15 +25,22 @@ public:
     void setPanPosition(int value);
     void setTiltPosition(int value);
 
+    void setLVScene();
+    void setFPScene();
     
 private:
     QGraphicsScene scene;
+    QGraphicsScene sceneLV;
+    QGraphicsScene *currentScene;
+
     QGraphicsLineItem *lineTilt;
     QGraphicsLineItem *linePan;
 
     QHash<QString, bGraphicsEllipseItem*> elliseFixedPointHash;
 
     void mousePressEvent(QMouseEvent * event);
+
+    QGraphicsPixmapItem lvSnapshot;
 
     unsigned int range;
 
@@ -47,6 +54,8 @@ public slots:
     void _onPanPositionChanged(int value);
     void _onTiltPositionChanged(int value);
     void _onFixedPointsUpdated(void);
+
+    void _onGotAFrame(QByteArray frame);
     
 public slots:
     

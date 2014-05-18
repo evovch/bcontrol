@@ -248,6 +248,88 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <widget class="QPushButton" name="focusUpButton">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>220</y>
+     <width>110</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>Focus up</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="focusDownButton">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>250</y>
+     <width>110</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>Focus down</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="liveViewButton">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>190</y>
+     <width>110</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>LiveView</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="liveViewZoomSlider">
+   <property name="geometry">
+    <rect>
+     <x>1000</x>
+     <y>290</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>5</number>
+   </property>
+   <property name="pageStep">
+    <number>1</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

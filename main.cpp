@@ -21,10 +21,7 @@ int main(int argc, char* argv[]) {
     ui.setupUi(mp);
     mp->show();
 
-    bSocket *socket = new bSocket();
-    socket->reconnect();
-
-    bClient *cl = new bClient(socket, &ui);
+    bClient *cl = new bClient(&ui);
 
     return app.exec();
 }

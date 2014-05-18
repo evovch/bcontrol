@@ -18,7 +18,8 @@ SOURCES += \
     bcontrolwidget.cpp \
     fhead.cpp \
     bgraphicsellipseitem.cpp \
-    bfixedpointmodel.cpp
+    bfixedpointmodel.cpp \
+    liveviewsocket.cpp
 
 
 HEADERS += \
@@ -35,7 +36,8 @@ HEADERS += \
     fhead.h \
     btypes.h \
     bgraphicsellipseitem.h \
-    bfixedpointmodel.h
+    bfixedpointmodel.h \
+    liveviewsocket.h
 
 FORMS += \
     main.ui \

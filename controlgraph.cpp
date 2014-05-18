@@ -21,6 +21,54 @@ controlGraph::controlGraph(QWidget *parent) :
     QGraphicsView( &scene, parent );
     setRenderHints( QPainter::Antialiasing );
     show();
+
+    sceneLV.setSceneRect( 0.0, 0.0, parent->width(), parent->height() );
+
+    QImage img(parent->width(), parent->height(), QImage::Format_RGB32);
+    img.load("/Users/korytov/snowww.jpg");
+    QPixmap pm = QPixmap::fromImage(img);
+    pm = pm.scaled(sceneLV.width(), sceneLV.height(),  Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    lvSnapshot.setPixmap(pm);
+    sceneLV.addItem(&lvSnapshot);
+
+
+}
+
+void controlGraph::setLVScene() {
+    if (currentScene == &sceneLV)return;
+    currentScene = &sceneLV;
+    setScene(&sceneLV);
+}
+
+void controlGraph::setFPScene() {
+    if (currentScene == &scene)return;
+    currentScene = &scene;
+    setScene(&scene);
+}
+
+void controlGraph::_onGotAFrame(QByteArray frame) {
+    qDebug() << "got new frame: " << frame.size();
+
+    QImage i;
+    if (!i.loadFromData(frame, "JPEG")){
+        /*
+        QFile file("/Users/korytov/2/corrupted2.jpg");
+        file.open(QIODevice::WriteOnly);
+        file.write(frame);
+        file.close();
+*/
+        return;
+    }
+/*
+    QFile file2("/Users/korytov/2/correct2.jpg");
+    file2.open(QIODevice::WriteOnly);
+    file2.write(frame);
+    file2.close();
+*/
+    lvSnapshot.setPixmap(QPixmap::fromImage(i));
+
+    qDebug() << i.size().width();
 }
 
 void controlGraph::setRange(unsigned int r){

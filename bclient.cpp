@@ -1,10 +1,15 @@
 #include "bclient.h"
 #include <QDebug>
 
-bClient::bClient(bSocket *socket, Ui_fhead *ui, QObject *parent) :
+bClient::bClient(Ui_fhead *ui, QObject *parent) :
     QObject(parent)
 {
-    this->socket = socket;
+    socket = new bSocket();
+    socket->reconnect();
+
+    socketLv = new liveViewSocket();
+    socketLv->reconnect();
+
     this->ui = ui;
 
     ui->caprureButton->setFocus();
@@ -19,6 +24,8 @@ bClient::bClient(bSocket *socket, Ui_fhead *ui, QObject *parent) :
 
     currentFixedPointId = "p1";
     fpModel->selectFixedPoint(currentFixedPointId);
+
+    QObject::connect(socketLv, SIGNAL(gotAFrame(QByteArray)), cg, SLOT(_onGotAFrame(QByteArray)));
 
     QObject::connect(ui->fpTableView, SIGNAL(clicked(QModelIndex)), fpModel, SLOT(_onCellClicked(QModelIndex)));
 
@@ -36,7 +43,13 @@ bClient::bClient(bSocket *socket, Ui_fhead *ui, QObject *parent) :
     QObject::connect(ui->tiltControl, SIGNAL(speedChanged(int)), this, SLOT(_onTiltSpeedChanged(int)));
     QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
 
-    QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onfixedPointButtonPressed()));
+    QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onFixedPointButtonPressed()));
+
+    QObject::connect(ui->liveViewZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(_onLiveZoomSliderValueChanged(int)));
+
+    QObject::connect(ui->liveViewButton, SIGNAL(pressed()), this, SLOT(_onLiveViewButtonPressed()));
+    QObject::connect(ui->focusUpButton, SIGNAL(pressed()), this, SLOT(_onFocusUpButtonPressed()));
+    QObject::connect(ui->focusDownButton, SIGNAL(pressed()), this, SLOT(_onFocusDownButtonPressed()));
 
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
@@ -47,12 +60,30 @@ bClient::bClient(bSocket *socket, Ui_fhead *ui, QObject *parent) :
 
 }
 
-void bClient::_onfixedPointButtonPressed(void) {
+void bClient::_onFixedPointButtonPressed(void) {
     qDebug() << "fixPoint pressed!";
 
     fixedPoint fp;
 
     sendFixedPoint(0, fp);
+}
+
+void bClient::_onLiveViewButtonPressed(void) {
+    qDebug() << "liveView pressed!";
+
+    socket->send("live_view", "toggle", 0);
+}
+
+void bClient::_onFocusUpButtonPressed(void) {
+    qDebug() << "focusUp pressed!";
+
+    socket->send("focus", "step", "up");
+}
+
+void bClient::_onFocusDownButtonPressed(void) {
+    qDebug() << "focusDown pressed!";
+
+    socket->send("focus", "step", "down");
 }
 
 void bClient::sendFixedPoint(QString id, fixedPoint fp) {
@@ -108,6 +139,10 @@ void bClient::_onSelectFixedPoint(QString id) {
      socket->send("fixed_point", "select", id);
 }
 
+void bClient::_onLiveZoomSliderValueChanged(int val) {
+     socket->send("live_view", "set_zoom", QString::number(val));
+}
+
 void bClient::_onDataReceived(QString dev, QString key, QString value, QStringList params) {
     if(dev=="motor_pan" && key=="status_position") {
         ui->panControl->setPosition(value.toInt());
@@ -141,5 +176,15 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
     if(dev=="fixed_point" && key=="select") {
         currentFixedPointId = value;
         fpModel->selectFixedPoint(currentFixedPointId);
+    }
+
+    if(dev=="live_view" && key=="status") {
+        qDebug() << "lv: " << value;
+        if (value=="on") {
+            cg->setLVScene();
+        }
+        else {
+            cg->setFPScene();
+        }
     }
 }

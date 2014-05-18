@@ -10,12 +10,12 @@ class bSocket : public QTcpSocket
 
 public:
     void send(QString dev, QString key, QString value, QStringList params = QStringList::QStringList());
+    void reconnect();
 
 signals:
     void dataReceived(QString dev, QString key, QString value, QStringList arrayValue);
 
 public slots:
-    void reconnect();
     void _onNewData(void);
 
 };

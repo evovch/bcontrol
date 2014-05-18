@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "bsocket.h"
+#include "liveviewsocket.h"
 #include "ui_fhead.h"
 #include "controlgraph.h"
 #include <QStringList>
@@ -14,7 +15,7 @@ class bClient : public QObject
     Q_OBJECT
 
 public:
-    explicit bClient(bSocket *socket, Ui_fhead *gui, QObject *parent = 0);
+    explicit bClient(Ui_fhead *gui, QObject *parent = 0);
 
     void addFixedPoint(QString id, fixedPoint fp);
     void removeFixedPoint(QString id);
@@ -25,6 +26,7 @@ public:
 
 private:
     bSocket *socket;
+    liveViewSocket *socketLv;
     Ui_fhead *ui;
     controlGraph *cg;
 
@@ -47,7 +49,12 @@ public slots:
 
     void _onDataReceived(QString, QString, QString, QStringList params);
 
-    void _onfixedPointButtonPressed(void);
+    void _onFixedPointButtonPressed(void);
+    void _onLiveViewButtonPressed(void);
+    void _onFocusUpButtonPressed(void);
+    void _onFocusDownButtonPressed(void);
+
+    void  _onLiveZoomSliderValueChanged(int val);
 };
 
 #endif // BCLIENT_H
