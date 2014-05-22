@@ -18,6 +18,8 @@ public:
     QProgressBar *positionBar;
 
     void setPosition(int value);
+    void setMaxPosition(int value);
+    void setMinPosition(int value);
 
 signals:
 //    void newSpeed(int value);

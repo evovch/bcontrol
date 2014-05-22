@@ -22,12 +22,12 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     ui->fpTableView->setModel( fpModel );
 
 
-    currentFixedPointId = "p1";
-    fpModel->selectFixedPoint(currentFixedPointId);
+//    currentFixedPointId = "p1";
+//    fpModel->selectFixedPoint(currentFixedPointId);
 
     QObject::connect(socketLv, SIGNAL(gotAFrame(QByteArray)), cg, SLOT(_onGotAFrame(QByteArray)));
 
-    QObject::connect(ui->fpTableView, SIGNAL(clicked(QModelIndex)), fpModel, SLOT(_onCellClicked(QModelIndex)));
+    QObject::connect(ui->fpTableView, SIGNAL(pressed(QModelIndex)), fpModel, SLOT(_onCellClicked(QModelIndex)));
 
     QObject::connect(fpModel, SIGNAL(removeFixedPointClicked(QString)), this, SLOT(_onRemoveFixedPoint(QString)));
     QObject::connect(fpModel, SIGNAL(selectFixedPointClicked(QString)), this, SLOT(_onSelectFixedPoint(QString)));
@@ -187,4 +187,23 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
             cg->setFPScene();
         }
     }
+
+    if(dev=="motors" && key=="info") {
+        mInfo.rangeMinPan = params[0].toInt();
+        mInfo.rangeMaxPan = params[1].toInt();
+        mInfo.rangeMinTilt = params[2].toInt();
+        mInfo.rangeMaxTilt = params[3].toInt();
+
+        cg->setRange(mInfo.rangeMinPan, mInfo.rangeMaxPan, mInfo.rangeMinTilt, mInfo.rangeMaxTilt);
+        ui->panControl->setMinPosition(mInfo.rangeMinPan);
+        ui->panControl->setMaxPosition(mInfo.rangeMaxPan);
+        ui->tiltControl->setMinPosition(mInfo.rangeMinTilt);
+        ui->tiltControl->setMaxPosition(mInfo.rangeMaxTilt);
+
+        updateRangeLabel();
+    }
+}
+
+void bClient::updateRangeLabel() {
+    ui->labelRangePanTilt->setText(QString::number(mInfo.rangeMinPan) + "x" + QString::number(mInfo.rangeMaxPan) + " : " + QString::number(mInfo.rangeMinTilt) + "x" + QString::number(mInfo.rangeMaxTilt));
 }

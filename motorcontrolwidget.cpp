@@ -30,3 +30,11 @@ void motorControlWidget::setPosition(int value){
     coordLabel->setText(QString::number(value));
     if(!positionSlider->hasFocus())positionSlider->setValue(value);
 }
+
+void motorControlWidget::setMaxPosition(int value) {
+    positionSlider->setMaximum(value);
+}
+
+void motorControlWidget::setMinPosition(int value) {
+    positionSlider->setMinimum(value);
+}

@@ -32,8 +32,21 @@ private:
 
     bFixedPointModel *fpModel;
 
+
+
     fixedPointHash fixedPoints;
     QString currentFixedPointId;
+
+    typedef struct {
+        int rangeMinPan;
+        int rangeMaxPan;
+        int rangeMinTilt;
+        int rangeMaxTilt;
+    } motorsInfo;
+
+    motorsInfo mInfo;
+
+    void updateRangeLabel();
 
 signals:
     void fixedPointsUpdated(void);
@@ -54,7 +67,7 @@ public slots:
     void _onFocusUpButtonPressed(void);
     void _onFocusDownButtonPressed(void);
 
-    void  _onLiveZoomSliderValueChanged(int val);
+    void _onLiveZoomSliderValueChanged(int val);
 };
 
 #endif // BCLIENT_H

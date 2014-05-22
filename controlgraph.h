@@ -17,7 +17,7 @@ public:
 
     fixedPointHash *fixedPoints;
 
-    void setRange(unsigned int r);
+    void setRange(unsigned int minX, unsigned int maxX, unsigned int minY, unsigned int maxY);
 
     void setFixedPoints(fixedPointHash *fp);
     void drawFixedPoints(void);
@@ -42,9 +42,12 @@ private:
 
     QGraphicsPixmapItem lvSnapshot;
 
-    unsigned int range;
-
-
+    unsigned int rangeMinPan;
+    unsigned int rangeMaxPan;
+    unsigned int rangeMinTilt;
+    unsigned int rangeMaxTilt;
+    unsigned int visibleRangePan;
+    unsigned int visibleRangeTilt;
 
 signals:
     void panPositionRequested(int);

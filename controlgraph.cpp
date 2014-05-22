@@ -5,7 +5,7 @@
 controlGraph::controlGraph(QWidget *parent) :
     QGraphicsView(parent)
 {
-    setRange(1000);
+    setRange(0, 0, 1000, 1000);
 
     setInteractive(true);
 
@@ -48,7 +48,7 @@ void controlGraph::setFPScene() {
 }
 
 void controlGraph::_onGotAFrame(QByteArray frame) {
-    qDebug() << "got new frame: " << frame.size();
+//    qDebug() << "got new frame: " << frame.size();
 
     QImage i;
     if (!i.loadFromData(frame, "JPEG")){
@@ -68,11 +68,17 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
 */
     lvSnapshot.setPixmap(QPixmap::fromImage(i));
 
-    qDebug() << i.size().width();
+//    qDebug() << i.size().width();
 }
 
-void controlGraph::setRange(unsigned int r){
-    range = r;
+void controlGraph::setRange(unsigned int minX, unsigned int maxX, unsigned int minY, unsigned int maxY){
+    rangeMinPan = minX;
+    rangeMaxPan = maxX;
+    rangeMinTilt = minY;
+    rangeMaxTilt = maxY;
+
+    visibleRangePan = maxX - minX;
+    visibleRangeTilt = maxY - minY;
 }
 
 void controlGraph::_onPanPositionChanged(int value){
@@ -84,19 +90,18 @@ void controlGraph::_onTiltPositionChanged(int value){
 }
 
 void controlGraph::setPanPosition(int value){
-    float linePoint = 1.0 * value * scene.width() / range;
-//    qDebug() << linePoint;
+    float linePoint = 1.0 * (value -  rangeMinPan) * scene.width() / visibleRangePan;
     linePan->setLine(linePoint, 0, linePoint, scene.height() );
 }
 
 void controlGraph::setTiltPosition(int value){
-    float linePoint = 1.0 * value * scene.height() / range;
+    float linePoint = 1.0 * (value - rangeMinTilt) * scene.height() / visibleRangeTilt;
     lineTilt->setLine(0, scene.height()-linePoint, scene.width(), scene.height()-linePoint );
 }
 
 void controlGraph::mousePressEvent(QMouseEvent * event) {
-    emit panPositionRequested(event->x() * range / scene.width());
-    emit tiltPositionRequested((scene.height()-event->y()) * range / scene.height());
+    emit panPositionRequested(event->x() * visibleRangePan / scene.width() + rangeMinPan);
+    emit tiltPositionRequested((scene.height()-event->y()) * visibleRangeTilt / scene.height() + rangeMinTilt);
 }
 
 void controlGraph::setFixedPoints(fixedPointHash *fp) {
@@ -117,10 +122,10 @@ void controlGraph::drawFixedPoints() {
     for (i = fixedPoints->begin(); i != fixedPoints->end(); ++i) {
         bGraphicsEllipseItem *e = new bGraphicsEllipseItem(0);
         scene.addItem(e);
-        e->setRect(1.0 * i->panValue * scene.width() / range - 15, scene.height() - 1.0 * i->tiltValue * scene.height() / range - 15 , 30, 30 );
+        e->setRect(1.0 * (i->panValue -  rangeMinPan) * scene.width() / visibleRangePan - 15, scene.height() - 1.0 * (i->tiltValue -  rangeMinPan) * scene.height() / visibleRangeTilt - 15 , 30, 30 );
 
         QGraphicsSimpleTextItem *et = new QGraphicsSimpleTextItem(e);
-        et->setPos(1.0 * i->panValue * scene.width() / range - 5, scene.height() - 1.0 * i->tiltValue * scene.height() / range - 14);
+        et->setPos(1.0 * (i->panValue - rangeMinTilt) * scene.width() / visibleRangePan - 5, scene.height() - 1.0 * (i->tiltValue - rangeMinTilt) * scene.height() / visibleRangeTilt - 14);
         et->setFont(QFont("Calibri", 20, QFont::Bold));
 
         et->setText(i->name);
