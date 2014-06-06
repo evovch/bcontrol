@@ -12,7 +12,7 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
 
     this->ui = ui;
 
-    ui->caprureButton->setFocus();
+    ui->captureButton->setFocus();
 
     fixedPoints = fixedPointHash();
     cg = new controlGraph(ui->headGraph);
@@ -51,6 +51,8 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     QObject::connect(ui->focusUpButton, SIGNAL(pressed()), this, SLOT(_onFocusUpButtonPressed()));
     QObject::connect(ui->focusDownButton, SIGNAL(pressed()), this, SLOT(_onFocusDownButtonPressed()));
 
+    QObject::connect(ui->captureButton, SIGNAL(pressed()), this, SLOT(_onCaptureButtonPressed()));
+
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
 
@@ -84,6 +86,12 @@ void bClient::_onFocusDownButtonPressed(void) {
     qDebug() << "focusDown pressed!";
 
     socket->send("focus", "step", "down");
+}
+
+void bClient::_onCaptureButtonPressed(void) {
+    qDebug() << "capture pressed!";
+
+    socket->send("shutter", "capture", "");
 }
 
 void bClient::sendFixedPoint(QString id, fixedPoint fp) {

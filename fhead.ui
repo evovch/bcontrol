@@ -152,7 +152,7 @@
     <string>Home</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="caprureButton">
+  <widget class="QPushButton" name="captureButton">
    <property name="geometry">
     <rect>
      <x>990</x>

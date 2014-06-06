@@ -66,6 +66,7 @@ public slots:
     void _onLiveViewButtonPressed(void);
     void _onFocusUpButtonPressed(void);
     void _onFocusDownButtonPressed(void);
+    void _onCaptureButtonPressed(void);
 
     void _onLiveZoomSliderValueChanged(int val);
 };
