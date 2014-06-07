@@ -53,6 +53,8 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
 
     QObject::connect(ui->captureButton, SIGNAL(pressed()), this, SLOT(_onCaptureButtonPressed()));
 
+    QObject::connect(ui->tlRunButton, SIGNAL(pressed()), this, SLOT(_onTlRunButtonPressed()));
+
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
 
@@ -92,6 +94,12 @@ void bClient::_onCaptureButtonPressed(void) {
     qDebug() << "capture pressed!";
 
     socket->send("shutter", "capture", "");
+}
+
+void bClient::_onTlRunButtonPressed(void) {
+    qDebug() << "run TL pressed!";
+
+    socket->send("timelapse", "toggle", "");
 }
 
 void bClient::sendFixedPoint(QString id, fixedPoint fp) {
@@ -209,6 +217,11 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         ui->tiltControl->setMaxPosition(mInfo.rangeMaxTilt);
 
         updateRangeLabel();
+    }
+
+    if(dev=="timelapse" && key=="status") {
+        if(value=="1")ui->tlRunButton->setText("Stop");
+        if(value=="0")ui->tlRunButton->setText("Run");
     }
 }
 
