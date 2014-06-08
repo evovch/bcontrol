@@ -14,9 +14,11 @@ controlGraph::controlGraph(QWidget *parent) :
 
     lineTilt = new QGraphicsLineItem(0, &scene);
     lineTilt->setLine(0, 100.0, scene.width(), 100.0 );
+    lineTilt->setZValue(2);
 
     linePan = new QGraphicsLineItem(0, &scene);
     linePan->setLine(100.0, 0, 100.0, scene.height() );
+    linePan->setZValue(2);
 
     QGraphicsView( &scene, parent );
     setRenderHints( QPainter::Antialiasing );
@@ -123,12 +125,16 @@ void controlGraph::drawFixedPoints() {
         bGraphicsEllipseItem *e = new bGraphicsEllipseItem(0);
         scene.addItem(e);
         e->setRect(1.0 * (i->panValue -  rangeMinPan) * scene.width() / visibleRangePan - 15, scene.height() - 1.0 * (i->tiltValue -  rangeMinPan) * scene.height() / visibleRangeTilt - 15 , 30, 30 );
+        e->setBrush(QBrush(QColor("#d3f9fe")));
+        if(i->timelapseMember == 1)e->setBrush(QBrush(QColor("#19c6ee")));
+        e->setZValue(1);
 
         QGraphicsSimpleTextItem *et = new QGraphicsSimpleTextItem(e);
-        et->setPos(1.0 * (i->panValue - rangeMinTilt) * scene.width() / visibleRangePan - 5, scene.height() - 1.0 * (i->tiltValue - rangeMinTilt) * scene.height() / visibleRangeTilt - 14);
-        et->setFont(QFont("Calibri", 20, QFont::Bold));
+        et->setPos(1.0 * (i->panValue - rangeMinTilt) * scene.width() / visibleRangePan - 20, scene.height() - 1.0 * (i->tiltValue - rangeMinTilt) * scene.height() / visibleRangeTilt - 30);
+        et->setFont(QFont("Calibri", 14, QFont::Normal));
 
         et->setText(i->name);
+        et->setZValue(1);
 
         elliseFixedPointHash.insert(i.key(), e);
     }

@@ -19,7 +19,15 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     cg->setFixedPoints(&fixedPoints);
 
     fpModel = new bFixedPointModel(0, &fixedPoints);
-    ui->fpTableView->setModel( fpModel );
+
+
+    fpProxyModel = new QSortFilterProxyModel();
+    fpProxyModel->setSourceModel( fpModel );
+    fpProxyModel->setSortRole(Qt::InitialSortOrderRole);
+
+    qDebug() << fpProxyModel->sortColumn();
+
+    ui->fpTableView->setModel( fpProxyModel );
 
 
 //    currentFixedPointId = "p1";
@@ -30,13 +38,19 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     QObject::connect(ui->fpTableView, SIGNAL(pressed(QModelIndex)), fpModel, SLOT(_onCellClicked(QModelIndex)));
 
     QObject::connect(fpModel, SIGNAL(removeFixedPointClicked(QString)), this, SLOT(_onRemoveFixedPoint(QString)));
+    QObject::connect(fpModel, SIGNAL(toggleTimelapseFixedPointClicked(QString)), this, SLOT(_onToggleTimelapseFixedPoint(QString)));
     QObject::connect(fpModel, SIGNAL(selectFixedPointClicked(QString)), this, SLOT(_onSelectFixedPoint(QString)));
     QObject::connect(fpModel, SIGNAL(selectRow(int)), ui->fpTableView, SLOT(selectRow(int)));
 
-    ui->fpTableView->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
+    ui->fpTableView->horizontalHeader()->setResizeMode(0, QHeaderView::Fixed);
+    ui->fpTableView->horizontalHeader()->resizeSection(0, 50);
     ui->fpTableView->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
     ui->fpTableView->horizontalHeader()->setResizeMode(2, QHeaderView::Fixed);
+    ui->fpTableView->horizontalHeader()->setResizeMode(3, QHeaderView::Fixed);
     ui->fpTableView->horizontalHeader()->resizeSection(2, 25);
+    ui->fpTableView->horizontalHeader()->resizeSection(3, 25);
+    ui->fpTableView->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
+    ui->fpTableView->horizontalHeader()->resizeSection(4, 0);
 
     QObject::connect(ui->panControl, SIGNAL(speedChanged(int)), this, SLOT(_onPanSpeedChanged(int)));
     QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
@@ -54,6 +68,7 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     QObject::connect(ui->captureButton, SIGNAL(pressed()), this, SLOT(_onCaptureButtonPressed()));
 
     QObject::connect(ui->tlRunButton, SIGNAL(pressed()), this, SLOT(_onTlRunButtonPressed()));
+    QObject::connect(ui->tlDemoButton, SIGNAL(pressed()), this, SLOT(_onTlDemoButtonPressed()));
 
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
@@ -99,7 +114,21 @@ void bClient::_onCaptureButtonPressed(void) {
 void bClient::_onTlRunButtonPressed(void) {
     qDebug() << "run TL pressed!";
 
-    socket->send("timelapse", "toggle", "");
+    socket->send("timelapse", "set_delay", QString::number(ui->tlDelayInput->value()));
+    socket->send("timelapse", "set_direction", QString::number(ui->tlDirectionInput->value()));
+    socket->send("timelapse", "set_frames", QString::number(ui->tlFramesInput->value()));
+
+    socket->send("timelapse", "toggle", "run");
+}
+
+void bClient::_onTlDemoButtonPressed(void) {
+    qDebug() << "demo TL pressed!";
+
+    socket->send("timelapse", "set_delay", QString::number(ui->tlDelayInput->value()));
+    socket->send("timelapse", "set_direction", QString::number(ui->tlDirectionInput->value()));
+    socket->send("timelapse", "set_frames", QString::number(ui->tlFramesInput->value()));
+
+    socket->send("timelapse", "toggle", "demo");
 }
 
 void bClient::sendFixedPoint(QString id, fixedPoint fp) {
@@ -128,6 +157,7 @@ void bClient::refreshFixedPoints(void) {
 //    qDebug() << "resreshing fps";
 
     emit fixedPointsUpdated();
+    fpProxyModel->sort(4);
 }
 
 
@@ -149,6 +179,10 @@ void bClient::_onTiltPositionChanged(int value) {
 
 void bClient::_onRemoveFixedPoint(QString id) {
     socket->send("fixed_point", "remove", id);
+}
+
+void bClient::_onToggleTimelapseFixedPoint(QString id) {
+    socket->send("fixed_point", "toggle_timelapse", id);
 }
 
 void bClient::_onSelectFixedPoint(QString id) {
@@ -176,9 +210,9 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         p.name = params[0];
         p.panValue = params[1].toInt();
         p.tiltValue = params[2].toInt();
+        p.timelapseMember = params[3].toInt();
 
         addFixedPoint(value, p);
-
     }
 
     if(dev=="fixed_point" && key=="clear") {
@@ -219,9 +253,19 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         updateRangeLabel();
     }
 
-    if(dev=="timelapse" && key=="status") {
-        if(value=="1")ui->tlRunButton->setText("Stop");
-        if(value=="0")ui->tlRunButton->setText("Run");
+    if(dev=="timelapse") {
+        qDebug() << key << value;
+        if(key=="status"){
+            if(value=="1"){
+                ui->tlRunButton->setText("Stop");
+                ui->tlDemoButton->setText("Stop");
+            }
+            if(value=="0"){
+                ui->tlRunButton->setText("Run");
+                ui->tlDemoButton->setText("Demo");
+            }
+        }
+        if(key=="progress")ui->tlProgress->setValue(value.toInt());
     }
 }
 

@@ -21,7 +21,7 @@ int bFixedPointModel::rowCount(const QModelIndex & /*parent*/) const
 
 int bFixedPointModel::columnCount(const QModelIndex & /*parent*/) const
 {
-    return 3;
+    return 5;
 }
 
 QVariant bFixedPointModel::data(const QModelIndex &index, int role) const
@@ -47,6 +47,12 @@ QVariant bFixedPointModel::data(const QModelIndex &index, int role) const
     }
 
     if (role == Qt::DecorationRole && index.column() == 2 ) {
+        if(fPs->find(id).value().timelapseMember == 1)return QColor("#19c6ee");
+        return QColor("#d3f9fe");
+    }
+
+
+    if (role == Qt::DecorationRole && index.column() == 3 ) {
         return QColor("#fc757b");
     }
 
@@ -55,7 +61,9 @@ QVariant bFixedPointModel::data(const QModelIndex &index, int role) const
         return id;
     }
 
-
+    if (role == Qt::InitialSortOrderRole && index.column() == 4) {
+        return fPs->find(id).value().panValue;
+    }
 
     return QVariant();
 }
@@ -66,6 +74,7 @@ void bFixedPointModel::_onFixedPointsUpdated(void) {
     QModelIndex topLeft = index(0, 0);
     QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);
 
+//    sort(4);
     reset();
 }
 
@@ -73,6 +82,12 @@ void bFixedPointModel::_onCellClicked ( const QModelIndex index ) {
     QString id = index.data(Qt::ToolTipRole).toString();
 
     if(index.column() == 2) {
+        emit toggleTimelapseFixedPointClicked(id);
+
+        qDebug() << "add to TL" << id;
+    }
+
+    if(index.column() == 3) {
         emit removeFixedPointClicked(id);
 
         qDebug() << "remove FP clicked: " << id;

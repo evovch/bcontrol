@@ -31,6 +31,7 @@ private:
     controlGraph *cg;
 
     bFixedPointModel *fpModel;
+    QSortFilterProxyModel *fpProxyModel;
 
 
 
@@ -69,6 +70,8 @@ public slots:
     void _onCaptureButtonPressed(void);
 
     void _onTlRunButtonPressed(void);
+    void _onTlDemoButtonPressed(void);
+    void _onToggleTimelapseFixedPoint(QString id);
 
     void _onLiveZoomSliderValueChanged(int val);
 };

@@ -24,6 +24,7 @@ private:
 signals:
     void removeFixedPointClicked(QString id);
     void selectFixedPointClicked(QString id);
+    void toggleTimelapseFixedPointClicked(QString id);
     void selectRow(int row) const;
     
 public slots:

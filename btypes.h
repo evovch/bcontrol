@@ -6,7 +6,10 @@ typedef struct {
     int panValue;
     int tiltValue;
     int sliderValue;
+
+    int timelapseMember;
 } fixedPoint;
 typedef QHash<QString, fixedPoint> fixedPointHash;
+typedef QVector<fixedPoint> fixedPointArray;
 
 #endif // BTYPES_H
