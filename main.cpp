@@ -12,11 +12,14 @@
 #include "bclient.h"
 #include "controlgraph.h"
 #include "bcontrolwidget.h"
+#include <QStatusBar>
+#include <QMainWindow>
+#include <QSizePolicy>
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
-    fhead *mp = new fhead;
+    fhead *mp = new fhead();
     Ui_fhead ui;
     ui.setupUi(mp);
     mp->show();

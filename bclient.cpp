@@ -10,6 +10,11 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     socketLv = new liveViewSocket();
     socketLv->reconnect();
 
+    cWatchTimer = new QTimer(this);
+    connect(cWatchTimer, SIGNAL(timeout()), socket, SLOT(_onCWatchTimer()));
+    connect(cWatchTimer, SIGNAL(timeout()), socketLv, SLOT(_onCWatchTimer()));
+    cWatchTimer->start(1000);
+
     this->ui = ui;
 
     ui->captureButton->setFocus();
@@ -29,6 +34,25 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
 
     ui->fpTableView->setModel( fpProxyModel );
 
+    dVals = new bCamParamModel(NULL, bCamParamModel::dMapId);
+    ui->camDCombo->setModel(dVals);
+    ui->camDCombo->setModelColumn(1);
+
+    sVals = new bCamParamModel(NULL, bCamParamModel::sMapId);
+    ui->camSCombo->setModel(sVals);
+    ui->camSCombo->setModelColumn(1);
+
+    modeVals = new bCamParamModel(NULL, bCamParamModel::modeMapId);
+    ui->camModeCombo->setModel(modeVals);
+    ui->camModeCombo->setModelColumn(1);
+
+    afVals = new bCamParamModel(NULL, bCamParamModel::afMapId);
+    ui->camAfCombo->setModel(afVals);
+    ui->camAfCombo->setModelColumn(1);
+
+    isoVals = new bCamParamModel(NULL, bCamParamModel::isoMapId);
+    ui->camIsoCombo->setModel(isoVals);
+    ui->camIsoCombo->setModelColumn(1);
 
 //    currentFixedPointId = "p1";
 //    fpModel->selectFixedPoint(currentFixedPointId);
@@ -42,6 +66,9 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     QObject::connect(fpModel, SIGNAL(selectFixedPointClicked(QString)), this, SLOT(_onSelectFixedPoint(QString)));
     QObject::connect(fpModel, SIGNAL(selectRow(int)), ui->fpTableView, SLOT(selectRow(int)));
 
+    QObject::connect(socket, SIGNAL(bConnected()), this, SLOT(_onConnected()));
+    QObject::connect(socket, SIGNAL(bDisconnected()), this, SLOT(_onDisconnected()));
+
     ui->fpTableView->horizontalHeader()->setResizeMode(0, QHeaderView::Fixed);
     ui->fpTableView->horizontalHeader()->resizeSection(0, 50);
     ui->fpTableView->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
@@ -51,6 +78,12 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     ui->fpTableView->horizontalHeader()->resizeSection(3, 25);
     ui->fpTableView->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
     ui->fpTableView->horizontalHeader()->resizeSection(4, 0);
+
+    QObject::connect(ui->camDCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamDIndexChanged(int)));
+    QObject::connect(ui->camSCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamSIndexChanged(int)));
+    QObject::connect(ui->camModeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamModeIndexChanged(int)));
+    QObject::connect(ui->camIsoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamIsoIndexChanged(int)));
+    QObject::connect(ui->camAfCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamAfIndexChanged(int)));
 
     QObject::connect(ui->panControl, SIGNAL(speedChanged(int)), this, SLOT(_onPanSpeedChanged(int)));
     QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
@@ -69,6 +102,9 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
 
     QObject::connect(ui->tlRunButton, SIGNAL(pressed()), this, SLOT(_onTlRunButtonPressed()));
     QObject::connect(ui->tlDemoButton, SIGNAL(pressed()), this, SLOT(_onTlDemoButtonPressed()));
+
+    QObject::connect(ui->setCenterButton, SIGNAL(pressed()), this, SLOT(_onSetCenterButtonPressed()));
+    QObject::connect(ui->setNullButton, SIGNAL(pressed()), this, SLOT(_onSetNullButtonPressed()));
 
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
@@ -177,6 +213,16 @@ void bClient::_onTiltPositionChanged(int value) {
     socket->send("motor_tilt", "set_position", QString::number(value));
 }
 
+void bClient::_onSetCenterButtonPressed(void) {
+    socket->send("motor_pan", "set_center", "");
+    socket->send("motor_tilt", "set_center", "");
+}
+
+void bClient::_onSetNullButtonPressed(void) {
+    socket->send("motor_pan", "set_null", "");
+    socket->send("motor_tilt", "set_null", "");
+}
+
 void bClient::_onRemoveFixedPoint(QString id) {
     socket->send("fixed_point", "remove", id);
 }
@@ -191,6 +237,37 @@ void bClient::_onSelectFixedPoint(QString id) {
 
 void bClient::_onLiveZoomSliderValueChanged(int val) {
      socket->send("live_view", "set_zoom", QString::number(val));
+}
+
+
+void bClient::_onCamDIndexChanged(int val) {
+     socket->send("cam", "set_d", QString::number(dVals->getKey(val)));
+
+     qDebug() << "cam:set_d:" << QString::number(dVals->getKey(val));
+}
+
+void bClient::_onCamSIndexChanged(int val) {
+     socket->send("cam", "set_s", QString::number(sVals->getKey(val)));
+
+     qDebug() << "cam:set_s:" << QString::number(sVals->getKey(val));
+}
+
+void bClient::_onCamAfIndexChanged(int val) {
+     socket->send("cam", "set_af", QString::number(afVals->getKey(val)));
+
+     qDebug() << "cam:set_af:" << QString::number(afVals->getKey(val));
+}
+
+void bClient::_onCamModeIndexChanged(int val) {
+     socket->send("cam", "set_mode", QString::number(modeVals->getKey(val)));
+
+     qDebug() << "cam:set_mode:" << QString::number(modeVals->getKey(val));
+}
+
+void bClient::_onCamIsoIndexChanged(int val) {
+     socket->send("cam", "set_iso", QString::number(isoVals->getKey(val)));
+
+     qDebug() << "cam:set_iso:" << QString::number(isoVals->getKey(val));
 }
 
 void bClient::_onDataReceived(QString dev, QString key, QString value, QStringList params) {
@@ -267,8 +344,24 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         }
         if(key=="progress")ui->tlProgress->setValue(value.toInt());
     }
+
+    if(dev=="cam") {
+        if(key=="current_d")ui->camDCombo->setCurrentIndex(dVals->getIndex(value.toInt()));
+        if(key=="current_s")ui->camSCombo->setCurrentIndex(sVals->getIndex(value.toInt()));
+        if(key=="current_af")ui->camAfCombo->setCurrentIndex(afVals->getIndex(value.toInt()));
+        if(key=="current_mode")ui->camModeCombo->setCurrentIndex(modeVals->getIndex(value.toInt()));
+        if(key=="current_iso")ui->camIsoCombo->setCurrentIndex(isoVals->getIndex(value.toInt()));
+    }
 }
 
 void bClient::updateRangeLabel() {
     ui->labelRangePanTilt->setText(QString::number(mInfo.rangeMinPan) + "x" + QString::number(mInfo.rangeMaxPan) + " : " + QString::number(mInfo.rangeMinTilt) + "x" + QString::number(mInfo.rangeMaxTilt));
+}
+
+void bClient::_onConnected() {
+    ui->connectedLabel->setText("Connected");
+}
+
+void bClient::_onDisconnected() {
+    ui->connectedLabel->setText("Disconnected");
 }

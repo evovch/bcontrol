@@ -19,7 +19,8 @@ SOURCES += \
     fhead.cpp \
     bgraphicsellipseitem.cpp \
     bfixedpointmodel.cpp \
-    liveviewsocket.cpp
+    liveviewsocket.cpp \
+    bcamparammodel.cpp
 
 
 HEADERS += \
@@ -37,7 +38,8 @@ HEADERS += \
     btypes.h \
     bgraphicsellipseitem.h \
     bfixedpointmodel.h \
-    liveviewsocket.h
+    liveviewsocket.h \
+    bcamparammodel.h
 
 FORMS += \
     main.ui \

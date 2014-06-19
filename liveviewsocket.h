@@ -16,9 +16,12 @@ private:
 
 signals:
     void gotAFrame(QByteArray frame);
+    void bConnected(void);
+    void bDisconnected(void);
 
 public slots:
     void _onNewData(void);
+    void _onCWatchTimer(void);
 };
 
 #endif // LIVEVIEWSOCKET_H

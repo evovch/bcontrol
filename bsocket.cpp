@@ -4,8 +4,20 @@
 
 void bSocket::reconnect()
 {
-    connectToHost("192.168.1.100", 60000);
+    connectToHost("95.31.42.166", 60000);
     QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
+}
+
+void bSocket::_onCWatchTimer(void) {
+    if(state()==QAbstractSocket::UnconnectedState){
+        reconnect();
+    }
+
+    if(state()==QAbstractSocket::ConnectedState) {
+        emit bConnected();
+        return;
+    }
+    emit bDisconnected();
 }
 
 void bSocket::_onNewData(void) {
@@ -29,6 +41,9 @@ void bSocket::_onNewData(void) {
 
 void bSocket::send(QString dev, QString key, QString value, QStringList params)
 {
+    if(state()==QAbstractSocket::UnconnectedState){
+        reconnect();
+    }
     if(state()==QAbstractSocket::ConnectedState){
         QString str = dev + ":" + key + ":" + value + ":" + params.join(",");
         QByteArray byteArray = str.toUtf8();
@@ -36,9 +51,5 @@ void bSocket::send(QString dev, QString key, QString value, QStringList params)
 
         write(cString);
         write("\n");
-    }
-
-    if(state()==QAbstractSocket::UnconnectedState){
-        reconnect();
     }
 }

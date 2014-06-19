@@ -545,7 +545,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="setNullBitton">
+  <widget class="QPushButton" name="setNullButton">
    <property name="geometry">
     <rect>
      <x>990</x>
@@ -585,6 +585,145 @@
    </property>
    <property name="text">
     <string>Set center</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="connectedLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>685</y>
+     <width>116</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Helvetica</family>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Disconnected</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="camDCombo">
+   <property name="geometry">
+    <rect>
+     <x>1015</x>
+     <y>675</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>1000</x>
+     <y>680</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>D:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>680</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>S:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="camSCombo">
+   <property name="geometry">
+    <rect>
+     <x>905</x>
+     <y>675</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <kerning>true</kerning>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>765</x>
+     <y>680</y>
+     <width>36</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ISO:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="camIsoCombo">
+   <property name="geometry">
+    <rect>
+     <x>795</x>
+     <y>675</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="camModeCombo">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>675</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>680</y>
+     <width>46</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Mode:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="camAfCombo">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>675</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>515</x>
+     <y>680</y>
+     <width>46</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>AF:</string>
    </property>
   </widget>
  </widget>

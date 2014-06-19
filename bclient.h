@@ -9,6 +9,7 @@
 #include <QStringList>
 #include "btypes.h"
 #include "bfixedpointmodel.h"
+#include "bcamparammodel.h"
 
 class bClient : public QObject
 {
@@ -33,7 +34,13 @@ private:
     bFixedPointModel *fpModel;
     QSortFilterProxyModel *fpProxyModel;
 
+    QTimer *cWatchTimer;
 
+    bCamParamModel *sVals;
+    bCamParamModel *dVals;
+    bCamParamModel *modeVals;
+    bCamParamModel *afVals;
+    bCamParamModel *isoVals;
 
     fixedPointHash fixedPoints;
     QString currentFixedPointId;
@@ -73,7 +80,19 @@ public slots:
     void _onTlDemoButtonPressed(void);
     void _onToggleTimelapseFixedPoint(QString id);
 
+    void _onSetCenterButtonPressed(void);
+    void _onSetNullButtonPressed(void);
+
     void _onLiveZoomSliderValueChanged(int val);
+
+    void _onCamDIndexChanged(int val);
+    void _onCamSIndexChanged(int val);
+    void _onCamAfIndexChanged(int val);
+    void _onCamModeIndexChanged(int val);
+    void _onCamIsoIndexChanged(int val);
+
+    void _onConnected(void);
+    void _onDisconnected(void);
 };
 
 #endif // BCLIENT_H

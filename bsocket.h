@@ -14,9 +14,12 @@ public:
 
 signals:
     void dataReceived(QString dev, QString key, QString value, QStringList arrayValue);
+    void bConnected(void);
+    void bDisconnected(void);
 
 public slots:
     void _onNewData(void);
+    void _onCWatchTimer(void);
 
 };
 
