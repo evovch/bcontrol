@@ -25,7 +25,7 @@ void bSocket::_onNewData(void) {
 
     QString str = QString(d);
 
-    QRegExp regexp("([A-Za-z0-9-_]+):([A-Za-z0-9-_]+):([A-Za-za0-9-_]+)?:?([A-Za-za0-9-_,]*)\n");
+    QRegExp regexp("([A-Za-z0-9-_]+):([A-Za-z0-9-_]+):([A-Za-za0-9-_/\.]+)?:?([A-Za-za0-9-_,]*)\n");
     int pos = 0;
     while ( (pos = regexp.indexIn(str, pos)) != -1 )
     {

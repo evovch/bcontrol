@@ -15,18 +15,34 @@ fhead::~fhead()
 
 void fhead::keyPressEvent(QKeyEvent *event)
 {
-         qDebug() << "key pressed";
-    if(event->key() == Qt::Key_Escape)
-    {
-        qDebug() << "esc pressed";
-//        myLabel->setText("You pressed ESC");
+    if(event->isAutoRepeat())return;
+    switch (event->key()) {
+    case Qt::Key_A	: {
+        qDebug() << "AF pressed";
+        emit afChanged(true);
+        return;
     }
+    case Qt::Key_S	: {
+        qDebug() << "SR pressed";
+        emit srChanged(true);
+        return;
+    }
+    }
+
 }
 
 void fhead::keyReleaseEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Escape)
-    {
-//        myLabel->setText("You released ESC");
+    switch (event->key()) {
+    case Qt::Key_A	: {
+        qDebug() << "AF released";
+        emit afChanged(false);
+        return;
+    }
+    case Qt::Key_S	: {
+        qDebug() << "SR released";
+        emit srChanged(false);
+        return;
+    }
     }
 }

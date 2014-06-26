@@ -16,7 +16,7 @@ class bClient : public QObject
     Q_OBJECT
 
 public:
-    explicit bClient(Ui_fhead *gui, QObject *parent = 0);
+    explicit bClient(QObject *parent = 0);
 
     void addFixedPoint(QString id, fixedPoint fp);
     void removeFixedPoint(QString id);
@@ -65,6 +65,8 @@ public slots:
     void _onTiltSpeedChanged(int value);
     void _onTiltPositionChanged(int value);
 
+    void _onTouchMove(float valuePan, float valueTilt);
+
     void _onRemoveFixedPoint(QString id);
     void _onSelectFixedPoint(QString id);
 
@@ -91,8 +93,17 @@ public slots:
     void _onCamModeIndexChanged(int val);
     void _onCamIsoIndexChanged(int val);
 
+    void _onFlipPanButtonPressed(void);
+    void _onFlipTiltButtonPressed(void);
+
+    void _onVirtualX(int val);
+    void _onVirtualY(int val);
+
     void _onConnected(void);
     void _onDisconnected(void);
+
+    void _onAfChanged(bool);
+    void _onSrChanged(bool);
 };
 
 #endif // BCLIENT_H

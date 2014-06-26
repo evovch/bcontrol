@@ -37,6 +37,7 @@ private:
     QGraphicsLineItem *linePan;
 
     QHash<QString, bGraphicsEllipseItem*> elliseFixedPointHash;
+    bool viewportEvent(QEvent *event);
 
     void mousePressEvent(QMouseEvent * event);
 
@@ -52,6 +53,7 @@ private:
 signals:
     void panPositionRequested(int);
     void tiltPositionRequested(int);
+    void touchMove(float, float);
 
 public slots:
     void _onPanPositionChanged(int value);

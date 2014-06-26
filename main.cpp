@@ -15,16 +15,15 @@
 #include <QStatusBar>
 #include <QMainWindow>
 #include <QSizePolicy>
+#include "ui_bmotion.h"
+#include "bmotion.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
-    fhead *mp = new fhead();
-    Ui_fhead ui;
-    ui.setupUi(mp);
-    mp->show();
 
-    bClient *cl = new bClient(&ui);
+
+    bClient *cl = new bClient();
 
     return app.exec();
 }

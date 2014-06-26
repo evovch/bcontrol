@@ -1,9 +1,14 @@
 #include "bclient.h"
 #include <QDebug>
 
-bClient::bClient(Ui_fhead *ui, QObject *parent) :
+bClient::bClient(QObject *parent) :
     QObject(parent)
 {
+    fhead *mp = new fhead();
+    Ui_fhead *ui = new Ui_fhead;
+    ui->setupUi(mp);
+    mp->show();
+
     socket = new bSocket();
     socket->reconnect();
 
@@ -90,6 +95,15 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     QObject::connect(ui->tiltControl, SIGNAL(speedChanged(int)), this, SLOT(_onTiltSpeedChanged(int)));
     QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
 
+ //   QObject::connect(uimw, SIGNAL(virtualX(int)), this, SLOT(_onVirtualX(int)));
+ //   QObject::connect(uimw, SIGNAL(virtualY(int)), this, SLOT(_onVirtualY(int)));
+
+    QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
+    QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
+
+    QObject::connect(mp, SIGNAL(afChanged(bool)), this, SLOT(_onAfChanged(bool)));
+    QObject::connect(mp, SIGNAL(srChanged(bool)), this, SLOT(_onSrChanged(bool)));
+
     QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onFixedPointButtonPressed()));
 
     QObject::connect(ui->liveViewZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(_onLiveZoomSliderValueChanged(int)));
@@ -103,11 +117,16 @@ bClient::bClient(Ui_fhead *ui, QObject *parent) :
     QObject::connect(ui->tlRunButton, SIGNAL(pressed()), this, SLOT(_onTlRunButtonPressed()));
     QObject::connect(ui->tlDemoButton, SIGNAL(pressed()), this, SLOT(_onTlDemoButtonPressed()));
 
+    QObject::connect(ui->flipPanButton, SIGNAL(pressed()), this, SLOT(_onFlipPanButtonPressed()));
+    QObject::connect(ui->flipTiltButton, SIGNAL(pressed()), this, SLOT(_onFlipTiltButtonPressed()));
+
     QObject::connect(ui->setCenterButton, SIGNAL(pressed()), this, SLOT(_onSetCenterButtonPressed()));
     QObject::connect(ui->setNullButton, SIGNAL(pressed()), this, SLOT(_onSetNullButtonPressed()));
 
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
+
+    QObject::connect(cg, SIGNAL(touchMove(float, float)), this, SLOT(_onTouchMove(float, float)));
 
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), cg, SLOT(_onFixedPointsUpdated()));
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), fpModel, SLOT(_onFixedPointsUpdated()));
@@ -146,6 +165,20 @@ void bClient::_onCaptureButtonPressed(void) {
 
     socket->send("shutter", "capture", "");
 }
+
+void bClient::_onFlipPanButtonPressed(void) {
+    qDebug() << "flipPan pressed!";
+
+    socket->send("motor_pan", "flip_reverse", "");
+}
+
+void bClient::_onFlipTiltButtonPressed(void) {
+    qDebug() << "flipTilt pressed!";
+
+    socket->send("motor_tilt", "flip_reverse", "");
+}
+
+
 
 void bClient::_onTlRunButtonPressed(void) {
     qDebug() << "run TL pressed!";
@@ -199,6 +232,8 @@ void bClient::refreshFixedPoints(void) {
 
 void bClient::_onPanSpeedChanged(int value) {
     socket->send("motor_pan", "set_speed", QString::number(value));
+
+    qDebug() << "new Pan speed: " << value;
 }
 
 void bClient::_onPanPositionChanged(int value) {
@@ -207,6 +242,13 @@ void bClient::_onPanPositionChanged(int value) {
 
 void bClient::_onTiltSpeedChanged(int value) {
     socket->send("motor_tilt", "set_speed", QString::number(value));
+
+    qDebug() << "new Tilt speed: " << value;
+}
+
+void bClient::_onTouchMove(float valuePan, float valueTilt) {
+    _onPanSpeedChanged(valuePan * 100 * 2);
+    _onTiltSpeedChanged(valueTilt * -100 * 2);
 }
 
 void bClient::_onTiltPositionChanged(int value) {
@@ -241,33 +283,33 @@ void bClient::_onLiveZoomSliderValueChanged(int val) {
 
 
 void bClient::_onCamDIndexChanged(int val) {
-     socket->send("cam", "set_d", QString::number(dVals->getKey(val)));
+     socket->send("cam", "set_d", dVals->getValue(val));
 
-     qDebug() << "cam:set_d:" << QString::number(dVals->getKey(val));
+     qDebug() << "cam:set_d:" << dVals->getValue(val);
 }
 
 void bClient::_onCamSIndexChanged(int val) {
-     socket->send("cam", "set_s", QString::number(sVals->getKey(val)));
+     socket->send("cam", "set_s", sVals->getValue(val));
 
-     qDebug() << "cam:set_s:" << QString::number(sVals->getKey(val));
+     qDebug() << "cam:set_s:" << sVals->getValue(val);
 }
 
 void bClient::_onCamAfIndexChanged(int val) {
-     socket->send("cam", "set_af", QString::number(afVals->getKey(val)));
+     socket->send("cam", "set_af", afVals->getValue(val));
 
-     qDebug() << "cam:set_af:" << QString::number(afVals->getKey(val));
+     qDebug() << "cam:set_af:" << afVals->getValue(val);
 }
 
 void bClient::_onCamModeIndexChanged(int val) {
-     socket->send("cam", "set_mode", QString::number(modeVals->getKey(val)));
+     socket->send("cam", "set_mode", modeVals->getValue(val));
 
-     qDebug() << "cam:set_mode:" << QString::number(modeVals->getKey(val));
+     qDebug() << "cam:set_mode:" << modeVals->getValue(val);
 }
 
 void bClient::_onCamIsoIndexChanged(int val) {
-     socket->send("cam", "set_iso", QString::number(isoVals->getKey(val)));
+     socket->send("cam", "set_iso", isoVals->getValue(val));
 
-     qDebug() << "cam:set_iso:" << QString::number(isoVals->getKey(val));
+     qDebug() << "cam:set_iso:" << isoVals->getValue(val);
 }
 
 void bClient::_onDataReceived(QString dev, QString key, QString value, QStringList params) {
@@ -306,7 +348,7 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
     }
 
     if(dev=="live_view" && key=="status") {
-        qDebug() << "lv: " << value;
+//        qDebug() << "lv: " << value;
         if (value=="on") {
             cg->setLVScene();
         }
@@ -331,7 +373,7 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
     }
 
     if(dev=="timelapse") {
-        qDebug() << key << value;
+//        qDebug() << key << value;
         if(key=="status"){
             if(value=="1"){
                 ui->tlRunButton->setText("Stop");
@@ -346,16 +388,33 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
     }
 
     if(dev=="cam") {
-        if(key=="current_d")ui->camDCombo->setCurrentIndex(dVals->getIndex(value.toInt()));
-        if(key=="current_s")ui->camSCombo->setCurrentIndex(sVals->getIndex(value.toInt()));
-        if(key=="current_af")ui->camAfCombo->setCurrentIndex(afVals->getIndex(value.toInt()));
-        if(key=="current_mode")ui->camModeCombo->setCurrentIndex(modeVals->getIndex(value.toInt()));
-        if(key=="current_iso")ui->camIsoCombo->setCurrentIndex(isoVals->getIndex(value.toInt()));
+//        qDebug() << "cam key: " << key;
+        if(key=="current_d" && !ui->camDCombo->hasFocus())ui->camDCombo->setCurrentIndex(dVals->getIndex(value));
+        if(key=="current_s" && !ui->camSCombo->hasFocus())ui->camSCombo->setCurrentIndex(sVals->getIndex(value));
+        if(key=="current_af" && !ui->camAfCombo->hasFocus())ui->camAfCombo->setCurrentIndex(afVals->getIndex(value));
+        if(key=="current_mode" && !ui->camModeCombo->hasFocus())ui->camModeCombo->setCurrentIndex(modeVals->getIndex(value));
+        if(key=="current_iso" && !ui->camIsoCombo->hasFocus())ui->camIsoCombo->setCurrentIndex(isoVals->getIndex(value));
     }
 }
 
 void bClient::updateRangeLabel() {
     ui->labelRangePanTilt->setText(QString::number(mInfo.rangeMinPan) + "x" + QString::number(mInfo.rangeMaxPan) + " : " + QString::number(mInfo.rangeMinTilt) + "x" + QString::number(mInfo.rangeMaxTilt));
+}
+
+void bClient::_onVirtualX(int val) {
+    if(val > 4500 && val < 5500) {
+        _onPanSpeedChanged(0);
+        return;
+    }
+    _onPanSpeedChanged((val - 5000) / 50);
+}
+
+void bClient::_onVirtualY(int val) {
+    if(val > 4500 && val < 5500) {
+        _onTiltSpeedChanged(0);
+        return;
+    }
+    _onTiltSpeedChanged((val - 5000) / 50);
 }
 
 void bClient::_onConnected() {
@@ -365,3 +424,18 @@ void bClient::_onConnected() {
 void bClient::_onDisconnected() {
     ui->connectedLabel->setText("Disconnected");
 }
+
+void bClient::_onAfChanged(bool s) {
+    if(s==true)socket->send("cam", "af_trigger", "1");
+    else socket->send("cam", "af_trigger", "0");
+
+    qDebug() << "sending AF: " << s;
+}
+
+void bClient::_onSrChanged(bool s) {
+    if(s==true)socket->send("cam", "sr_trigger", "1");
+    else socket->send("cam", "sr_trigger", "0");
+
+    qDebug() << "sending SR: " << s;
+}
+

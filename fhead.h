@@ -15,6 +15,10 @@ public:
     explicit fhead(QWidget *parent = 0);
     ~fhead();
 
+signals:
+    void afChanged(bool);
+    void srChanged(bool);
+
 protected:
     void keyPressEvent(QKeyEvent *);
     void keyReleaseEvent(QKeyEvent *);

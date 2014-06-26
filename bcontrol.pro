@@ -20,7 +20,8 @@ SOURCES += \
     bgraphicsellipseitem.cpp \
     bfixedpointmodel.cpp \
     liveviewsocket.cpp \
-    bcamparammodel.cpp
+    bcamparammodel.cpp \
+    bmotion.cpp
 
 
 HEADERS += \
@@ -39,12 +40,14 @@ HEADERS += \
     bgraphicsellipseitem.h \
     bfixedpointmodel.h \
     liveviewsocket.h \
-    bcamparammodel.h
+    bcamparammodel.h \
+    bmotion.h
 
 FORMS += \
     main.ui \
     fhead.ui \
     tiltcontrolwidget.ui \
     pancontrolwidget.ui \
-    slidercontrolwidget.ui
+    slidercontrolwidget.ui \
+    bmotion.ui
 

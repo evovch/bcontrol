@@ -34,7 +34,39 @@ controlGraph::controlGraph(QWidget *parent) :
     lvSnapshot.setPixmap(pm);
     sceneLV.addItem(&lvSnapshot);
 
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+}
 
+bool controlGraph::viewportEvent(QEvent *event)
+{
+    QTouchEvent *touchEvent = static_cast<QTouchEvent *>(event);
+    switch (event->type()) {
+    case QEvent::TouchBegin: {
+        qDebug() << "touch TouchBegin";
+        return true;
+    }
+
+    case QEvent::TouchUpdate: {
+        qDebug() << "touch TouchUpdate";
+        const QTouchEvent::TouchPoint &touchPoint0 = touchEvent->touchPoints().first();
+        float deltaX = touchPoint0.normalizedPos().x() - touchPoint0.startNormalizedPos().x();
+        float deltaY = touchPoint0.normalizedPos().y() - touchPoint0.startNormalizedPos().y();
+        if(deltaX > -0.03 && deltaX < 0.03)deltaX=0;
+        if(deltaY > -0.03 && deltaY < 0.03)deltaY=0;
+        emit touchMove(deltaX, deltaY);
+
+        return true;
+    }
+    case QEvent::TouchEnd:
+    {
+        emit touchMove(0, 0);
+
+        return true;
+    }
+    default:
+        break;
+    }
+    return QGraphicsView::viewportEvent(event);
 }
 
 void controlGraph::setLVScene() {
@@ -68,7 +100,7 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
     file2.write(frame);
     file2.close();
 */
-    lvSnapshot.setPixmap(QPixmap::fromImage(i));
+    lvSnapshot.setPixmap(QPixmap::fromImage(i).scaled(sceneLV.width(), sceneLV.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
 //    qDebug() << i.size().width();
 }
