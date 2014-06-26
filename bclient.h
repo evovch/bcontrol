@@ -104,6 +104,8 @@ public slots:
 
     void _onAfChanged(bool);
     void _onSrChanged(bool);
+
+    void _onGetFilesButtonPressed(void);
 };
 
 #endif // BCLIENT_H

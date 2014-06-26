@@ -755,7 +755,7 @@
   <widget class="QLabel" name="label_13">
    <property name="geometry">
     <rect>
-     <x>1020</x>
+     <x>1015</x>
      <y>160</y>
      <width>91</width>
      <height>16</height>
@@ -768,6 +768,27 @@
    </property>
    <property name="text">
     <string>AF = A, SR = S</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="getFilesButton">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>185</y>
+     <width>110</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>Get files</string>
    </property>
   </widget>
  </widget>

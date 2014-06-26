@@ -104,6 +104,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(mp, SIGNAL(afChanged(bool)), this, SLOT(_onAfChanged(bool)));
     QObject::connect(mp, SIGNAL(srChanged(bool)), this, SLOT(_onSrChanged(bool)));
 
+    QObject::connect(ui->getFilesButton, SIGNAL(pressed()), this, SLOT(_onGetFilesButtonPressed()));
     QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onFixedPointButtonPressed()));
 
     QObject::connect(ui->liveViewZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(_onLiveZoomSliderValueChanged(int)));
@@ -132,6 +133,12 @@ bClient::bClient(QObject *parent) :
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), fpModel, SLOT(_onFixedPointsUpdated()));
     QObject::connect(socket, SIGNAL(dataReceived(QString,QString,QString,QStringList)), this, SLOT(_onDataReceived(QString,QString,QString,QStringList)));
 
+}
+
+void bClient::_onGetFilesButtonPressed(void) {
+    qDebug() << "getFilesButton pressed!";
+
+    socket->send("cam", "get_files", "");
 }
 
 void bClient::_onFixedPointButtonPressed(void) {
