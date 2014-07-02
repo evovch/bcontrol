@@ -99,6 +99,7 @@ void bCamParamModel::initDefaultStructs() {
     sMap.append("1/2000");
     sMap.append("1/1600");
     sMap.append("1/1250");
+    sMap.append("1/1000");
     sMap.append("1/800");
     sMap.append("1/640");
     sMap.append("1/500");

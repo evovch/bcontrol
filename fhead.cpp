@@ -17,16 +17,24 @@ void fhead::keyPressEvent(QKeyEvent *event)
 {
     if(event->isAutoRepeat())return;
     switch (event->key()) {
-    case Qt::Key_A	: {
-        qDebug() << "AF pressed";
-        emit afChanged(true);
-        return;
-    }
-    case Qt::Key_S	: {
-        qDebug() << "SR pressed";
-        emit srChanged(true);
-        return;
-    }
+        case Qt::Key_A	: {
+            qDebug() << "AF pressed";
+            emit afChanged(true);
+            return;
+        }
+        case Qt::Key_S	: {
+            qDebug() << "SR pressed";
+            emit srChanged(true);
+            return;
+        }
+        case Qt::Key_K	: {
+            emit fpPressed();
+            return;
+        }
+        case Qt::Key_Z	: {
+            emit afAndCaptureKey();
+            return;
+        }
     }
 
 }
@@ -34,15 +42,14 @@ void fhead::keyPressEvent(QKeyEvent *event)
 void fhead::keyReleaseEvent(QKeyEvent *event)
 {
     switch (event->key()) {
-    case Qt::Key_A	: {
-        qDebug() << "AF released";
-        emit afChanged(false);
-        return;
-    }
-    case Qt::Key_S	: {
-        qDebug() << "SR released";
-        emit srChanged(false);
-        return;
-    }
+        case Qt::Key_A	: {
+            emit afChanged(false);
+            return;
+        }
+        case Qt::Key_S	: {
+            emit srChanged(false);
+            return;
+        }
+
     }
 }

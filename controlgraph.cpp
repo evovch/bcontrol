@@ -49,11 +49,15 @@ bool controlGraph::viewportEvent(QEvent *event)
     case QEvent::TouchUpdate: {
         qDebug() << "touch TouchUpdate";
         const QTouchEvent::TouchPoint &touchPoint0 = touchEvent->touchPoints().first();
+
+        int s = 2;
+        if(touchEvent->touchPoints().size()==3)s = 5;
+
         float deltaX = touchPoint0.normalizedPos().x() - touchPoint0.startNormalizedPos().x();
         float deltaY = touchPoint0.normalizedPos().y() - touchPoint0.startNormalizedPos().y();
         if(deltaX > -0.03 && deltaX < 0.03)deltaX=0;
         if(deltaY > -0.03 && deltaY < 0.03)deltaY=0;
-        emit touchMove(deltaX, deltaY);
+        emit touchMove(deltaX/s, deltaY/s);
 
         return true;
     }

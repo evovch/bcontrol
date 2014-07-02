@@ -18,6 +18,8 @@ public:
 signals:
     void afChanged(bool);
     void srChanged(bool);
+    void afAndCaptureKey(void);
+    void fpPressed(void);
 
 protected:
     void keyPressEvent(QKeyEvent *);

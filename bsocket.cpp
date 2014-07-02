@@ -4,6 +4,7 @@
 
 void bSocket::reconnect()
 {
+//    connectToHost("192.168.1.100", 60000);
     connectToHost("95.31.42.166", 60000);
     QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
 }
