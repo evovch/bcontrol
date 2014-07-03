@@ -21,7 +21,9 @@ SOURCES += \
     bfixedpointmodel.cpp \
     liveviewsocket.cpp \
     bcamparammodel.cpp \
-    bmotion.cpp
+    bmotion.cpp \
+    mainwindow.cpp \
+    camera.cpp
 
 
 HEADERS += \
@@ -41,7 +43,9 @@ HEADERS += \
     bfixedpointmodel.h \
     liveviewsocket.h \
     bcamparammodel.h \
-    bmotion.h
+    bmotion.h \
+    mainwindow.h \
+    camera.h
 
 FORMS += \
     main.ui \
@@ -49,5 +53,7 @@ FORMS += \
     tiltcontrolwidget.ui \
     pancontrolwidget.ui \
     slidercontrolwidget.ui \
-    bmotion.ui
+    bmotion.ui \
+    mainwindow.ui \
+    camera.ui
 

@@ -5,6 +5,9 @@
 #include "bsocket.h"
 #include "liveviewsocket.h"
 #include "ui_fhead.h"
+#include "ui_mainwindow.h"
+#include "ui_camera.h"
+#include "mainwindow.h"
 #include "controlgraph.h"
 #include <QStringList>
 #include "btypes.h"
@@ -29,7 +32,14 @@ private:
     bSocket *socket;
     liveViewSocket *socketLv;
     Ui_fhead *ui;
+    Ui_camera *ui_cam;
+    Ui_mainWindow *ui_mw;
     controlGraph *cg;
+
+    fhead *mp;
+    camera *cam;
+    mainWindow *mw;
+
 
     bFixedPointModel *fpModel;
     QSortFilterProxyModel *fpProxyModel;
@@ -41,6 +51,7 @@ private:
     bCamParamModel *modeVals;
     bCamParamModel *afVals;
     bCamParamModel *isoVals;
+    bCamParamModel *expVals;
 
     fixedPointHash fixedPoints;
     QString currentFixedPointId;
@@ -92,6 +103,14 @@ public slots:
     void _onCamAfIndexChanged(int val);
     void _onCamModeIndexChanged(int val);
     void _onCamIsoIndexChanged(int val);
+    void _onCamExpIndexChanged(int val);
+
+    void _onCamDSendButtonPressed();
+    void _onCamSSendButtonPressed();
+    void _onCamModeSendButtonPressed();
+    void _onCamAfSendButtonPressed();
+    void _onCamIsoSendButtonPressed();
+    void _onCamExpSendButtonPressed();
 
     void _onFlipPanButtonPressed(void);
     void _onFlipTiltButtonPressed(void);

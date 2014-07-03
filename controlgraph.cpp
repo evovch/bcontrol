@@ -55,8 +55,8 @@ bool controlGraph::viewportEvent(QEvent *event)
 
         float deltaX = touchPoint0.normalizedPos().x() - touchPoint0.startNormalizedPos().x();
         float deltaY = touchPoint0.normalizedPos().y() - touchPoint0.startNormalizedPos().y();
-        if(deltaX > -0.03 && deltaX < 0.03)deltaX=0;
-        if(deltaY > -0.03 && deltaY < 0.03)deltaY=0;
+ //       if(deltaX > -0.01 && deltaX < 0.01)deltaX=0;
+ //       if(deltaY > -0.01 && deltaY < 0.01)deltaY=0;
         emit touchMove(deltaX/s, deltaY/s);
 
         return true;

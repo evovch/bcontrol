@@ -23,6 +23,9 @@ bCamParamModel::bCamParamModel(QList<QString> *bm, int defaultMap, QObject *pare
             case bCamParamModel::isoMapId:
                 baseMap = &isoMap;
             break;
+            case bCamParamModel::expMapId:
+                baseMap = &expMap;
+            break;
         }
     }
 }
@@ -183,4 +186,36 @@ void bCamParamModel::initDefaultStructs() {
     isoMap.append("20000");
     isoMap.append("25600");
     isoMap.append("51200");
+
+    expMap.append("-5000");
+    expMap.append("-4666");
+    expMap.append("-4333");
+    expMap.append("-4000");
+    expMap.append("-3666");
+    expMap.append("-3333");
+    expMap.append("-3000");
+    expMap.append("-2666");
+    expMap.append("-2333");
+    expMap.append("-2000");
+    expMap.append("-1666");
+    expMap.append("-1333");
+    expMap.append("-1000");
+    expMap.append("-666");
+    expMap.append("-333");
+    expMap.append("0");
+    expMap.append("333");
+    expMap.append("666");
+    expMap.append("1000");
+    expMap.append("1333");
+    expMap.append("1666");
+    expMap.append("2000");
+    expMap.append("2333");
+    expMap.append("2666");
+    expMap.append("3000");
+    expMap.append("3333");
+    expMap.append("3666");
+    expMap.append("4000");
+    expMap.append("4333");
+    expMap.append("4666");
+    expMap.append("5000");
 }

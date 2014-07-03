@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1118</width>
-    <height>726</height>
+    <height>656</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>10</y>
+     <y>0</y>
      <width>751</width>
      <height>461</height>
     </rect>
@@ -146,7 +146,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>70</y>
+     <y>60</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -164,7 +164,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>30</y>
+     <y>20</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -182,7 +182,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>125</y>
+     <y>115</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -203,7 +203,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>480</y>
+     <y>460</y>
      <width>751</width>
      <height>181</height>
     </rect>
@@ -261,7 +261,7 @@
    <property name="geometry">
     <rect>
      <x>790</x>
-     <y>30</y>
+     <y>20</y>
      <width>191</width>
      <height>441</height>
     </rect>
@@ -316,7 +316,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>280</y>
+     <y>270</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -337,7 +337,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>310</y>
+     <y>300</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -358,7 +358,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>250</y>
+     <y>240</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -379,7 +379,7 @@
    <property name="geometry">
     <rect>
      <x>1000</x>
-     <y>350</y>
+     <y>340</y>
      <width>91</width>
      <height>21</height>
     </rect>
@@ -397,8 +397,8 @@
   <widget class="QGroupBox" name="tilmelapseBox">
    <property name="geometry">
     <rect>
-     <x>800</x>
-     <y>490</y>
+     <x>790</x>
+     <y>470</y>
      <width>296</width>
      <height>171</height>
     </rect>
@@ -575,7 +575,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>405</y>
+     <y>385</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -596,7 +596,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>440</y>
+     <y>425</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -613,150 +613,11 @@
     <string>Set center</string>
    </property>
   </widget>
-  <widget class="QLabel" name="connectedLabel">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>685</y>
-     <width>116</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Helvetica</family>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Disconnected</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="camDCombo">
-   <property name="geometry">
-    <rect>
-     <x>1015</x>
-     <y>675</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_8">
-   <property name="geometry">
-    <rect>
-     <x>1000</x>
-     <y>680</y>
-     <width>21</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>D:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_9">
-   <property name="geometry">
-    <rect>
-     <x>890</x>
-     <y>680</y>
-     <width>21</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>S:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="camSCombo">
-   <property name="geometry">
-    <rect>
-     <x>905</x>
-     <y>675</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <kerning>true</kerning>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_10">
-   <property name="geometry">
-    <rect>
-     <x>765</x>
-     <y>680</y>
-     <width>36</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>ISO:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="camIsoCombo">
-   <property name="geometry">
-    <rect>
-     <x>795</x>
-     <y>675</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="camModeCombo">
-   <property name="geometry">
-    <rect>
-     <x>670</x>
-     <y>675</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>680</y>
-     <width>46</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Mode:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="camAfCombo">
-   <property name="geometry">
-    <rect>
-     <x>540</x>
-     <y>675</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_12">
-   <property name="geometry">
-    <rect>
-     <x>515</x>
-     <y>680</y>
-     <width>46</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>AF:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_13">
    <property name="geometry">
     <rect>
      <x>1015</x>
-     <y>160</y>
+     <y>150</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -774,7 +635,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>185</y>
+     <y>175</y>
      <width>110</width>
      <height>40</height>
     </rect>

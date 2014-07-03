@@ -4,10 +4,22 @@
 bClient::bClient(QObject *parent) :
     QObject(parent)
 {
-    fhead *mp = new fhead();
-    Ui_fhead *ui = new Ui_fhead;
+
+    mw = new mainWindow();
+    ui_mw = new Ui_mainWindow;
+    ui_mw->setupUi(mw);
+
+    mp = ui_mw->fheadTab;
+    cam = ui_mw->camTab;
+
+    ui_cam = new Ui_camera;
+    ui_cam->setupUi(cam);
+
+    ui = new Ui_fhead;
     ui->setupUi(mp);
-    mp->show();
+
+    ui_mw->mwTabs->setCurrentIndex(0);
+    mw->show();
 
     socket = new bSocket();
     socket->reconnect();
@@ -40,24 +52,29 @@ bClient::bClient(QObject *parent) :
     ui->fpTableView->setModel( fpProxyModel );
 
     dVals = new bCamParamModel(NULL, bCamParamModel::dMapId);
-    ui->camDCombo->setModel(dVals);
-    ui->camDCombo->setModelColumn(1);
+    ui_cam->camDCombo->setModel(dVals);
+    ui_cam->camDCombo->setModelColumn(1);
 
     sVals = new bCamParamModel(NULL, bCamParamModel::sMapId);
-    ui->camSCombo->setModel(sVals);
-    ui->camSCombo->setModelColumn(1);
+    ui_cam->camSCombo->setModel(sVals);
+    ui_cam->camSCombo->setModelColumn(1);
 
     modeVals = new bCamParamModel(NULL, bCamParamModel::modeMapId);
-    ui->camModeCombo->setModel(modeVals);
-    ui->camModeCombo->setModelColumn(1);
+    ui_cam->camModeCombo->setModel(modeVals);
+    ui_cam->camModeCombo->setModelColumn(1);
 
     afVals = new bCamParamModel(NULL, bCamParamModel::afMapId);
-    ui->camAfCombo->setModel(afVals);
-    ui->camAfCombo->setModelColumn(1);
+    ui_cam->camAfCombo->setModel(afVals);
+    ui_cam->camAfCombo->setModelColumn(1);
 
     isoVals = new bCamParamModel(NULL, bCamParamModel::isoMapId);
-    ui->camIsoCombo->setModel(isoVals);
-    ui->camIsoCombo->setModelColumn(1);
+    ui_cam->camIsoCombo->setModel(isoVals);
+    ui_cam->camIsoCombo->setModelColumn(1);
+
+    expVals = new bCamParamModel(NULL, bCamParamModel::expMapId);
+    ui_cam->camExpCombo->setModel(expVals);
+    ui_cam->camExpCombo->setModelColumn(1);
+
 
 //    currentFixedPointId = "p1";
 //    fpModel->selectFixedPoint(currentFixedPointId);
@@ -84,11 +101,20 @@ bClient::bClient(QObject *parent) :
     ui->fpTableView->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
     ui->fpTableView->horizontalHeader()->resizeSection(4, 0);
 
-    QObject::connect(ui->camDCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamDIndexChanged(int)));
-    QObject::connect(ui->camSCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamSIndexChanged(int)));
-    QObject::connect(ui->camModeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamModeIndexChanged(int)));
-    QObject::connect(ui->camIsoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamIsoIndexChanged(int)));
-    QObject::connect(ui->camAfCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamAfIndexChanged(int)));
+/*
+    QObject::connect(ui_cam->camDCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamDIndexChanged(int)));
+    QObject::connect(ui_cam->camSCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamSIndexChanged(int)));
+    QObject::connect(ui_cam->camModeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamModeIndexChanged(int)));
+    QObject::connect(ui_cam->camIsoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamIsoIndexChanged(int)));
+    QObject::connect(ui_cam->camExpCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamExpIndexChanged(int)));
+    QObject::connect(ui_cam->camAfCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(_onCamAfIndexChanged(int)));
+*/
+    QObject::connect(ui_cam->camDSendButton, SIGNAL(pressed()), this, SLOT(_onCamDSendButtonPressed()));
+    QObject::connect(ui_cam->camSSendButton, SIGNAL(pressed()), this, SLOT(_onCamSSendButtonPressed()));
+    QObject::connect(ui_cam->camModeSendButton, SIGNAL(pressed()), this, SLOT(_onCamModeSendButtonPressed()));
+    QObject::connect(ui_cam->camIsoSendButton, SIGNAL(pressed()), this, SLOT(_onCamIsoSendButtonPressed()));
+    QObject::connect(ui_cam->camExpSendButton, SIGNAL(pressed()), this, SLOT(_onCamExpSendButtonPressed()));
+    QObject::connect(ui_cam->camAfSendButton, SIGNAL(pressed()), this, SLOT(_onCamAfSendButtonPressed()));
 
     QObject::connect(ui->panControl, SIGNAL(speedChanged(int)), this, SLOT(_onPanSpeedChanged(int)));
     QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
@@ -101,10 +127,10 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
 
-    QObject::connect(mp, SIGNAL(afChanged(bool)), this, SLOT(_onAfChanged(bool)));
-    QObject::connect(mp, SIGNAL(srChanged(bool)), this, SLOT(_onSrChanged(bool)));
-    QObject::connect(mp, SIGNAL(afAndCaptureKey()), this, SLOT(_onCaptureButtonPressed()));
-    QObject::connect(mp, SIGNAL(fpPressed()), this, SLOT(_onFixedPointButtonPressed()));
+//    QObject::connect(mp, SIGNAL(afChanged(bool)), this, SLOT(_onAfChanged(bool)));
+//    QObject::connect(mp, SIGNAL(srChanged(bool)), this, SLOT(_onSrChanged(bool)));
+//    QObject::connect(mp, SIGNAL(afAndCaptureKey()), this, SLOT(_onCaptureButtonPressed()));
+//    QObject::connect(mp, SIGNAL(fpPressed()), this, SLOT(_onFixedPointButtonPressed()));
 
     QObject::connect(ui->getFilesButton, SIGNAL(pressed()), this, SLOT(_onGetFilesButtonPressed()));
     QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onFixedPointButtonPressed()));
@@ -321,6 +347,55 @@ void bClient::_onCamIsoIndexChanged(int val) {
      qDebug() << "cam:set_iso:" << isoVals->getValue(val);
 }
 
+void bClient::_onCamExpIndexChanged(int val) {
+     socket->send("cam", "set_exp", expVals->getValue(val));
+
+     qDebug() << "cam:set_exp:" << expVals->getValue(val);
+}
+
+
+void bClient::_onCamDSendButtonPressed() {
+     QString v = dVals->getValue(ui_cam->camDCombo->currentIndex());
+     socket->send("cam", "set_d", v);
+
+     qDebug() << "cam:set_d:" << v;
+}
+
+void bClient::_onCamSSendButtonPressed() {
+     QString v = sVals->getValue(ui_cam->camSCombo->currentIndex());
+     socket->send("cam", "set_s", v);
+
+     qDebug() << "cam:set_s:" << v;
+}
+
+void bClient::_onCamModeSendButtonPressed() {
+     QString v = modeVals->getValue(ui_cam->camModeCombo->currentIndex());
+     socket->send("cam", "set_mode", v);
+
+     qDebug() << "cam:set_mode:" << v;
+}
+
+void bClient::_onCamIsoSendButtonPressed() {
+     QString v = isoVals->getValue(ui_cam->camIsoCombo->currentIndex());
+     socket->send("cam", "set_iso", v);
+
+     qDebug() << "cam:set_iso:" << v;
+}
+
+void bClient::_onCamExpSendButtonPressed() {
+     QString v = expVals->getValue(ui_cam->camExpCombo->currentIndex());
+     socket->send("cam", "set_exp", v);
+
+     qDebug() << "cam:set_exp:" << v;
+}
+
+void bClient::_onCamAfSendButtonPressed() {
+     QString v = afVals->getValue(ui_cam->camAfCombo->currentIndex());
+     socket->send("cam", "set_af", v);
+
+     qDebug() << "cam:set_af:" << v;
+}
+
 void bClient::_onDataReceived(QString dev, QString key, QString value, QStringList params) {
     if(dev=="motor_pan" && key=="status_position") {
         ui->panControl->setPosition(value.toInt());
@@ -398,11 +473,12 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
 
     if(dev=="cam") {
 //        qDebug() << "cam key: " << key;
-        if(key=="current_d" && !ui->camDCombo->hasFocus())ui->camDCombo->setCurrentIndex(dVals->getIndex(value));
-        if(key=="current_s" && !ui->camSCombo->hasFocus())ui->camSCombo->setCurrentIndex(sVals->getIndex(value));
-        if(key=="current_af" && !ui->camAfCombo->hasFocus())ui->camAfCombo->setCurrentIndex(afVals->getIndex(value));
-        if(key=="current_mode" && !ui->camModeCombo->hasFocus())ui->camModeCombo->setCurrentIndex(modeVals->getIndex(value));
-        if(key=="current_iso" && !ui->camIsoCombo->hasFocus())ui->camIsoCombo->setCurrentIndex(isoVals->getIndex(value));
+        if(key=="current_d" && !ui_cam->camDCombo->hasFocus())ui_cam->camDCombo->setCurrentIndex(dVals->getIndex(value));
+        if(key=="current_s" && !ui_cam->camSCombo->hasFocus())ui_cam->camSCombo->setCurrentIndex(sVals->getIndex(value));
+        if(key=="current_af" && !ui_cam->camAfCombo->hasFocus())ui_cam->camAfCombo->setCurrentIndex(afVals->getIndex(value));
+        if(key=="current_mode" && !ui_cam->camModeCombo->hasFocus())ui_cam->camModeCombo->setCurrentIndex(modeVals->getIndex(value));
+        if(key=="current_iso" && !ui_cam->camIsoCombo->hasFocus())ui_cam->camIsoCombo->setCurrentIndex(isoVals->getIndex(value));
+        if(key=="current_exp" && !ui_cam->camExpCombo->hasFocus())ui_cam->camExpCombo->setCurrentIndex(expVals->getIndex(value));
     }
 }
 
@@ -427,11 +503,11 @@ void bClient::_onVirtualY(int val) {
 }
 
 void bClient::_onConnected() {
-    ui->connectedLabel->setText("Connected");
+    mw->statusBar()->showMessage("Connected", 0);
 }
 
 void bClient::_onDisconnected() {
-    ui->connectedLabel->setText("Disconnected");
+    mw->statusBar()->showMessage("Disconnected", 0);
 }
 
 void bClient::_onAfChanged(bool s) {
