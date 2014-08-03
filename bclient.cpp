@@ -11,9 +11,13 @@ bClient::bClient(QObject *parent) :
 
     mp = ui_mw->fheadTab;
     cam = ui_mw->camTab;
+    tl = ui_mw->tlTab;
 
     ui_cam = new Ui_camera;
     ui_cam->setupUi(cam);
+
+    ui_tl = new Ui_timelapse;
+    ui_tl->setupUi(tl);
 
     ui = new Ui_fhead;
     ui->setupUi(mp);
@@ -121,16 +125,18 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->tiltControl, SIGNAL(speedChanged(int)), this, SLOT(_onTiltSpeedChanged(int)));
     QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
 
+//    QObject::connect(ui->focusSlider, SIGNAL(valueChanged(int)), this, SLOT(_onFocusValue(int)));
+
  //   QObject::connect(uimw, SIGNAL(virtualX(int)), this, SLOT(_onVirtualX(int)));
  //   QObject::connect(uimw, SIGNAL(virtualY(int)), this, SLOT(_onVirtualY(int)));
 
     QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
 
-//    QObject::connect(mp, SIGNAL(afChanged(bool)), this, SLOT(_onAfChanged(bool)));
-//    QObject::connect(mp, SIGNAL(srChanged(bool)), this, SLOT(_onSrChanged(bool)));
-//    QObject::connect(mp, SIGNAL(afAndCaptureKey()), this, SLOT(_onCaptureButtonPressed()));
-//    QObject::connect(mp, SIGNAL(fpPressed()), this, SLOT(_onFixedPointButtonPressed()));
+    QObject::connect(mp, SIGNAL(afChanged(bool)), this, SLOT(_onAfChanged(bool)));
+    QObject::connect(mp, SIGNAL(srChanged(bool)), this, SLOT(_onSrChanged(bool)));
+    QObject::connect(mp, SIGNAL(afAndCaptureKey()), this, SLOT(_onCaptureButtonPressed()));
+    QObject::connect(mp, SIGNAL(fpPressed()), this, SLOT(_onFixedPointButtonPressed()));
 
     QObject::connect(ui->getFilesButton, SIGNAL(pressed()), this, SLOT(_onGetFilesButtonPressed()));
     QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onFixedPointButtonPressed()));
@@ -140,11 +146,13 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->liveViewButton, SIGNAL(pressed()), this, SLOT(_onLiveViewButtonPressed()));
     QObject::connect(ui->focusUpButton, SIGNAL(pressed()), this, SLOT(_onFocusUpButtonPressed()));
     QObject::connect(ui->focusDownButton, SIGNAL(pressed()), this, SLOT(_onFocusDownButtonPressed()));
+    QObject::connect(ui->focusUpMuchButton, SIGNAL(pressed()), this, SLOT(_onFocusUpMuchButtonPressed()));
+    QObject::connect(ui->focusDownMuchButton, SIGNAL(pressed()), this, SLOT(_onFocusDownMuchButtonPressed()));
 
     QObject::connect(ui->captureButton, SIGNAL(pressed()), this, SLOT(_onCaptureButtonPressed()));
 
-    QObject::connect(ui->tlRunButton, SIGNAL(pressed()), this, SLOT(_onTlRunButtonPressed()));
-    QObject::connect(ui->tlDemoButton, SIGNAL(pressed()), this, SLOT(_onTlDemoButtonPressed()));
+    QObject::connect(ui_tl->tlRunButton, SIGNAL(pressed()), this, SLOT(_onTlRunButtonPressed()));
+    QObject::connect(ui_tl->tlDemoButton, SIGNAL(pressed()), this, SLOT(_onTlDemoButtonPressed()));
 
     QObject::connect(ui->flipPanButton, SIGNAL(pressed()), this, SLOT(_onFlipPanButtonPressed()));
     QObject::connect(ui->flipTiltButton, SIGNAL(pressed()), this, SLOT(_onFlipTiltButtonPressed()));
@@ -161,6 +169,17 @@ bClient::bClient(QObject *parent) :
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), fpModel, SLOT(_onFixedPointsUpdated()));
     QObject::connect(socket, SIGNAL(dataReceived(QString,QString,QString,QStringList)), this, SLOT(_onDataReceived(QString,QString,QString,QStringList)));
 
+    QList<focusPoint *> focusPoints = cg->getFocusPoints();
+    for(int i = 0; i < focusPoints.size(); i++) {
+        QObject::connect(focusPoints.at(i), SIGNAL(focusPointPressed(int)), this, SLOT(_onFocusPointPressed(int)));
+    }
+
+}
+
+void bClient::_onFocusPointPressed(int id) {
+     qDebug() << "focus point pressed!";
+
+     socket->send("cam", "set_autofocusarea", QString::number(id));
 }
 
 void bClient::_onGetFilesButtonPressed(void) {
@@ -195,6 +214,24 @@ void bClient::_onFocusDownButtonPressed(void) {
     socket->send("focus", "step", "down");
 }
 
+void bClient::_onFocusUpMuchButtonPressed(void) {
+    qDebug() << "focusUpMuch pressed!";
+
+    socket->send("focus", "step", "up_much");
+}
+
+void bClient::_onFocusDownMuchButtonPressed(void) {
+    qDebug() << "focusDownMuch pressed!";
+
+    socket->send("focus", "step", "down_much");
+}
+
+void bClient::_onFocusValue(int value) {
+    qDebug() << "focusDown pressed!";
+
+    socket->send("focus", "set_value", QString::number(value));
+}
+
 void bClient::_onCaptureButtonPressed(void) {
     qDebug() << "capture pressed!";
 
@@ -213,14 +250,15 @@ void bClient::_onFlipTiltButtonPressed(void) {
     socket->send("motor_tilt", "flip_reverse", "");
 }
 
-
-
 void bClient::_onTlRunButtonPressed(void) {
     qDebug() << "run TL pressed!";
 
-    socket->send("timelapse", "set_delay", QString::number(ui->tlDelayInput->value()));
-    socket->send("timelapse", "set_direction", QString::number(ui->tlDirectionInput->value()));
-    socket->send("timelapse", "set_frames", QString::number(ui->tlFramesInput->value()));
+    socket->send("timelapse", "set_delay", QString::number(ui_tl->tlDelayInput->value()));
+    socket->send("timelapse", "set_direction", QString::number(ui_tl->tlDirectionInput->value()));
+    socket->send("timelapse", "set_frames", QString::number(ui_tl->tlFramesInput->value()));
+    socket->send("timelapse", "set_shutterdelay", QString::number(ui_tl->tlShutterDelayInput->value()));
+
+    socket->send("timelapse", "set_mirrorup", QString::number(ui_tl->tlMirrorupInput->checkState()));
 
     socket->send("timelapse", "toggle", "run");
 }
@@ -228,9 +266,12 @@ void bClient::_onTlRunButtonPressed(void) {
 void bClient::_onTlDemoButtonPressed(void) {
     qDebug() << "demo TL pressed!";
 
-    socket->send("timelapse", "set_delay", QString::number(ui->tlDelayInput->value()));
-    socket->send("timelapse", "set_direction", QString::number(ui->tlDirectionInput->value()));
-    socket->send("timelapse", "set_frames", QString::number(ui->tlFramesInput->value()));
+    socket->send("timelapse", "set_delay", QString::number(ui_tl->tlDelayInput->value()));
+    socket->send("timelapse", "set_direction", QString::number(ui_tl->tlDirectionInput->value()));
+    socket->send("timelapse", "set_frames", QString::number(ui_tl->tlFramesInput->value()));
+    socket->send("timelapse", "set_shutterdelay", QString::number(ui_tl->tlShutterDelayInput->value()));
+
+    socket->send("timelapse", "set_mirrorup", QString::number(ui_tl->tlMirrorupInput->checkState()));
 
     socket->send("timelapse", "toggle", "demo");
 }
@@ -310,6 +351,7 @@ void bClient::_onToggleTimelapseFixedPoint(QString id) {
 
 void bClient::_onSelectFixedPoint(QString id) {
      socket->send("fixed_point", "select", id);
+     cg->setFocus();
 }
 
 void bClient::_onLiveZoomSliderValueChanged(int val) {
@@ -431,6 +473,10 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         fpModel->selectFixedPoint(currentFixedPointId);
     }
 
+    if(dev=="focus" && key=="current_value") {
+        if(!ui->focusValue->hasFocus())ui->focusValue->setValue(value.toInt());
+    }
+
     if(dev=="live_view" && key=="status") {
 //        qDebug() << "lv: " << value;
         if (value=="on") {
@@ -460,15 +506,15 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
 //        qDebug() << key << value;
         if(key=="status"){
             if(value=="1"){
-                ui->tlRunButton->setText("Stop");
-                ui->tlDemoButton->setText("Stop");
+                ui_tl->tlRunButton->setText("Stop");
+                ui_tl->tlDemoButton->setText("Stop");
             }
             if(value=="0"){
-                ui->tlRunButton->setText("Run");
-                ui->tlDemoButton->setText("Demo");
+                ui_tl->tlRunButton->setText("Run");
+                ui_tl->tlDemoButton->setText("Demo");
             }
         }
-        if(key=="progress")ui->tlProgress->setValue(value.toInt());
+        if(key=="progress")ui_tl->tlProgress->setValue(value.toInt());
     }
 
     if(dev=="cam") {
@@ -479,6 +525,8 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         if(key=="current_mode" && !ui_cam->camModeCombo->hasFocus())ui_cam->camModeCombo->setCurrentIndex(modeVals->getIndex(value));
         if(key=="current_iso" && !ui_cam->camIsoCombo->hasFocus())ui_cam->camIsoCombo->setCurrentIndex(isoVals->getIndex(value));
         if(key=="current_exp" && !ui_cam->camExpCombo->hasFocus())ui_cam->camExpCombo->setCurrentIndex(expVals->getIndex(value));
+
+        if(key=="autofocusarea")cg->hightlightFocusPoint(value.toInt());
     }
 }
 

@@ -7,6 +7,7 @@
 #include "ui_fhead.h"
 #include "ui_mainwindow.h"
 #include "ui_camera.h"
+#include "ui_timelapse.h"
 #include "mainwindow.h"
 #include "controlgraph.h"
 #include <QStringList>
@@ -34,10 +35,12 @@ private:
     Ui_fhead *ui;
     Ui_camera *ui_cam;
     Ui_mainWindow *ui_mw;
+    Ui_timelapse *ui_tl;
     controlGraph *cg;
 
     fhead *mp;
     camera *cam;
+    timelapse *tl;
     mainWindow *mw;
 
 
@@ -87,7 +90,14 @@ public slots:
     void _onLiveViewButtonPressed(void);
     void _onFocusUpButtonPressed(void);
     void _onFocusDownButtonPressed(void);
+    void _onFocusUpMuchButtonPressed(void);
+    void _onFocusDownMuchButtonPressed(void);
+
+    void _onFocusPointPressed(int id);
+
     void _onCaptureButtonPressed(void);
+
+    void _onFocusValue(int);
 
     void _onTlRunButtonPressed(void);
     void _onTlDemoButtonPressed(void);

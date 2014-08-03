@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1118</width>
-    <height>656</height>
+    <height>572</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>20</x>
      <y>0</y>
      <width>751</width>
-     <height>461</height>
+     <height>541</height>
     </rect>
    </property>
    <property name="font">
@@ -37,7 +37,7 @@
       <x>100</x>
       <y>90</y>
       <width>551</width>
-      <height>301</height>
+      <height>367</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -61,7 +61,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>400</y>
+      <y>475</y>
       <width>650</width>
       <height>45</height>
      </rect>
@@ -71,9 +71,9 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>40</y>
+      <y>42</y>
       <width>50</width>
-      <height>360</height>
+      <height>426</height>
      </rect>
     </property>
    </widget>
@@ -199,71 +199,13 @@
     <string>AF &amp;&amp; Capture</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="sliderGroup">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>460</y>
-     <width>751</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Helvetica</family>
-     <pointsize>18</pointsize>
-    </font>
-   </property>
-   <property name="title">
-    <string>Slider</string>
-   </property>
-   <widget class="QFrame" name="frame_2">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>50</y>
-      <width>631</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>0</y>
-       <width>221</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>IMAGE: key points &amp; current position</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="sliderControlWidget" name="sliderControl" native="true">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>90</y>
-      <width>710</width>
-      <height>70</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
   <widget class="QTableView" name="fpTableView">
    <property name="geometry">
     <rect>
      <x>790</x>
      <y>20</y>
      <width>191</width>
-     <height>441</height>
+     <height>521</height>
     </rect>
    </property>
    <property name="selectionMode">
@@ -316,9 +258,9 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>270</y>
-     <width>110</width>
-     <height>40</height>
+     <y>280</y>
+     <width>60</width>
+     <height>36</height>
     </rect>
    </property>
    <property name="font">
@@ -330,28 +272,7 @@
     <enum>Qt::StrongFocus</enum>
    </property>
    <property name="text">
-    <string>Focus up</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="focusDownButton">
-   <property name="geometry">
-    <rect>
-     <x>990</x>
-     <y>300</y>
-     <width>110</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>13</pointsize>
-    </font>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::StrongFocus</enum>
-   </property>
-   <property name="text">
-    <string>Focus down</string>
+    <string>F+</string>
    </property>
   </widget>
   <widget class="QPushButton" name="liveViewButton">
@@ -379,7 +300,7 @@
    <property name="geometry">
     <rect>
      <x>1000</x>
-     <y>340</y>
+     <y>370</y>
      <width>91</width>
      <height>21</height>
     </rect>
@@ -394,188 +315,11 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QGroupBox" name="tilmelapseBox">
-   <property name="geometry">
-    <rect>
-     <x>790</x>
-     <y>470</y>
-     <width>296</width>
-     <height>171</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Alpha Timelapse</string>
-   </property>
-   <widget class="QPushButton" name="tlRunButton">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>25</y>
-      <width>110</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Run</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="tlDemoButton">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>80</y>
-      <width>110</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Demo</string>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="tlProgress">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>140</y>
-      <width>271</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>1000</number>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="tlFramesInput">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>30</y>
-      <width>91</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>10000</number>
-    </property>
-    <property name="value">
-     <number>100</number>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="tlDelayInput">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>60</y>
-      <width>91</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>1000</number>
-    </property>
-    <property name="value">
-     <number>5</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>15</x>
-      <y>35</y>
-      <width>56</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Frames:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>15</x>
-      <y>65</y>
-      <width>56</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Delay:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>15</x>
-      <y>95</y>
-      <width>56</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Direction:</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="tlDirectionInput">
-    <property name="geometry">
-     <rect>
-      <x>85</x>
-      <y>90</y>
-      <width>81</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>1</number>
-    </property>
-    <property name="value">
-     <number>1</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-    <property name="invertedAppearance">
-     <bool>false</bool>
-    </property>
-    <property name="invertedControls">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>85</x>
-      <y>110</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;--</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>110</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>--&gt;</string>
-    </property>
-   </widget>
-  </widget>
   <widget class="QPushButton" name="setNullButton">
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>385</y>
+     <y>465</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -596,7 +340,7 @@
    <property name="geometry">
     <rect>
      <x>990</x>
-     <y>425</y>
+     <y>505</y>
      <width>110</width>
      <height>40</height>
     </rect>
@@ -652,6 +396,91 @@
     <string>Get files</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="focusUpMuchButton">
+   <property name="geometry">
+    <rect>
+     <x>1040</x>
+     <y>280</y>
+     <width>60</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>F++</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="focusDownButton">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>335</y>
+     <width>60</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>F-</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="focusDownMuchButton">
+   <property name="geometry">
+    <rect>
+     <x>1040</x>
+     <y>335</y>
+     <width>60</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>F--</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="focusValue">
+   <property name="geometry">
+    <rect>
+     <x>995</x>
+     <y>310</y>
+     <width>96</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="wrapping">
+    <bool>false</bool>
+   </property>
+   <property name="frame">
+    <bool>true</bool>
+   </property>
+   <property name="readOnly">
+    <bool>false</bool>
+   </property>
+   <property name="maximum">
+    <number>30000</number>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
@@ -664,12 +493,6 @@
    <class>tiltControlWidget</class>
    <extends>QWidget</extends>
    <header location="global">tiltcontrolwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>sliderControlWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">slidercontrolwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

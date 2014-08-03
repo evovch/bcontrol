@@ -23,7 +23,9 @@ SOURCES += \
     bcamparammodel.cpp \
     bmotion.cpp \
     mainwindow.cpp \
-    camera.cpp
+    camera.cpp \
+    focuspoint.cpp \
+    timelapse.cpp
 
 
 HEADERS += \
@@ -45,7 +47,9 @@ HEADERS += \
     bcamparammodel.h \
     bmotion.h \
     mainwindow.h \
-    camera.h
+    camera.h \
+    focuspoint.h \
+    timelapse.h
 
 FORMS += \
     main.ui \
@@ -55,5 +59,6 @@ FORMS += \
     slidercontrolwidget.ui \
     bmotion.ui \
     mainwindow.ui \
-    camera.ui
+    camera.ui \
+    timelapse.ui
 

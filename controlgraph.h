@@ -8,6 +8,7 @@
 
 #include "btypes.h"
 #include "bgraphicsellipseitem.h";
+#include "focuspoint.h"
 
 class controlGraph : public QGraphicsView
 {
@@ -27,6 +28,9 @@ public:
 
     void setLVScene();
     void setFPScene();
+
+    QList<focusPoint *> getFocusPoints(void);
+    void hightlightFocusPoint(int index);
     
 private:
     QGraphicsScene scene;
@@ -36,12 +40,17 @@ private:
     QGraphicsLineItem *lineTilt;
     QGraphicsLineItem *linePan;
 
+    QList<focusPoint *> focusPoints;
+    int activeFocusPointIndex;
+
     QHash<QString, bGraphicsEllipseItem*> elliseFixedPointHash;
     bool viewportEvent(QEvent *event);
 
     void mousePressEvent(QMouseEvent * event);
 
     QGraphicsPixmapItem lvSnapshot;
+
+    void createFocusPoints(void);
 
     unsigned int rangeMinPan;
     unsigned int rangeMaxPan;

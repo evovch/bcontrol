@@ -69,7 +69,7 @@ QString bCamParamModel::getValue(int index) {
 
 int bCamParamModel::getIndex(QString key) {
     if(key=="")return(0);
-    qDebug() << "searching index: " << key;
+//    qDebug() << "searching index: " << key;
     return baseMap->indexOf(key);
 }
 
