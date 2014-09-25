@@ -125,13 +125,16 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->tiltControl, SIGNAL(speedChanged(int)), this, SLOT(_onTiltSpeedChanged(int)));
     QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
 
+    QObject::connect(ui->zoomControl, SIGNAL(positionChanged(int)), this, SLOT(_onZoomPositionChanged(int)));
+    QObject::connect(ui->focusControl, SIGNAL(positionChanged(int)), this, SLOT(_onFocusPositionChanged(int)));
+
 //    QObject::connect(ui->focusSlider, SIGNAL(valueChanged(int)), this, SLOT(_onFocusValue(int)));
 
  //   QObject::connect(uimw, SIGNAL(virtualX(int)), this, SLOT(_onVirtualX(int)));
  //   QObject::connect(uimw, SIGNAL(virtualY(int)), this, SLOT(_onVirtualY(int)));
 
-    QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
-    QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
+//    QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
+//    QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
 
     QObject::connect(mp, SIGNAL(afChanged(bool)), this, SLOT(_onAfChanged(bool)));
     QObject::connect(mp, SIGNAL(srChanged(bool)), this, SLOT(_onSrChanged(bool)));
@@ -331,6 +334,14 @@ void bClient::_onTiltPositionChanged(int value) {
     socket->send("motor_tilt", "set_position", QString::number(value));
 }
 
+void bClient::_onZoomPositionChanged(int value) {
+    socket->send("motor_zoom", "set_position", QString::number(value));
+}
+
+void bClient::_onFocusPositionChanged(int value) {
+    socket->send("motor_focus", "set_position", QString::number(value));
+}
+
 void bClient::_onSetCenterButtonPressed(void) {
     socket->send("motor_pan", "set_center", "");
     socket->send("motor_tilt", "set_center", "");
@@ -447,15 +458,23 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         ui->tiltControl->setPosition(value.toInt());
         cg->setTiltPosition(value.toInt());
     }
+    if(dev=="motor_zoom" && key=="status_position") {
+        ui->zoomControl->setPosition(value.toInt());
+    }
+    if(dev=="motor_focus" && key=="status_position") {
+        ui->focusControl->setPosition(value.toInt());
+    }
 
     if(dev=="fixed_point" && key=="get") {
         removeFixedPoint(value);
 
         fixedPoint p;
         p.name = params[0];
-        p.panValue = params[1].toInt();
-        p.tiltValue = params[2].toInt();
-        p.timelapseMember = params[3].toInt();
+        p.timelapseMember = params[1].toInt();
+        p.panValue = params[2].toInt();
+        p.tiltValue = params[3].toInt();
+        p.zoomValue = params[4].toInt();
+        p.focusValue = params[5].toInt();
 
         addFixedPoint(value, p);
     }
@@ -492,12 +511,20 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         mInfo.rangeMaxPan = params[1].toInt();
         mInfo.rangeMinTilt = params[2].toInt();
         mInfo.rangeMaxTilt = params[3].toInt();
+        mInfo.rangeMinZoom = params[4].toInt();
+        mInfo.rangeMaxZoom = params[5].toInt();
+        mInfo.rangeMinFocus = params[6].toInt();
+        mInfo.rangeMaxFocus = params[7].toInt();
 
         cg->setRange(mInfo.rangeMinPan, mInfo.rangeMaxPan, mInfo.rangeMinTilt, mInfo.rangeMaxTilt);
         ui->panControl->setMinPosition(mInfo.rangeMinPan);
         ui->panControl->setMaxPosition(mInfo.rangeMaxPan);
         ui->tiltControl->setMinPosition(mInfo.rangeMinTilt);
         ui->tiltControl->setMaxPosition(mInfo.rangeMaxTilt);
+        ui->zoomControl->setMinPosition(mInfo.rangeMinZoom);
+        ui->zoomControl->setMaxPosition(mInfo.rangeMaxZoom);
+        ui->focusControl->setMinPosition(mInfo.rangeMinFocus);
+        ui->focusControl->setMaxPosition(mInfo.rangeMaxFocus);
 
         updateRangeLabel();
     }

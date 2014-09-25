@@ -5,6 +5,8 @@ typedef struct {
     QString name;
     int panValue;
     int tiltValue;
+    int zoomValue;
+    int focusValue;
     int sliderValue;
 
     int timelapseMember;

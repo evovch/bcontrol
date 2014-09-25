@@ -141,6 +141,26 @@
      <string>Flip tilt</string>
     </property>
    </widget>
+   <widget class="zoomControlWidget" name="zoomControl" native="true">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>240</y>
+      <width>40</width>
+      <height>220</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="focusControlWidget" name="focusControl" native="true">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>240</y>
+      <width>40</width>
+      <height>220</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="fixedPointButton">
    <property name="geometry">
@@ -499,6 +519,18 @@
    <class>fhead</class>
    <extends>QWidget</extends>
    <header location="global">fhead.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>zoomControlWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">zoomcontrolwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>focusControlWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">focuscontrolwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

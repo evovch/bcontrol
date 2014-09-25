@@ -64,6 +64,11 @@ private:
         int rangeMaxPan;
         int rangeMinTilt;
         int rangeMaxTilt;
+        int rangeMinFocus;
+        int rangeMaxFocus;
+        int rangeMinZoom;
+        int rangeMaxZoom;
+
     } motorsInfo;
 
     motorsInfo mInfo;
@@ -78,6 +83,8 @@ public slots:
     void _onPanPositionChanged(int value);
     void _onTiltSpeedChanged(int value);
     void _onTiltPositionChanged(int value);
+    void _onZoomPositionChanged(int value);
+    void _onFocusPositionChanged(int value);
 
     void _onTouchMove(float valuePan, float valueTilt);
 

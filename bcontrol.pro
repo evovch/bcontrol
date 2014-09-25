@@ -25,7 +25,9 @@ SOURCES += \
     mainwindow.cpp \
     camera.cpp \
     focuspoint.cpp \
-    timelapse.cpp
+    timelapse.cpp \
+    zoomcontrolwidget.cpp \
+    focuscontrolwidget.cpp
 
 
 HEADERS += \
@@ -49,7 +51,9 @@ HEADERS += \
     mainwindow.h \
     camera.h \
     focuspoint.h \
-    timelapse.h
+    timelapse.h \
+    zoomcontrolwidget.h \
+    focuscontrolwidget.h
 
 FORMS += \
     main.ui \
@@ -60,5 +64,7 @@ FORMS += \
     bmotion.ui \
     mainwindow.ui \
     camera.ui \
-    timelapse.ui
+    timelapse.ui \
+    zoomcontrolwidget.ui \
+    focuscontrolwidget.ui
 
