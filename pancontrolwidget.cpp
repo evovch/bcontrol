@@ -10,6 +10,7 @@ panControlWidget::panControlWidget(QWidget *parent) :
     coordLabel = ui->coordLabel;
     positionSlider = ui->positionSlider;
     speedSlider = new bSlider();
+    positionDial = new QDial();
 
     linkUi();
 }

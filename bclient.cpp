@@ -22,6 +22,50 @@ bClient::bClient(QObject *parent) :
     ui = new Ui_fhead;
     ui->setupUi(mp);
 
+    ui_tl = new Ui_timelapse;
+    ui_tl->setupUi(tl);
+
+    limitsWindow = new QDialog(mw);
+    ui_lw = new Ui_limitsWindow;
+    ui_lw->setupUi(limitsWindow);
+
+
+
+    limitsWindow->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+
+//    limitsWindowsetWindowFlags(Qt::WindowStaysOnTopHint);
+//    limitsWindow->show();
+
+    ui_lw->panLimits->init("pan");
+    QObject::connect(ui_lw->panLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
+    QObject::connect(ui_lw->panLimits, SIGNAL(doSetNull(QString)), this, SLOT(_onDoSetNull(QString)));
+    QObject::connect(ui_lw->panLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
+    QObject::connect(ui_lw->panLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
+    QObject::connect(ui_lw->panLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+
+    ui_lw->tiltLimits->init("tilt");
+    QObject::connect(ui_lw->tiltLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
+    QObject::connect(ui_lw->tiltLimits, SIGNAL(doSetNull(QString)), this, SLOT(_onDoSetNull(QString)));
+    QObject::connect(ui_lw->tiltLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
+    QObject::connect(ui_lw->tiltLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
+    QObject::connect(ui_lw->tiltLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+
+    ui_lw->zoomLimits->init("zoom");
+    QObject::connect(ui_lw->zoomLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
+    QObject::connect(ui_lw->zoomLimits, SIGNAL(doSetNull(QString)), this, SLOT(_onDoSetNull(QString)));
+    QObject::connect(ui_lw->zoomLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
+    QObject::connect(ui_lw->zoomLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
+    QObject::connect(ui_lw->zoomLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+
+    ui_lw->focusLimits->init("focus");
+    QObject::connect(ui_lw->focusLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
+    QObject::connect(ui_lw->focusLimits, SIGNAL(doSetNull(QString)), this, SLOT(_onDoSetNull(QString)));
+    QObject::connect(ui_lw->focusLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
+    QObject::connect(ui_lw->focusLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
+    QObject::connect(ui_lw->focusLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+
+    QObject::connect(ui->popupLimitsBitton, SIGNAL(pressed()), this, SLOT(_onPopupLimitsButtonPressed()));
+
     ui_mw->mwTabs->setCurrentIndex(0);
     mw->show();
 
@@ -126,7 +170,9 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->tiltControl, SIGNAL(positionChanged(int)), this, SLOT(_onTiltPositionChanged(int)));
 
     QObject::connect(ui->zoomControl, SIGNAL(positionChanged(int)), this, SLOT(_onZoomPositionChanged(int)));
+    QObject::connect(ui->zoomControl, SIGNAL(speedChanged(int)), this, SLOT(_onZoomSpeedChanged(int)));
     QObject::connect(ui->focusControl, SIGNAL(positionChanged(int)), this, SLOT(_onFocusPositionChanged(int)));
+    QObject::connect(ui->focusControl, SIGNAL(speedChanged(int)), this, SLOT(_onFocusSpeedChanged(int)));
 
 //    QObject::connect(ui->focusSlider, SIGNAL(valueChanged(int)), this, SLOT(_onFocusValue(int)));
 
@@ -178,6 +224,45 @@ bClient::bClient(QObject *parent) :
     }
 
 }
+
+void bClient::_onDoSeek(QString name, int pos) {
+    qDebug() << "seek to "+  QString::number(pos) +" for -" + name + "- pressed";
+
+    socket->send("motor_" + name, "seek", QString::number(pos));
+}
+
+void bClient::_onDoSetNull(QString name) {
+    qDebug() << "set null for -" + name + "- pressed";
+
+    socket->send("motor_" + name, "set_null", "");
+
+}
+
+void bClient::_onDoSetCenter(QString name) {
+    qDebug() << "set center for -" + name + "- pressed";
+
+    socket->send("motor_" + name, "set_center", "");
+}
+
+void bClient::_onDoSetLimit(QString name) {
+    qDebug() << "set limit for -" + name + "- pressed";
+
+    socket->send("motor_" + name, "set_limit", "");
+}
+
+void bClient::_onDoResetLimit(QString name) {
+    qDebug() << "reset limit for -" + name + "- pressed";
+
+    socket->send("motor_" + name, "reset_limit", "");
+}
+
+void bClient::_onPopupLimitsButtonPressed() {
+     qDebug() << "limits window point pressed!";
+
+     if(limitsWindow->isHidden())limitsWindow->show();
+     else limitsWindow->hide();
+}
+
 
 void bClient::_onFocusPointPressed(int id) {
      qDebug() << "focus point pressed!";
@@ -342,6 +427,18 @@ void bClient::_onFocusPositionChanged(int value) {
     socket->send("motor_focus", "set_position", QString::number(value));
 }
 
+void bClient::_onZoomSpeedChanged(int value) {
+    socket->send("motor_zoom", "set_speed", QString::number(value));
+
+    qDebug() << "new Zoom speed: " << value;
+}
+
+void bClient::_onFocusSpeedChanged(int value) {
+    socket->send("motor_focus", "set_speed", QString::number(value));
+
+    qDebug() << "new Focus speed: " << value;
+}
+
 void bClient::_onSetCenterButtonPressed(void) {
     socket->send("motor_pan", "set_center", "");
     socket->send("motor_tilt", "set_center", "");
@@ -452,16 +549,20 @@ void bClient::_onCamAfSendButtonPressed() {
 void bClient::_onDataReceived(QString dev, QString key, QString value, QStringList params) {
     if(dev=="motor_pan" && key=="status_position") {
         ui->panControl->setPosition(value.toInt());
+        ui_lw->panLimits->setPosition(value.toInt());
         cg->setPanPosition(value.toInt());
     }
     if(dev=="motor_tilt" && key=="status_position") {
         ui->tiltControl->setPosition(value.toInt());
+        ui_lw->tiltLimits->setPosition(value.toInt());
         cg->setTiltPosition(value.toInt());
     }
     if(dev=="motor_zoom" && key=="status_position") {
+        ui_lw->zoomLimits->setPosition(value.toInt());
         ui->zoomControl->setPosition(value.toInt());
     }
     if(dev=="motor_focus" && key=="status_position") {
+        ui_lw->focusLimits->setPosition(value.toInt());
         ui->focusControl->setPosition(value.toInt());
     }
 

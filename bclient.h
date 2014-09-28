@@ -8,6 +8,7 @@
 #include "ui_mainwindow.h"
 #include "ui_camera.h"
 #include "ui_timelapse.h"
+#include "ui_limitswindow.h"
 #include "mainwindow.h"
 #include "controlgraph.h"
 #include <QStringList>
@@ -36,7 +37,10 @@ private:
     Ui_camera *ui_cam;
     Ui_mainWindow *ui_mw;
     Ui_timelapse *ui_tl;
+    Ui_limitsWindow *ui_lw;
     controlGraph *cg;
+
+    QDialog *limitsWindow;
 
     fhead *mp;
     camera *cam;
@@ -84,7 +88,9 @@ public slots:
     void _onTiltSpeedChanged(int value);
     void _onTiltPositionChanged(int value);
     void _onZoomPositionChanged(int value);
+    void _onZoomSpeedChanged(int value);
     void _onFocusPositionChanged(int value);
+    void _onFocusSpeedChanged(int value);
 
     void _onTouchMove(float valuePan, float valueTilt);
 
@@ -132,6 +138,8 @@ public slots:
     void _onFlipPanButtonPressed(void);
     void _onFlipTiltButtonPressed(void);
 
+    void _onPopupLimitsButtonPressed();
+
     void _onVirtualX(int val);
     void _onVirtualY(int val);
 
@@ -142,6 +150,12 @@ public slots:
     void _onSrChanged(bool);
 
     void _onGetFilesButtonPressed(void);
+
+    void _onDoSeek(QString name, int pos);
+    void _onDoSetNull(QString name);
+    void _onDoSetCenter(QString name);
+    void _onDoSetLimit(QString name);
+    void _onDoResetLimit(QString name);
 };
 
 #endif // BCLIENT_H

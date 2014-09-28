@@ -8,8 +8,9 @@ zoomControlWidget::zoomControlWidget(QWidget *parent) :
     ui->setupUi(this);
 
     coordLabel = ui->coordLabel;
-    positionSlider = ui->positionSlider;
-    speedSlider = new bSlider(); //empty for compatibility
+    positionDial = ui->positionDial;
+    positionSlider = new bSlider();
+    speedSlider = ui->speedSlider;
 
     linkUi();
 }

@@ -10,6 +10,7 @@ tiltControlWidget::tiltControlWidget(QWidget *parent) :
     coordLabel = ui->coordLabel;
     positionSlider = ui->positionSlider;
     speedSlider = ui->speedSlider;
+    positionDial = new QDial();
 
     linkUi();
 }

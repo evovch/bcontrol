@@ -15,6 +15,7 @@ public:
     QLabel *coordLabel;
     bSlider *positionSlider;
     bSlider *speedSlider;
+    QDial *positionDial;
     QProgressBar *positionBar;
 
     void setPosition(int value);
@@ -29,6 +30,7 @@ signals:
 public slots:
     void _onPositionChanged(int value);
     void _onPositionSliderValueChanged(int value);
+    void _onPositionDialValueChanged(int value);
     void _onSpeedSliderValueChanged(int value);
 };
 
