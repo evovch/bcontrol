@@ -156,6 +156,11 @@ public slots:
     void _onDoSetCenter(QString name);
     void _onDoSetLimit(QString name);
     void _onDoResetLimit(QString name);
+
+    void _onFlipZoomButtonPressed(void);
+    void _onFlipFocusButtonPressed(void);
+    void _onSetCenterZFButtonPressed(void);
+    void _onSetNullZFButtonPressed(void);
 };
 
 #endif // BCLIENT_H

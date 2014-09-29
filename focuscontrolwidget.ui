@@ -28,6 +28,9 @@
    <property name="tickPosition">
     <enum>QSlider::TicksAbove</enum>
    </property>
+   <property name="tickInterval">
+    <number>1000</number>
+   </property>
   </widget>
   <widget class="QLabel" name="coordLabel">
    <property name="geometry">

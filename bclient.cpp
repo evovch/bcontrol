@@ -205,9 +205,13 @@ bClient::bClient(QObject *parent) :
 
     QObject::connect(ui->flipPanButton, SIGNAL(pressed()), this, SLOT(_onFlipPanButtonPressed()));
     QObject::connect(ui->flipTiltButton, SIGNAL(pressed()), this, SLOT(_onFlipTiltButtonPressed()));
+    QObject::connect(ui->flipZoomButton, SIGNAL(pressed()), this, SLOT(_onFlipZoomButtonPressed()));
+    QObject::connect(ui->flipFocusButton, SIGNAL(pressed()), this, SLOT(_onFlipFocusButtonPressed()));
 
-    QObject::connect(ui->setCenterButton, SIGNAL(pressed()), this, SLOT(_onSetCenterButtonPressed()));
-    QObject::connect(ui->setNullButton, SIGNAL(pressed()), this, SLOT(_onSetNullButtonPressed()));
+    QObject::connect(ui->setCenterButton, SIGNAL(pressed()), this, SLOT(_onSetCenterZFButtonPressed()));
+    QObject::connect(ui->setNullButton, SIGNAL(pressed()), this, SLOT(_onSetNullZFButtonPressed()));
+    QObject::connect(ui->setCenterZFButton, SIGNAL(pressed()), this, SLOT(_onSetCenterZFButtonPressed()));
+    QObject::connect(ui->setNullZFButton, SIGNAL(pressed()), this, SLOT(_onSetNullZFButtonPressed()));
 
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
@@ -338,6 +342,18 @@ void bClient::_onFlipTiltButtonPressed(void) {
     socket->send("motor_tilt", "flip_reverse", "");
 }
 
+void bClient::_onFlipZoomButtonPressed(void) {
+    qDebug() << "flipZoom pressed!";
+
+    socket->send("motor_zoom", "flip_reverse", "");
+}
+
+void bClient::_onFlipFocusButtonPressed(void) {
+    qDebug() << "flipFocus pressed!";
+
+    socket->send("motor_focus", "flip_reverse", "");
+}
+
 void bClient::_onTlRunButtonPressed(void) {
     qDebug() << "run TL pressed!";
 
@@ -448,6 +464,17 @@ void bClient::_onSetNullButtonPressed(void) {
     socket->send("motor_pan", "set_null", "");
     socket->send("motor_tilt", "set_null", "");
 }
+
+void bClient::_onSetCenterZFButtonPressed(void) {
+    socket->send("motor_zoom", "set_center", "");
+    socket->send("motor_focus", "set_center", "");
+}
+
+void bClient::_onSetNullZFButtonPressed(void) {
+    socket->send("motor_zoom", "set_null", "");
+    socket->send("motor_focus", "set_null", "");
+}
+
 
 void bClient::_onRemoveFixedPoint(QString id) {
     socket->send("fixed_point", "remove", id);
