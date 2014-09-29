@@ -228,7 +228,7 @@ bClient::bClient(QObject *parent) :
 void bClient::_onDoSeek(QString name, int pos) {
     qDebug() << "seek to "+  QString::number(pos) +" for -" + name + "- pressed";
 
-    socket->send("motor_" + name, "seek", QString::number(pos));
+    socket->send("motor_" + name, "set_position", QString::number(pos));
 }
 
 void bClient::_onDoSetNull(QString name) {
