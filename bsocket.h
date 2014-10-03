@@ -8,9 +8,14 @@ class bSocket : public QTcpSocket
 {
     Q_OBJECT
 
+private:
+    QString hostAddr = "95.31.42.166";
+
 public:
     void send(QString dev, QString key, QString value, QStringList params = QStringList::QStringList());
     void reconnect();
+    void setAddr(QString addr);
+    QString getAddr();
 
 signals:
     void dataReceived(QString dev, QString key, QString value, QStringList arrayValue);

@@ -9,6 +9,7 @@
 #include "ui_camera.h"
 #include "ui_timelapse.h"
 #include "ui_limitswindow.h"
+#include "ui_network.h"
 #include "mainwindow.h"
 #include "controlgraph.h"
 #include <QStringList>
@@ -38,6 +39,7 @@ private:
     Ui_mainWindow *ui_mw;
     Ui_timelapse *ui_tl;
     Ui_limitsWindow *ui_lw;
+    Ui_network *ui_nw;
     controlGraph *cg;
 
     QDialog *limitsWindow;
@@ -46,6 +48,7 @@ private:
     camera *cam;
     timelapse *tl;
     mainWindow *mw;
+    network *nw;
 
 
     bFixedPointModel *fpModel;
@@ -161,6 +164,8 @@ public slots:
     void _onFlipFocusButtonPressed(void);
     void _onSetCenterZFButtonPressed(void);
     void _onSetNullZFButtonPressed(void);
+
+    void _onReconnectButtonPressed();
 };
 
 #endif // BCLIENT_H

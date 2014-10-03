@@ -4,8 +4,7 @@
 
 void bSocket::reconnect()
 {
-//    connectToHost("192.168.1.100", 60000);
-    connectToHost("95.31.42.166", 60000);
+    connectToHost(hostAddr, 60000);
     QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
 }
 
@@ -54,3 +53,12 @@ void bSocket::send(QString dev, QString key, QString value, QStringList params)
         write("\n");
     }
 }
+
+void bSocket::setAddr(QString addr) {
+    hostAddr = addr;
+}
+
+QString bSocket::getAddr() {
+    return hostAddr;
+}
+

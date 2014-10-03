@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="fhead" name="fheadTab">
      <property name="font">
@@ -52,7 +52,7 @@
       <string>Timelapse</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="tab">
+    <widget class="network" name="networkTab">
      <attribute name="title">
       <string>Network</string>
      </attribute>
@@ -88,6 +88,12 @@
    <class>timelapse</class>
    <extends>QWidget</extends>
    <header location="global">timelapse.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>network</class>
+   <extends>QWidget</extends>
+   <header location="global">network.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

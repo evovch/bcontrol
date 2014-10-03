@@ -28,7 +28,8 @@ SOURCES += \
     timelapse.cpp \
     zoomcontrolwidget.cpp \
     focuscontrolwidget.cpp \
-    motorwidget.cpp
+    motorwidget.cpp \
+    network.cpp
 
 
 HEADERS += \
@@ -55,7 +56,8 @@ HEADERS += \
     timelapse.h \
     zoomcontrolwidget.h \
     focuscontrolwidget.h \
-    motorwidget.h
+    motorwidget.h \
+    network.h
 
 FORMS += \
     main.ui \
@@ -70,5 +72,6 @@ FORMS += \
     zoomcontrolwidget.ui \
     focuscontrolwidget.ui \
     limitswindow.ui \
-    motorwidget.ui
+    motorwidget.ui \
+    network.ui
 

@@ -12,6 +12,7 @@ bClient::bClient(QObject *parent) :
     mp = ui_mw->fheadTab;
     cam = ui_mw->camTab;
     tl = ui_mw->tlTab;
+    nw = ui_mw->networkTab;
 
     ui_cam = new Ui_camera;
     ui_cam->setupUi(cam);
@@ -22,19 +23,19 @@ bClient::bClient(QObject *parent) :
     ui = new Ui_fhead;
     ui->setupUi(mp);
 
-    ui_tl = new Ui_timelapse;
-    ui_tl->setupUi(tl);
+    ui_nw = new Ui_network;
+    ui_nw->setupUi(nw);
 
     limitsWindow = new QDialog(mw);
     ui_lw = new Ui_limitsWindow;
     ui_lw->setupUi(limitsWindow);
 
-
-
     limitsWindow->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
 
 //    limitsWindowsetWindowFlags(Qt::WindowStaysOnTopHint);
 //    limitsWindow->show();
+
+    QObject::connect(ui_nw->reconnectButton, SIGNAL(pressed()), this, SLOT(_onReconnectButtonPressed()));
 
     ui_lw->panLimits->init("pan");
     QObject::connect(ui_lw->panLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
@@ -100,6 +101,7 @@ bClient::bClient(QObject *parent) :
     ui->fpTableView->setModel( fpProxyModel );
 
     dVals = new bCamParamModel(NULL, bCamParamModel::dMapId);
+
     ui_cam->camDCombo->setModel(dVals);
     ui_cam->camDCombo->setModelColumn(1);
 
@@ -208,8 +210,8 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->flipZoomButton, SIGNAL(pressed()), this, SLOT(_onFlipZoomButtonPressed()));
     QObject::connect(ui->flipFocusButton, SIGNAL(pressed()), this, SLOT(_onFlipFocusButtonPressed()));
 
-    QObject::connect(ui->setCenterButton, SIGNAL(pressed()), this, SLOT(_onSetCenterZFButtonPressed()));
-    QObject::connect(ui->setNullButton, SIGNAL(pressed()), this, SLOT(_onSetNullZFButtonPressed()));
+    QObject::connect(ui->setCenterButton, SIGNAL(pressed()), this, SLOT(_onSetCenterButtonPressed()));
+    QObject::connect(ui->setNullButton, SIGNAL(pressed()), this, SLOT(_onSetNullButtonPressed()));
     QObject::connect(ui->setCenterZFButton, SIGNAL(pressed()), this, SLOT(_onSetCenterZFButtonPressed()));
     QObject::connect(ui->setNullZFButton, SIGNAL(pressed()), this, SLOT(_onSetNullZFButtonPressed()));
 
@@ -227,6 +229,13 @@ bClient::bClient(QObject *parent) :
         QObject::connect(focusPoints.at(i), SIGNAL(focusPointPressed(int)), this, SLOT(_onFocusPointPressed(int)));
     }
 
+}
+
+void bClient::_onReconnectButtonPressed(){
+    socket->setAddr(ui_nw->addressInput->text());
+    socketLv->setAddr(ui_nw->addressInput->text());
+    socket->reconnect();
+    socketLv->reconnect();
 }
 
 void bClient::_onDoSeek(QString name, int pos) {
@@ -707,6 +716,8 @@ void bClient::_onVirtualY(int val) {
 
 void bClient::_onConnected() {
     mw->statusBar()->showMessage("Connected", 0);
+
+    if(!ui_nw->addressInput->hasFocus())ui_nw->addressInput->setText(socket->getAddr());
 }
 
 void bClient::_onDisconnected() {

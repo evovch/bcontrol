@@ -10,9 +10,11 @@ class liveViewSocket : public QTcpSocket
 public:
     void send();
     void reconnect();
+    void setAddr(QString addr);
 
 private:
     QByteArray mjpegBuffer;
+    QString hostAddr = "95.31.42.166";
 
 signals:
     void gotAFrame(QByteArray frame);
