@@ -75,6 +75,8 @@ private:
         int rangeMaxFocus;
         int rangeMinZoom;
         int rangeMaxZoom;
+        int rangeMinSlider;
+        int rangeMaxSlider;
 
     } motorsInfo;
 
@@ -94,6 +96,8 @@ public slots:
     void _onZoomSpeedChanged(int value);
     void _onFocusPositionChanged(int value);
     void _onFocusSpeedChanged(int value);
+    void _onSliderPositionChanged(int value);
+    void _onSliderSpeedChanged(int value);
 
     void _onTouchMove(float valuePan, float valueTilt);
 
@@ -153,6 +157,7 @@ public slots:
     void _onSrChanged(bool);
 
     void _onGetFilesButtonPressed(void);
+    void _onGetFiles5ButtonPressed(void);
 
     void _onDoSeek(QString name, int pos);
     void _onDoSetNull(QString name);
@@ -162,6 +167,7 @@ public slots:
 
     void _onFlipZoomButtonPressed(void);
     void _onFlipFocusButtonPressed(void);
+    void _onFlipSliderButtonPressed(void);
     void _onSetCenterZFButtonPressed(void);
     void _onSetNullZFButtonPressed(void);
 

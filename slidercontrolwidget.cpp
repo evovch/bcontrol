@@ -10,7 +10,7 @@ sliderControlWidget::sliderControlWidget(QWidget *parent) :
     coordLabel = ui->coordLabel;
     positionSlider = ui->positionSlider;
     speedSlider = ui->speedSlider;
-    positionBar = ui->positionBar;
+    positionDial = new QDial();
 
     linkUi();
 }

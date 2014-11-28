@@ -65,6 +65,13 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_lw->focusLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
     QObject::connect(ui_lw->focusLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
 
+    ui_lw->sliderLimits->init("slider");
+    QObject::connect(ui_lw->sliderLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
+    QObject::connect(ui_lw->sliderLimits, SIGNAL(doSetNull(QString)), this, SLOT(_onDoSetNull(QString)));
+    QObject::connect(ui_lw->sliderLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
+    QObject::connect(ui_lw->sliderLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
+    QObject::connect(ui_lw->sliderLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+
     QObject::connect(ui->popupLimitsBitton, SIGNAL(pressed()), this, SLOT(_onPopupLimitsButtonPressed()));
 
     ui_mw->mwTabs->setCurrentIndex(0);
@@ -176,6 +183,9 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->focusControl, SIGNAL(positionChanged(int)), this, SLOT(_onFocusPositionChanged(int)));
     QObject::connect(ui->focusControl, SIGNAL(speedChanged(int)), this, SLOT(_onFocusSpeedChanged(int)));
 
+    QObject::connect(ui->sliderControl, SIGNAL(speedChanged(int)), this, SLOT(_onSliderSpeedChanged(int)));
+    QObject::connect(ui->sliderControl, SIGNAL(positionChanged(int)), this, SLOT(_onSliderPositionChanged(int)));
+
 //    QObject::connect(ui->focusSlider, SIGNAL(valueChanged(int)), this, SLOT(_onFocusValue(int)));
 
  //   QObject::connect(uimw, SIGNAL(virtualX(int)), this, SLOT(_onVirtualX(int)));
@@ -190,6 +200,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(mp, SIGNAL(fpPressed()), this, SLOT(_onFixedPointButtonPressed()));
 
     QObject::connect(ui->getFilesButton, SIGNAL(pressed()), this, SLOT(_onGetFilesButtonPressed()));
+    QObject::connect(ui->getFiles5Button, SIGNAL(pressed()), this, SLOT(_onGetFiles5ButtonPressed()));
     QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onFixedPointButtonPressed()));
 
     QObject::connect(ui->liveViewZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(_onLiveZoomSliderValueChanged(int)));
@@ -209,6 +220,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->flipTiltButton, SIGNAL(pressed()), this, SLOT(_onFlipTiltButtonPressed()));
     QObject::connect(ui->flipZoomButton, SIGNAL(pressed()), this, SLOT(_onFlipZoomButtonPressed()));
     QObject::connect(ui->flipFocusButton, SIGNAL(pressed()), this, SLOT(_onFlipFocusButtonPressed()));
+    QObject::connect(ui->flipSliderButton, SIGNAL(pressed()), this, SLOT(_onFlipSliderButtonPressed()));
 
     QObject::connect(ui->setCenterButton, SIGNAL(pressed()), this, SLOT(_onSetCenterButtonPressed()));
     QObject::connect(ui->setNullButton, SIGNAL(pressed()), this, SLOT(_onSetNullButtonPressed()));
@@ -289,6 +301,12 @@ void bClient::_onGetFilesButtonPressed(void) {
     socket->send("cam", "get_files", "");
 }
 
+void bClient::_onGetFiles5ButtonPressed(void) {
+    qDebug() << "get5FilesButton pressed!";
+
+    socket->send("cam", "get_files", "5");
+}
+
 void bClient::_onFixedPointButtonPressed(void) {
     qDebug() << "fixPoint pressed!";
 
@@ -362,6 +380,13 @@ void bClient::_onFlipFocusButtonPressed(void) {
 
     socket->send("motor_focus", "flip_reverse", "");
 }
+
+void bClient::_onFlipSliderButtonPressed(void) {
+    qDebug() << "flipSlider pressed!";
+
+    socket->send("motor_slider", "flip_reverse", "");
+}
+
 
 void bClient::_onTlRunButtonPressed(void) {
     qDebug() << "run TL pressed!";
@@ -452,6 +477,10 @@ void bClient::_onFocusPositionChanged(int value) {
     socket->send("motor_focus", "set_position", QString::number(value));
 }
 
+void bClient::_onSliderPositionChanged(int value) {
+    socket->send("motor_slider", "set_position", QString::number(value));
+}
+
 void bClient::_onZoomSpeedChanged(int value) {
     socket->send("motor_zoom", "set_speed", QString::number(value));
 
@@ -463,6 +492,13 @@ void bClient::_onFocusSpeedChanged(int value) {
 
     qDebug() << "new Focus speed: " << value;
 }
+
+void bClient::_onSliderSpeedChanged(int value) {
+    socket->send("motor_slider", "set_speed", QString::number(value));
+
+    qDebug() << "new Slider speed: " << value;
+}
+
 
 void bClient::_onSetCenterButtonPressed(void) {
     socket->send("motor_pan", "set_center", "");
@@ -601,6 +637,10 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         ui_lw->focusLimits->setPosition(value.toInt());
         ui->focusControl->setPosition(value.toInt());
     }
+    if(dev=="motor_slider" && key=="status_position") {
+        ui_lw->sliderLimits->setPosition(value.toInt());
+        ui->sliderControl->setPosition(value.toInt());
+    }
 
     if(dev=="fixed_point" && key=="get") {
         removeFixedPoint(value);
@@ -612,6 +652,7 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         p.tiltValue = params[3].toInt();
         p.zoomValue = params[4].toInt();
         p.focusValue = params[5].toInt();
+        p.sliderValue = params[6].toInt();
 
         addFixedPoint(value, p);
     }
@@ -652,6 +693,8 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         mInfo.rangeMaxZoom = params[5].toInt();
         mInfo.rangeMinFocus = params[6].toInt();
         mInfo.rangeMaxFocus = params[7].toInt();
+        mInfo.rangeMinSlider = params[8].toInt();
+        mInfo.rangeMaxSlider = params[9].toInt();
 
         cg->setRange(mInfo.rangeMinPan, mInfo.rangeMaxPan, mInfo.rangeMinTilt, mInfo.rangeMaxTilt);
         ui->panControl->setMinPosition(mInfo.rangeMinPan);
@@ -662,6 +705,8 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         ui->zoomControl->setMaxPosition(mInfo.rangeMaxZoom);
         ui->focusControl->setMinPosition(mInfo.rangeMinFocus);
         ui->focusControl->setMaxPosition(mInfo.rangeMaxFocus);
+        ui->sliderControl->setMinPosition(mInfo.rangeMinSlider);
+        ui->sliderControl->setMaxPosition(mInfo.rangeMaxSlider);
 
         updateRangeLabel();
     }
