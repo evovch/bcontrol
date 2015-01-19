@@ -6,6 +6,10 @@
 
 poller::poller()
 {
+    //trim non-simetric (bigger) part of range
+    if(maxX-centerX > centerX-minX)maxX=centerX+(centerX-minX);
+    else minX=centerX-(maxX-centerX);
+
     QTimer *pollTimer = new QTimer(this);
     connect(pollTimer, SIGNAL(timeout()), this, SLOT(_onPollTimer()));
     pollTimer->start(100);
@@ -13,6 +17,8 @@ poller::poller()
 
 void poller::_onPollTimer(void) {
     int x = readAdcValue("0");
+
+    x = ((x - minX) - (maxX - minX)/2) * (realRangeX/(maxX - minX));
 
     qDebug() << "got x:" << x;
 //    int y = readAdcValue(1);
