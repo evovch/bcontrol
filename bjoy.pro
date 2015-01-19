@@ -20,6 +20,6 @@ TEMPLATE = app
 HEADERS += bsocket.h \
     poller.h
 
-SOURCES += bjoy.cpp \
-    poller.cpp
+SOURCES += bjoy.cpp
 SOURCES += bsocket.cpp
+SOURCES += poller.cpp
