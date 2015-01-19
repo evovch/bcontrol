@@ -17,7 +17,9 @@ QMAKE_CXXFLAGS += -fpermissive
 
 TEMPLATE = app
 
-HEADERS += bsocket.h
+HEADERS += bsocket.h \
+    poller.h
 
-SOURCES += bjoy.cpp
+SOURCES += bjoy.cpp \
+    poller.cpp
 SOURCES += bsocket.cpp
