@@ -17,8 +17,9 @@ poller::poller()
 
 void poller::_onPollTimer(void) {
     int x = readAdcValue("0");
+    x = 210;
 
-    x = ((x - minX) - (maxX - minX)/2) * (realRangeX/(maxX - minX));
+    x = ((x - minX) - (maxX - minX)/2) * (double)((double)realRangeX/(maxX - minX));
 
     qDebug() << "got x:" << x;
 //    int y = readAdcValue(1);
