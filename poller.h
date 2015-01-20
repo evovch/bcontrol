@@ -9,24 +9,15 @@ class poller : public QObject
     Q_OBJECT
 
 private:
-    int minX = 200;
-    int maxX = 4000;
-    int centerX = 2100;
-    int realRangeX = 200;
-
-    int minY = 200;
-    int maxY = 4000;
-    int centerY = 2100;
-    int realRangeY = 200;
-
-    int minZ = 200;
-    int maxZ = 4000;
-    int centerZ = 2100;
-    int realRangeZ = 200;
+    int centerX, centerY, centerZ;
+    int rangeX, rangeY, rangeZ;
+    int realRangeX = 40;
+    int realRangeY = 40;
+    int realRangeZ = 40;
 
     int lastX = 0, lastY = 0, lastZ = 0;
 
-    const int adcNoiseThreshold = 10;
+    const int adcNoiseThreshold = 60;
 
     int readAdcValue(QString sid);
 

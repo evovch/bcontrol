@@ -7,8 +7,12 @@
 poller::poller()
 {
     //trim non-simetric (bigger) part of range
-    if(maxX-centerX > centerX-minX)maxX=centerX+(centerX-minX);
-    else minX=centerX-(maxX-centerX);
+    centerX = readAdcValue("0");
+    rangeX = centerX * 2;
+    centerY = readAdcValue("1");
+    rangeY = centerY * 2;
+    centerZ = readAdcValue("2");
+    rangeZ = centerZ * 2;
 
     QTimer *pollTimer = new QTimer(this);
     connect(pollTimer, SIGNAL(timeout()), this, SLOT(_onPollTimer()));
@@ -17,17 +21,30 @@ poller::poller()
 
 void poller::_onPollTimer(void) {
     int x = readAdcValue("0");
-    x = 210;
-
-    if(abs(x-lastX > adcNoiseThreshold)) {
+    if(abs(x-lastX) > adcNoiseThreshold) {
         lastX = x;
-        x = ((x - minX) - (maxX - minX)/2) * (double)((double)realRangeX/(maxX - minX));
+        x = (x - rangeX/2) * (double)((double)realRangeX/rangeX);
         qDebug() << "got x:" << x;
-
         emit valueChangedX(x);
     }
 
- /    int y = readAdcValue(1);
+    int y = readAdcValue("1");
+    if(abs(y-lastY) > adcNoiseThreshold) {
+        lastY = y;
+        y = (y - rangeY/2) * (double)((double)realRangeY/rangeY);
+        qDebug() << "got y:" << y;
+        emit valueChangedY(y);
+    }
+
+    int z = readAdcValue("2");
+    if(abs(z-lastZ) > adcNoiseThreshold) {
+        lastZ = z;
+        z = (z - rangeZ/2) * (double)((double)realRangeZ/rangeZ);
+        qDebug() << "got z:" << z;
+        emit valueChangedZ(z);
+    }
+
+//    int y = readAdcValue(1);
 //    int z = readAdcValue(2);
 }
 

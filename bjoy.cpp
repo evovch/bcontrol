@@ -2,6 +2,8 @@
 #include <QDebug>
 #include "bsocket.h"
 #include "poller.h"
+#include "bjoycontrol.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -12,8 +14,11 @@ int main(int argc, char *argv[])
     qDebug() << "strarting up bJoy";
 
     poller *p = new poller();
+    bJoyControl *bjc = new bJoyControl();
 
-
+    QObject::connect(p, SIGNAL(valueChangedX(int)), bjc, SLOT(_onSpeedChangedX(int)));
+    QObject::connect(p, SIGNAL(valueChangedY(int)), bjc, SLOT(_onSpeedChangedY(int)));
+    QObject::connect(p, SIGNAL(valueChangedZ(int)), bjc, SLOT(_onSpeedChangedZ(int)));
 
     return a.exec();
 }
