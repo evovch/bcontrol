@@ -19,10 +19,15 @@ void poller::_onPollTimer(void) {
     int x = readAdcValue("0");
     x = 210;
 
-    x = ((x - minX) - (maxX - minX)/2) * (double)((double)realRangeX/(maxX - minX));
+    if(abs(x-lastX > adcNoiseThreshold)) {
+        lastX = x;
+        x = ((x - minX) - (maxX - minX)/2) * (double)((double)realRangeX/(maxX - minX));
+        qDebug() << "got x:" << x;
 
-    qDebug() << "got x:" << x;
-//    int y = readAdcValue(1);
+        emit valueChangedX(x);
+    }
+
+ /    int y = readAdcValue(1);
 //    int z = readAdcValue(2);
 }
 

@@ -33,6 +33,11 @@ private:
 public:
     poller();
 
+signals:
+    void valueChangedX(int value);
+    void valueChangedY(int value);
+    void valueChangedZ(int value);
+
 public slots:
     void _onPollTimer(void);
 };
