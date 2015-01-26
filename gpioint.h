@@ -10,6 +10,7 @@ class gpioInt : public QThread
 
 private:
     void pollingLoop(unsigned int gpio);
+    unsigned int gpioNum;
 
 protected:
     void run(void);
