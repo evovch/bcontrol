@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     bJoyControl *bjc = new bJoyControl();
 
     gpioInt *buttonsGpio = new gpioInt(66);
+    buttonsGpio->start();
 
     QObject::connect(p, SIGNAL(valueChangedX(int)), bjc, SLOT(_onSpeedChangedX(int)));
     QObject::connect(p, SIGNAL(valueChangedY(int)), bjc, SLOT(_onSpeedChangedY(int)));
