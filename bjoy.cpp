@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
     QObject::connect(p, SIGNAL(valueChangedY(int)), bjc, SLOT(_onSpeedChangedY(int)));
     QObject::connect(p, SIGNAL(valueChangedZ(int)), bjc, SLOT(_onSpeedChangedZ(int)));
 
-    QObject::connect(af, SIGNAL(valueLow(int)), bjc, SLOT(_onAfOn()));
-    QObject::connect(af, SIGNAL(valueHigh(int)), bjc, SLOT(_onAfOff()));
+    QObject::connect(afGpio, SIGNAL(valueLow(int)), bjc, SLOT(_onAfOn()));
+    QObject::connect(afGpio, SIGNAL(valueHigh(int)), bjc, SLOT(_onAfOff()));
 
 //    afGpio->terminate();
 
