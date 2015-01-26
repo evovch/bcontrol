@@ -18,13 +18,12 @@ gpioInt::gpioInt(int gpio, QObject *parent) :
     pollingLoop(gpio);
 }
 
-void gpioInt::pollingLoop(int gpio)
+void gpioInt::pollingLoop(unsigned int gpio)
 {
     struct pollfd fdset[2];
     int nfds = 2;
     int gpio_fd, timeout, rc;
     char *buf[MAX_BUF];
-    unsigned int gpio;
     int len;
 
     gpio_export(gpio);
