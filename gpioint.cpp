@@ -22,7 +22,7 @@ void gpioInt::run(void) {
     pollingLoop(gpioNum);
 }
 
-void gpioInt::pollingLoop(unsigned int gpio)
+unsigned int gpioInt::pollingLoop(unsigned int gpio)
 {
     struct pollfd fdset[2];
     int nfds = 2;
@@ -61,6 +61,8 @@ void gpioInt::pollingLoop(unsigned int gpio)
         if (fdset[1].revents & POLLPRI) {
             len = read(fdset[1].fd, buf, MAX_BUF);
             printf("\npoll() GPIO %d interrupt occurred\n", gpio);
+            if(!strcmp(buf, "1"))emit levelHigh();
+            else emit levelLow();
         }
 
         if (fdset[0].revents & POLLIN) {
@@ -72,6 +74,8 @@ void gpioInt::pollingLoop(unsigned int gpio)
     }
 
     gpio_fd_close(gpio_fd);
+
+
 }
 
 

@@ -28,6 +28,8 @@ public:
     static int gpio_fd_close(int fd);
 
 signals:
+     void levelHigh();
+     void levelLow();
     
 public slots:
     
