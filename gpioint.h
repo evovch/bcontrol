@@ -18,7 +18,7 @@ private:
     static int gpio_fd_close(int fd);
 
 public:
-    explicit gpioInt(QObject *parent = 0);
+    explicit gpioInt(int gpio, QObject *parent = 0);
     
 signals:
     

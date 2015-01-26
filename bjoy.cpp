@@ -3,6 +3,7 @@
 #include "bsocket.h"
 #include "poller.h"
 #include "bjoycontrol.h"
+#include "gpioint.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +16,8 @@ int main(int argc, char *argv[])
 
     poller *p = new poller();
     bJoyControl *bjc = new bJoyControl();
+
+    gpioInt *buttonsGpio = new gpioInt(66);
 
     QObject::connect(p, SIGNAL(valueChangedX(int)), bjc, SLOT(_onSpeedChangedX(int)));
     QObject::connect(p, SIGNAL(valueChangedY(int)), bjc, SLOT(_onSpeedChangedY(int)));

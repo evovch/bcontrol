@@ -8,10 +8,65 @@
 #include <fcntl.h>
 #include <poll.h>
 
-gpioInt::gpioInt(QObject *parent) :
+gpioInt::gpioInt(int gpio, QObject *parent) :
     QObject(parent)
 {
+    pollingLoop(gpio);
 }
+
+void gpioInt::pollingLoop(int gpio)
+{
+    struct pollfd fdset[2];
+    int nfds = 2;
+    int gpio_fd, timeout, rc;
+    char *buf[MAX_BUF];
+    unsigned int gpio;
+    int len;
+
+    gpio_export(gpio);
+    gpio_set_dir(gpio, 0);
+    gpio_set_edge(gpio, "both");
+
+    timeout = POLL_TIMEOUT;
+
+    gpio_fd = gpio_fd_open(gpio);
+
+    while (1) {
+        memset((void*)fdset, 0, sizeof(fdset));
+
+        fdset[0].fd = STDIN_FILENO;
+        fdset[0].events = POLLIN;
+
+        fdset[1].fd = gpio_fd;
+        fdset[1].events = POLLPRI;
+
+        rc = poll(fdset, nfds, timeout);
+
+        if (rc < 0) {
+            printf("\npoll() failed!\n");
+            return -1;
+        }
+
+        if (rc == 0) {
+            printf(".");
+        }
+
+        if (fdset[1].revents & POLLPRI) {
+            len = read(fdset[1].fd, buf, MAX_BUF);
+            printf("\npoll() GPIO %d interrupt occurred\n", gpio);
+        }
+
+        if (fdset[0].revents & POLLIN) {
+            (void)read(fdset[0].fd, buf, 1);
+            printf("\npoll() stdin read 0x%2.2X\n", (unsigned int) buf[0]);
+        }
+
+        fflush(stdout);
+    }
+
+    gpio_fd_close(gpio_fd);
+}
+
 
  /****************************************************************
  * Constants
