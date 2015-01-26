@@ -8,6 +8,10 @@
 #include <fcntl.h>
 #include <poll.h>
 
+#define SYSFS_GPIO_DIR "/sys/class/gpio"
+#define POLL_TIMEOUT (3 * 1000) /* 3 seconds */
+#define MAX_BUF 64
+
 gpioInt::gpioInt(int gpio, QObject *parent) :
     QObject(parent)
 {
@@ -67,14 +71,6 @@ void gpioInt::pollingLoop(int gpio)
     gpio_fd_close(gpio_fd);
 }
 
-
- /****************************************************************
- * Constants
- ****************************************************************/
-
-#define SYSFS_GPIO_DIR "/sys/class/gpio"
-#define POLL_TIMEOUT (3 * 1000) /* 3 seconds */
-#define MAX_BUF 64
 
 /****************************************************************
  * gpio_export
