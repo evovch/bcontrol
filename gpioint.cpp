@@ -61,7 +61,7 @@ void gpioInt::pollingLoop(unsigned int gpio)
         if (fdset[1].revents & POLLPRI) {
             len = read(fdset[1].fd, buf, MAX_BUF);
             printf("\npoll() GPIO %d interrupt occurred\n", gpio);
-            if(!strcmp(buf, '1'))emit levelHigh();
+            if(buf[0] == '1')emit levelHigh();
             else emit levelLow();
         }
 
