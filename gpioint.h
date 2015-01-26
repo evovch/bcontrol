@@ -17,6 +17,8 @@ private:
     static int gpio_fd_open(unsigned int gpio);
     static int gpio_fd_close(int fd);
 
+    void gpioInt::pollingLoop(int gpio);
+
 public:
     explicit gpioInt(int gpio, QObject *parent = 0);
     
