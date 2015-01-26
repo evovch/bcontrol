@@ -8,6 +8,7 @@ class gpioInt : public QObject
     Q_OBJECT
 
 private:
+    /*
     static int gpio_export(unsigned int gpio);
     static int gpio_unexport(unsigned int gpio);
     static int gpio_set_dir(unsigned int gpio, unsigned int out_flag);
@@ -16,8 +17,9 @@ private:
     static int gpio_set_edge(unsigned int gpio, char *edge);
     static int gpio_fd_open(unsigned int gpio);
     static int gpio_fd_close(int fd);
+    */
 
-    void gpioInt::pollingLoop(unsigned int gpio);
+    void pollingLoop(unsigned int gpio);
 
 public:
     explicit gpioInt(unsigned int gpio, QObject *parent = 0);
