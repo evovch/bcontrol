@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include <poll.h>
 
+#include <QDebug>
+
 #define SYSFS_GPIO_DIR "/sys/class/gpio"
 #define POLL_TIMEOUT (3 * 1000) /* 3 seconds */
 #define MAX_BUF 64
@@ -60,6 +62,7 @@ void gpioInt::pollingLoop(unsigned int gpio)
 
         if (fdset[1].revents & POLLPRI) {
             len = read(fdset[1].fd, buf, MAX_BUF);
+            qDebug << buf;
             printf("\npoll() GPIO %d interrupt occurred\n", gpio);
             if(buf[0] == '1')emit levelHigh();
             else emit levelLow();
