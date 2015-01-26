@@ -4,7 +4,7 @@
 bJoyControl::bJoyControl(QObject *parent) :
     QObject(parent)
 {
-    bSocket *socket = new bSocket();
+    socket = new bSocket();
     socket->reconnect();
 }
 

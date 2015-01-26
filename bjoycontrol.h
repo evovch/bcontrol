@@ -9,7 +9,7 @@ class bJoyControl : public QObject
     Q_OBJECT
 
 private:
-    bSocket *bs;
+    bSocket *socket;
 
 public:
     explicit bJoyControl(QObject *parent = 0);
