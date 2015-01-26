@@ -74,7 +74,7 @@ void gpioInt::pollingLoop(unsigned int gpio)
 /****************************************************************
  * gpio_export
  ****************************************************************/
-static int gpio_export(unsigned int gpio)
+static int gpioInt::gpio_export(unsigned int gpio)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -95,7 +95,7 @@ static int gpio_export(unsigned int gpio)
 /****************************************************************
  * gpio_unexport
  ****************************************************************/
-static int gpio_unexport(unsigned int gpio)
+static int gpioInt::gpio_unexport(unsigned int gpio)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -115,7 +115,7 @@ static int gpio_unexport(unsigned int gpio)
 /****************************************************************
  * gpio_set_dir
  ****************************************************************/
-static int gpio_set_dir(unsigned int gpio, unsigned int out_flag)
+static int gpioInt::gpio_set_dir(unsigned int gpio, unsigned int out_flag)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -140,7 +140,7 @@ static int gpio_set_dir(unsigned int gpio, unsigned int out_flag)
 /****************************************************************
  * gpio_set_value
  ****************************************************************/
-static int gpio_set_value(unsigned int gpio, unsigned int value)
+static int gpioInt::gpio_set_value(unsigned int gpio, unsigned int value)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -165,7 +165,7 @@ static int gpio_set_value(unsigned int gpio, unsigned int value)
 /****************************************************************
  * gpio_get_value
  ****************************************************************/
-static int gpio_get_value(unsigned int gpio, unsigned int *value)
+static int gpioInt::gpio_get_value(unsigned int gpio, unsigned int *value)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -196,7 +196,7 @@ static int gpio_get_value(unsigned int gpio, unsigned int *value)
  * gpio_set_edge
  ****************************************************************/
 
-static int gpio_set_edge(unsigned int gpio, char *edge)
+static int gpioInt::gpio_set_edge(unsigned int gpio, char *edge)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -218,7 +218,7 @@ static int gpio_set_edge(unsigned int gpio, char *edge)
  * gpio_fd_open
  ****************************************************************/
 
-static int gpio_fd_open(unsigned int gpio)
+static int gpioInt::gpio_fd_open(unsigned int gpio)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -236,7 +236,7 @@ static int gpio_fd_open(unsigned int gpio)
  * gpio_fd_close
  ****************************************************************/
 
-static int gpio_fd_close(int fd)
+static int gpioInt::gpio_fd_close(int fd)
 {
     return close(fd);
 }
