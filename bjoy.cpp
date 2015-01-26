@@ -17,17 +17,17 @@ int main(int argc, char *argv[])
     poller *p = new poller();
     bJoyControl *bjc = new bJoyControl();
 
-    gpioInt *buttonsGpio = new gpioInt(66);
-    buttonsGpio->start();
+    gpioInt *afGpio = new gpioInt(66);
+    afGpio->start();
 
     QObject::connect(p, SIGNAL(valueChangedX(int)), bjc, SLOT(_onSpeedChangedX(int)));
     QObject::connect(p, SIGNAL(valueChangedY(int)), bjc, SLOT(_onSpeedChangedY(int)));
     QObject::connect(p, SIGNAL(valueChangedZ(int)), bjc, SLOT(_onSpeedChangedZ(int)));
 
-    QObject::connect(p, SIGNAL(valueLow(int)), bjc, SLOT(_onAfOn()));
-    QObject::connect(p, SIGNAL(valueHigh(int)), bjc, SLOT(_onAfOff()));
+    QObject::connect(af, SIGNAL(valueLow(int)), bjc, SLOT(_onAfOn()));
+    QObject::connect(af, SIGNAL(valueHigh(int)), bjc, SLOT(_onAfOff()));
 
-//    buttonsGpio->terminate();
+//    afGpio->terminate();
 
     return a.exec();
 }
