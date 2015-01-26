@@ -13,7 +13,7 @@
 #define MAX_BUF 64
 
 gpioInt::gpioInt(unsigned int gpio, QObject *parent) :
-    QObject(parent)
+    QThread(parent)
 {
     pollingLoop(gpio);
 }

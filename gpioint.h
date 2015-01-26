@@ -2,8 +2,9 @@
 #define GPIOINT_H
 
 #include <QObject>
+#include <QThread>
 
-class gpioInt : public QObject
+class gpioInt : public QThread
 {
     Q_OBJECT
 
