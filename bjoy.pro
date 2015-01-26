@@ -19,9 +19,11 @@ TEMPLATE = app
 
 HEADERS += bsocket.h \
     poller.h \
-    bjoycontrol.h
+    bjoycontrol.h \
+    gpioint.h
 
 SOURCES += bjoy.cpp \
-    bjoycontrol.cpp
-SOURCES += bsocket.cpp
-SOURCES += poller.cpp
+    bjoycontrol.cpp \
+    gpioint.cpp \
+    bsocket.cpp \
+    poller.cpp

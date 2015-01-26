@@ -62,3 +62,6 @@ int poller::readAdcValue(QString sid) {
 
     return line.toInt();
 }
+
+
+
