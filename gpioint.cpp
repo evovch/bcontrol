@@ -29,7 +29,7 @@ void gpioInt::pollingLoop(unsigned int gpio)
     struct pollfd fdset[2];
     int nfds = 2;
     int gpio_fd, timeout, rc;
-    char *buf[MAX_BUF];
+    char buf[MAX_BUF];
     int len;
 
     gpio_export(gpio);
