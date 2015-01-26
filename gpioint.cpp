@@ -22,7 +22,7 @@ void gpioInt::run(void) {
     pollingLoop(gpioNum);
 }
 
-unsigned int gpioInt::pollingLoop(unsigned int gpio)
+void gpioInt::pollingLoop(unsigned int gpio)
 {
     struct pollfd fdset[2];
     int nfds = 2;
