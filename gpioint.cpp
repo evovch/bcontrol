@@ -15,6 +15,10 @@
 gpioInt::gpioInt(unsigned int gpio, QObject *parent) :
     QThread(parent)
 {
+
+}
+
+void gpioInt::run(void) {
     pollingLoop(gpio);
 }
 

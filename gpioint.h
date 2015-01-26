@@ -11,6 +11,9 @@ class gpioInt : public QThread
 private:
     void pollingLoop(unsigned int gpio);
 
+protected:
+    void run(void);
+
 public:
     explicit gpioInt(unsigned int gpio, QObject *parent = 0);
 
