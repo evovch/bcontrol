@@ -12,7 +12,7 @@
 #define POLL_TIMEOUT (3 * 1000) /* 3 seconds */
 #define MAX_BUF 64
 
-gpioInt::gpioInt(int gpio, QObject *parent) :
+gpioInt::gpioInt(unsigned int gpio, QObject *parent) :
     QObject(parent)
 {
     pollingLoop(gpio);
