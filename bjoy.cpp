@@ -24,6 +24,9 @@ int main(int argc, char *argv[])
     QObject::connect(p, SIGNAL(valueChangedY(int)), bjc, SLOT(_onSpeedChangedY(int)));
     QObject::connect(p, SIGNAL(valueChangedZ(int)), bjc, SLOT(_onSpeedChangedZ(int)));
 
+    QObject::connect(p, SIGNAL(valueLow(int)), bjc, SLOT(_onAfOn()));
+    QObject::connect(p, SIGNAL(valueHigh(int)), bjc, SLOT(_onAfOff()));
+
 //    buttonsGpio->terminate();
 
     return a.exec();

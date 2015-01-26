@@ -21,6 +21,8 @@ public slots:
     void _onSpeedChangedY(int val);
     void _onSpeedChangedZ(int val);
     
+    void _onAfOn();
+    void _onAfOff();
 };
 
 #endif // BJOYCONTROL_H
