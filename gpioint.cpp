@@ -63,7 +63,7 @@ void gpioInt::pollingLoop(unsigned int gpio)
         if (fdset[1].revents & POLLPRI) {
             len = read(fdset[1].fd, buf, MAX_BUF);
             printf("\npoll() GPIO %d interrupt occurred\n", gpio);
-            qDebug() << "value: " << buf[0];
+//            qDebug() << "value: " << buf[0];
             if(buf[0] == '1')emit levelHigh();
             else emit levelLow();
         }
