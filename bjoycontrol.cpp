@@ -25,13 +25,10 @@ void bJoyControl::_onSpeedChangedZ(int val) {
 
 void bJoyControl::_onAfOn() {
     socket->send("cam", "af_trigger", "1");
-    else socket->send("cam", "af_trigger", "0");
-
     qDebug() << "sending AF on";
 }
 
 void bJoyControl::_onAfOff() {
     socket->send("cam", "af_trigger", "0");
-
     qDebug() << "sending AF off";
 }
