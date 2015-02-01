@@ -29,7 +29,7 @@ void gpioInt::pollingLoop(unsigned int gpio)
     struct pollfd fdset[2];
     int nfds = 2;
     int gpio_fd, timeout, rc;
-    char buf[MAX_BUF];
+
     int len;
 
     gpio_export(gpio);
@@ -41,13 +41,11 @@ void gpioInt::pollingLoop(unsigned int gpio)
     gpio_fd = gpio_fd_open(gpio);
 
     while (1) {
+        char buf[MAX_BUF];
         memset((void*)fdset, 0, sizeof(fdset));
 
-        fdset[0].fd = STDIN_FILENO;
-        fdset[0].events = POLLIN;
-
-        fdset[1].fd = gpio_fd;
-        fdset[1].events = POLLPRI;
+        fdset[0].fd = gpio_fd;
+        fdset[0].events = POLLPRI;
 
         rc = poll(fdset, nfds, timeout);
 
@@ -60,21 +58,18 @@ void gpioInt::pollingLoop(unsigned int gpio)
             printf(".");
         }
 
-        if (fdset[1].revents & POLLPRI) {
-            len = read(fdset[1].fd, buf, MAX_BUF);
-            printf("\npoll() GPIO %d interrupt occurred\n", gpio);
-            qDebug() << "length: " << len;
-            qDebug() << "value: " << QString(buf[0]);
-            if(buf[0] == '1')emit levelHigh();
+        if (fdset[0].revents & POLLPRI) {
+            len = read(fdset[0].fd, buf, MAX_BUF);
+
+            unsigned int v;
+            gpio_get_value(gpio, &v);
+
+//            printf("\npoll() GPIO %d interrupt occurred\n", gpio);
+
+            if(v == 1)emit levelHigh();
             else emit levelLow();
         }
 
-        if (fdset[0].revents & POLLIN) {
-            (void)read(fdset[0].fd, buf, 1);
-            printf("\npoll() stdin read 0x%2.2X\n", (unsigned int) buf[0]);
-        }
-
-        fflush(stdout);
     }
 
     gpio_fd_close(gpio_fd);
