@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "bsocket.h"
+#include "controlgraph.h"
+#include "liveviewsocket.h"
 
 class bJoyControl : public QObject
 {
@@ -10,6 +12,9 @@ class bJoyControl : public QObject
 
 private:
     bSocket *socket;
+
+    controlGraph *cg;
+    liveViewSocket *socketLv;
 
 public:
     explicit bJoyControl(QObject *parent = 0);

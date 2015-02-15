@@ -1,6 +1,8 @@
 #include "controlgraph.h"
 #include <QDebug>
 #include "bgraphicsellipseitem.h"
+#include <opencv2/opencv.hpp>
+#include <turbojpeg.h>
 
 controlGraph::controlGraph(QWidget *parent) :
     QGraphicsView(parent)
@@ -9,7 +11,9 @@ controlGraph::controlGraph(QWidget *parent) :
 
     setInteractive(true);
 
-    scene.setSceneRect( 0.0, 0.0, parent->width(), parent->height() );
+    setGeometry(0, 0, parent->width(), parent->height());
+
+    scene.setSceneRect( 0.0, 0.0, parent->width()-10, parent->height()-10 );
     setScene(&scene);
 
     lineTilt = new QGraphicsLineItem(0, &scene);
@@ -24,10 +28,10 @@ controlGraph::controlGraph(QWidget *parent) :
 //    setRenderHints( QPainter::Antialiasing );
     show();
 
-    sceneLV.setSceneRect( 0.0, 0.0, parent->width(), parent->height() );
+    sceneLV.setSceneRect( 0.0, 0.0, parent->width()-10, parent->height()-10 );
 
     QImage img(parent->width(), parent->height(), QImage::Format_RGB32);
-    img.load("/Users/korytov/snowww.jpg");
+    img.load("/home/korytov/bbin/pics/1/correct.jpg");
     QPixmap pm = QPixmap::fromImage(img);
     pm = pm.scaled(sceneLV.width(), sceneLV.height(),  Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
@@ -40,6 +44,8 @@ controlGraph::controlGraph(QWidget *parent) :
     createFocusPoints();
 
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+
+    setLVScene();
 
     activeFocusPointIndex = 1000;
 }
@@ -157,25 +163,45 @@ void controlGraph::setFPScene() {
 }
 
 void controlGraph::_onGotAFrame(QByteArray frame) {
-//    qDebug() << "got new frame: " << frame.size();
+    qDebug() << "got new frame: " << frame.size();
 
-    QImage i;
-    if (!i.loadFromData(frame, "JPEG")){
+    long unsigned int _jpegSize = frame.size(); //!< _jpegSize from above
+    unsigned char* _compressedImage = frame.data(); //!< _compressedImage from above
+
+    int jpegSubsamp, width, height;
+
+    tjhandle _jpegDecompressor = tjInitDecompress();
+
+    tjDecompressHeader2(_jpegDecompressor, _compressedImage, _jpegSize, &width, &height, &jpegSubsamp);
+    unsigned char buffer[width*height*3]; //!< will contain the decompressed image
+
+    int res = tjDecompress2(_jpegDecompressor, _compressedImage, _jpegSize, buffer, width, 0/*pitch*/, height, TJPF_RGB, TJFLAG_FASTDCT);
+    qDebug() << "tjDecompress2: " << res;
+
+    tjDestroy(_jpegDecompressor);
+    QImage i(buffer, width, height, QImage::Format_RGB888);
+
+//    QImage i;
+//    if (!i.loadFromData(frame, "JPEG")){
         /*
         QFile file("/Users/korytov/2/corrupted2.jpg");
         file.open(QIODevice::WriteOnly);
         file.write(frame);
         file.close();
 */
-        return;
-    }
+//        return;
+//    }
 /*
     QFile file2("/Users/korytov/2/correct2.jpg");
     file2.open(QIODevice::WriteOnly);
     file2.write(frame);
     file2.close();
 */
-    lvSnapshot.setPixmap(QPixmap::fromImage(i).scaled(sceneLV.width(), sceneLV.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+//     lvSnapshot.setPixmap(QPixmap::fromImage(i).scaled(sceneLV.width(), sceneLV.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+        QPixmap pm;
+        bool r1 = pm.convertFromImage(i);
+        lvSnapshot.setPixmap(pm);
 
 //    qDebug() << i.size().width();
 }

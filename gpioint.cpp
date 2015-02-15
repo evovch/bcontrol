@@ -66,6 +66,10 @@ void gpioInt::pollingLoop(unsigned int gpio)
 
 //            printf("\npoll() GPIO %d interrupt occurred\n", gpio);
 
+            if(v == 1)qDebug() << gpio << ": high";
+            else qDebug() << gpio << ": low";
+
+
             if(v == 1)emit levelHigh();
             else emit levelLow();
         }

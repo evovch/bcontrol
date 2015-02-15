@@ -1,9 +1,20 @@
 #include "bjoycontrol.h"
+#include "mainBox.h"
 #include <QDebug>
 
 bJoyControl::bJoyControl(QObject *parent) :
     QObject(parent)
 {
+    mainBox *mb = new mainBox();
+    mb->show();
+
+    cg = new controlGraph(mb);
+
+    socketLv = new liveViewSocket();
+    socketLv->reconnect();
+
+    QObject::connect(socketLv, SIGNAL(gotAFrame(QByteArray)), cg, SLOT(_onGotAFrame(QByteArray)));
+
     socket = new bSocket();
     socket->reconnect();
 }
