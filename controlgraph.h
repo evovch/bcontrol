@@ -9,6 +9,7 @@
 #include "btypes.h"
 #include "bgraphicsellipseitem.h";
 #include "focuspoint.h"
+#include "fastpixmapitem.h"
 
 class controlGraph : public QGraphicsView
 {
@@ -48,7 +49,8 @@ private:
 
     void mousePressEvent(QMouseEvent * event);
 
-    QGraphicsPixmapItem lvSnapshot;
+    FastPixmapItem lvSnapshot;
+    unsigned char * currentFrameBuffer;
 
     void createFocusPoints(void);
 

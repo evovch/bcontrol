@@ -1,7 +1,6 @@
 #include "controlgraph.h"
 #include <QDebug>
 #include "bgraphicsellipseitem.h"
-#include <opencv2/opencv.hpp>
 #include <turbojpeg.h>
 
 controlGraph::controlGraph(QWidget *parent) :
@@ -30,12 +29,22 @@ controlGraph::controlGraph(QWidget *parent) :
 
     sceneLV.setSceneRect( 0.0, 0.0, parent->width()-10, parent->height()-10 );
 
-    QImage img(parent->width(), parent->height(), QImage::Format_RGB32);
-    img.load("/home/korytov/bbin/pics/1/correct.jpg");
-    QPixmap pm = QPixmap::fromImage(img);
-    pm = pm.scaled(sceneLV.width(), sceneLV.height(),  Qt::KeepAspectRatio, Qt::SmoothTransformation);
+//    QImage img(parent->width(), parent->height(), QImage::Format_RGB32);
+//    img.load("/home/korytov/bbin/pics/1/correct.jpg");
+//    img.load("/Users/korytov/2/correct.jpg");
 
-    lvSnapshot.setPixmap(pm);
+
+    QFile f("/Users/korytov/2/correct2.jpg");
+    f.open(QIODevice::ReadOnly);
+
+    currentFrameBuffer = (unsigned char*)malloc(1);
+
+    _onGotAFrame(f.readAll());
+
+ //   QPixmap pm = QPixmap::fromImage(img);
+ //   pm = pm.scaled(sceneLV.width(), sceneLV.height(),  Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+//    lvSnapshot.setPixmap(pm);
     sceneLV.addItem(&lvSnapshot);
 
  //   scene.addItem(&lvSnapshot);
@@ -166,20 +175,26 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
     qDebug() << "got new frame: " << frame.size();
 
     long unsigned int _jpegSize = frame.size(); //!< _jpegSize from above
-    unsigned char* _compressedImage = frame.data(); //!< _compressedImage from above
+    unsigned char* _compressedImage = (unsigned char*)frame.data(); //!< _compressedImage from above
 
     int jpegSubsamp, width, height;
 
     tjhandle _jpegDecompressor = tjInitDecompress();
 
     tjDecompressHeader2(_jpegDecompressor, _compressedImage, _jpegSize, &width, &height, &jpegSubsamp);
-    unsigned char buffer[width*height*3]; //!< will contain the decompressed image
+    qDebug() << "size: " << width << "x" << height;
+    qDebug() << "subsamp: " << jpegSubsamp;
 
-    int res = tjDecompress2(_jpegDecompressor, _compressedImage, _jpegSize, buffer, width, 0/*pitch*/, height, TJPF_RGB, TJFLAG_FASTDCT);
+    free(currentFrameBuffer);
+    currentFrameBuffer = (unsigned char*)malloc(width*height*4);
+
+    int res = tjDecompress2(_jpegDecompressor, _compressedImage, _jpegSize, currentFrameBuffer, width, 0/*pitch*/, height, TJPF_RGB, TJFLAG_FASTDCT);
     qDebug() << "tjDecompress2: " << res;
 
     tjDestroy(_jpegDecompressor);
-    QImage i(buffer, width, height, QImage::Format_RGB888);
+    QImage i(currentFrameBuffer, width, height, QImage::Format_RGB888);
+
+//    free(buffer);
 
 //    QImage i;
 //    if (!i.loadFromData(frame, "JPEG")){
@@ -199,9 +214,13 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
 */
 //     lvSnapshot.setPixmap(QPixmap::fromImage(i).scaled(sceneLV.width(), sceneLV.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-        QPixmap pm;
-        bool r1 = pm.convertFromImage(i);
-        lvSnapshot.setPixmap(pm);
+
+
+//        QPixmap pm;
+//        bool r1 = pm.convertFromImage(i, Qt::ColorOnly | Qt::OrderedDither | Qt::OrderedAlphaDither | Qt::NoOpaqueDetection);
+//        lvSnapshot.setPixmap(pm);
+
+    lvSnapshot.setPicture(&i);
 
 //    qDebug() << i.size().width();
 }

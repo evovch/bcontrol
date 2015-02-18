@@ -51,7 +51,7 @@ void gpioInt::pollingLoop(unsigned int gpio)
 
         if (rc < 0) {
             printf("\npoll() failed!\n");
-            return -1;
+            return;
         }
 
         if (rc == 0) {
@@ -85,7 +85,7 @@ void gpioInt::pollingLoop(unsigned int gpio)
 /****************************************************************
  * gpio_export
  ****************************************************************/
-static int gpioInt::gpio_export(unsigned int gpio)
+int gpioInt::gpio_export(unsigned int gpio)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -106,7 +106,7 @@ static int gpioInt::gpio_export(unsigned int gpio)
 /****************************************************************
  * gpio_unexport
  ****************************************************************/
-static int gpioInt::gpio_unexport(unsigned int gpio)
+int gpioInt::gpio_unexport(unsigned int gpio)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -126,7 +126,7 @@ static int gpioInt::gpio_unexport(unsigned int gpio)
 /****************************************************************
  * gpio_set_dir
  ****************************************************************/
-static int gpioInt::gpio_set_dir(unsigned int gpio, unsigned int out_flag)
+int gpioInt::gpio_set_dir(unsigned int gpio, unsigned int out_flag)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -151,7 +151,7 @@ static int gpioInt::gpio_set_dir(unsigned int gpio, unsigned int out_flag)
 /****************************************************************
  * gpio_set_value
  ****************************************************************/
-static int gpioInt::gpio_set_value(unsigned int gpio, unsigned int value)
+int gpioInt::gpio_set_value(unsigned int gpio, unsigned int value)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -176,7 +176,7 @@ static int gpioInt::gpio_set_value(unsigned int gpio, unsigned int value)
 /****************************************************************
  * gpio_get_value
  ****************************************************************/
-static int gpioInt::gpio_get_value(unsigned int gpio, unsigned int *value)
+int gpioInt::gpio_get_value(unsigned int gpio, unsigned int *value)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -207,7 +207,7 @@ static int gpioInt::gpio_get_value(unsigned int gpio, unsigned int *value)
  * gpio_set_edge
  ****************************************************************/
 
-static int gpioInt::gpio_set_edge(unsigned int gpio, char *edge)
+int gpioInt::gpio_set_edge(unsigned int gpio, char *edge)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -229,7 +229,7 @@ static int gpioInt::gpio_set_edge(unsigned int gpio, char *edge)
  * gpio_fd_open
  ****************************************************************/
 
-static int gpioInt::gpio_fd_open(unsigned int gpio)
+int gpioInt::gpio_fd_open(unsigned int gpio)
 {
     int fd, len;
     char buf[MAX_BUF];
@@ -247,7 +247,7 @@ static int gpioInt::gpio_fd_open(unsigned int gpio)
  * gpio_fd_close
  ****************************************************************/
 
-static int gpioInt::gpio_fd_close(int fd)
+int gpioInt::gpio_fd_close(int fd)
 {
     return close(fd);
 }
