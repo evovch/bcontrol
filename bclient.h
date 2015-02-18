@@ -66,20 +66,6 @@ private:
     fixedPointHash fixedPoints;
     QString currentFixedPointId;
 
-    typedef struct {
-        int rangeMinPan;
-        int rangeMaxPan;
-        int rangeMinTilt;
-        int rangeMaxTilt;
-        int rangeMinFocus;
-        int rangeMaxFocus;
-        int rangeMinZoom;
-        int rangeMaxZoom;
-        int rangeMinSlider;
-        int rangeMaxSlider;
-
-    } motorsInfo;
-
     motorsInfo mInfo;
 
     void updateRangeLabel();

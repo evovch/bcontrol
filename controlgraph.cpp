@@ -6,13 +6,13 @@
 controlGraph::controlGraph(QWidget *parent) :
     QGraphicsView(parent)
 {
-    setRange(0, 0, 1000, 1000);
+    setRange(0, 0, 100, 100);
 
     setInteractive(true);
 
     setGeometry(0, 0, parent->width(), parent->height());
 
-    scene.setSceneRect( 0.0, 0.0, parent->width()-10, parent->height()-10 );
+    scene.setSceneRect( 0.0, 0.0, this->width()-4, this->height()-4 );
     setScene(&scene);
 
     lineTilt = new QGraphicsLineItem(0, &scene);
@@ -27,7 +27,7 @@ controlGraph::controlGraph(QWidget *parent) :
 //    setRenderHints( QPainter::Antialiasing );
     show();
 
-    sceneLV.setSceneRect( 0.0, 0.0, parent->width()-10, parent->height()-10 );
+    sceneLV.setSceneRect( 0.0, 0.0, this->width()-4, this->height()-4 );
 
 //    QImage img(parent->width(), parent->height(), QImage::Format_RGB32);
 //    img.load("/home/korytov/bbin/pics/1/correct.jpg");
@@ -38,6 +38,7 @@ controlGraph::controlGraph(QWidget *parent) :
     f.open(QIODevice::ReadOnly);
 
     currentFrameBuffer = (unsigned char*)malloc(1);
+    framerBusy = false;
 
     _onGotAFrame(f.readAll());
 
@@ -54,7 +55,7 @@ controlGraph::controlGraph(QWidget *parent) :
 
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 
-    setLVScene();
+//    setLVScene();
 
     activeFocusPointIndex = 1000;
 }
@@ -172,6 +173,11 @@ void controlGraph::setFPScene() {
 }
 
 void controlGraph::_onGotAFrame(QByteArray frame) {
+    if(framerBusy) {
+        qDebug() << "frame skipped - busy!";
+    }
+    framerBusy = true;
+
     qDebug() << "got new frame: " << frame.size();
 
     long unsigned int _jpegSize = frame.size(); //!< _jpegSize from above
@@ -184,45 +190,37 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
     tjDecompressHeader2(_jpegDecompressor, _compressedImage, _jpegSize, &width, &height, &jpegSubsamp);
     qDebug() << "size: " << width << "x" << height;
     qDebug() << "subsamp: " << jpegSubsamp;
+    if(jpegSubsamp < 0 || width != 640 || height != 424) {
+        qDebug() << "corrupted frame";
+        tjDestroy(_jpegDecompressor);
+        framerBusy = false;
+        return;
+     }
+
+//    int targetWidth = this->width();
+//    int targetHeight = height * (float)targetWidth / width;
+
+//    qDebug() << "target size: " << targetWidth << "x" << targetHeight;
 
     free(currentFrameBuffer);
-    currentFrameBuffer = (unsigned char*)malloc(width*height*4);
+    currentFrameBuffer = (unsigned char*)malloc(width*height*tjPixelSize[TJPF_RGB]);
 
-    int res = tjDecompress2(_jpegDecompressor, _compressedImage, _jpegSize, currentFrameBuffer, width, 0/*pitch*/, height, TJPF_RGB, TJFLAG_FASTDCT);
+    int res = tjDecompress2(_jpegDecompressor, _compressedImage, _jpegSize, currentFrameBuffer, width,  0 /*pitch*/, height, TJPF_RGB, TJFLAG_FASTDCT);
     qDebug() << "tjDecompress2: " << res;
 
     tjDestroy(_jpegDecompressor);
     QImage i(currentFrameBuffer, width, height, QImage::Format_RGB888);
+    i.save("/Users/korytov/2/_out.jpg", "JPEG");
 
-//    free(buffer);
+    if(i.width() != this->width()) {
+        qDebug() << "scaling to viewport: " << i.width() << " -> " << this->width();
+        i = i.scaled(this->width(), this->height());
+    }
 
-//    QImage i;
-//    if (!i.loadFromData(frame, "JPEG")){
-        /*
-        QFile file("/Users/korytov/2/corrupted2.jpg");
-        file.open(QIODevice::WriteOnly);
-        file.write(frame);
-        file.close();
-*/
-//        return;
-//    }
-/*
-    QFile file2("/Users/korytov/2/correct2.jpg");
-    file2.open(QIODevice::WriteOnly);
-    file2.write(frame);
-    file2.close();
-*/
-//     lvSnapshot.setPixmap(QPixmap::fromImage(i).scaled(sceneLV.width(), sceneLV.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-
-
-//        QPixmap pm;
-//        bool r1 = pm.convertFromImage(i, Qt::ColorOnly | Qt::OrderedDither | Qt::OrderedAlphaDither | Qt::NoOpaqueDetection);
-//        lvSnapshot.setPixmap(pm);
 
     lvSnapshot.setPicture(&i);
 
-//    qDebug() << i.size().width();
+    framerBusy = false;
 }
 
 void controlGraph::setRange(unsigned int minX, unsigned int maxX, unsigned int minY, unsigned int maxY){
@@ -244,12 +242,12 @@ void controlGraph::_onTiltPositionChanged(int value){
 }
 
 void controlGraph::setPanPosition(int value){
-    float linePoint = 1.0 * (value -  rangeMinPan) * scene.width() / visibleRangePan;
+    float linePoint = 1.0 * (value -  rangeMinPan) * (float)scene.width() / visibleRangePan;
     linePan->setLine(linePoint, 0, linePoint, scene.height() );
 }
 
 void controlGraph::setTiltPosition(int value){
-    float linePoint = 1.0 * (value - rangeMinTilt) * scene.height() / visibleRangeTilt;
+    float linePoint = 1.0 * (value - rangeMinTilt) * (float)scene.height() / visibleRangeTilt;
     lineTilt->setLine(0, scene.height()-linePoint, scene.width(), scene.height()-linePoint );
 }
 

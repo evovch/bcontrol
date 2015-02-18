@@ -28,11 +28,18 @@ public:
     static int gpio_fd_close(int fd);
 
 signals:
-     void levelHigh();
-     void levelLow();
+     void gpioEdge(unsigned int, bool);
     
 public slots:
     
+};
+
+class Sleeper : public QThread
+{
+public:
+    static void usleep(unsigned long usecs){QThread::usleep(usecs);}
+    static void msleep(unsigned long msecs){QThread::msleep(msecs);}
+    static void sleep(unsigned long secs){QThread::sleep(secs);}
 };
 
 #endif // GPIOINT_H

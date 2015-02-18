@@ -32,6 +32,8 @@ public:
 
     QList<focusPoint *> getFocusPoints(void);
     void hightlightFocusPoint(int index);
+
+    bool framerBusy;
     
 private:
     QGraphicsScene scene;

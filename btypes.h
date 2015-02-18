@@ -14,4 +14,18 @@ typedef struct {
 typedef QHash<QString, fixedPoint> fixedPointHash;
 typedef QVector<fixedPoint> fixedPointArray;
 
+typedef struct {
+    int rangeMinPan;
+    int rangeMaxPan;
+    int rangeMinTilt;
+    int rangeMaxTilt;
+    int rangeMinFocus;
+    int rangeMaxFocus;
+    int rangeMinZoom;
+    int rangeMaxZoom;
+    int rangeMinSlider;
+    int rangeMaxSlider;
+
+} motorsInfo;
+
 #endif // BTYPES_H

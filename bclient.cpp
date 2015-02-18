@@ -675,7 +675,7 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
     }
 
     if(dev=="live_view" && key=="status") {
-//        qDebug() << "lv: " << value;
+        qDebug() << "lv: " << value;
         if (value=="on") {
             cg->setLVScene();
         }

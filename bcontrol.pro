@@ -3,6 +3,9 @@ QT += network
 
 CONFIG += c++11
 
+QMAKE_CXXFLAGS += -fpermissive -I/usr/include -I/opt/libjpeg-turbo/include
+QMAKE_LFLAGS += -L/opt/libjpeg-turbo/lib -lturbojpeg
+
 SOURCES += \
     main.cpp \
     bsocket.cpp \
@@ -29,7 +32,8 @@ SOURCES += \
     zoomcontrolwidget.cpp \
     focuscontrolwidget.cpp \
     motorwidget.cpp \
-    network.cpp
+    network.cpp \
+    fastpixmapitem.cpp
 
 
 HEADERS += \
@@ -57,7 +61,8 @@ HEADERS += \
     zoomcontrolwidget.h \
     focuscontrolwidget.h \
     motorwidget.h \
-    network.h
+    network.h \
+    fastpixmapitem.h
 
 FORMS += \
     main.ui \
