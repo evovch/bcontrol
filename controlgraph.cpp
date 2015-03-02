@@ -16,11 +16,11 @@ controlGraph::controlGraph(QWidget *parent) :
     setScene(&scene);
 
     lineTilt = new QGraphicsLineItem(0, &scene);
-    lineTilt->setLine(0, 100.0, scene.width(), 100.0 );
+//    lineTilt->setLine(0, 100.0, scene.width(), 100.0 );
     lineTilt->setZValue(2);
 
     linePan = new QGraphicsLineItem(0, &scene);
-    linePan->setLine(100.0, 0, 100.0, scene.height() );
+//    linePan->setLine(100.0, 0, 100.0, scene.height() );
     linePan->setZValue(2);
 
 //    QGraphicsView( &scene, parent );
@@ -242,12 +242,12 @@ void controlGraph::_onTiltPositionChanged(int value){
 }
 
 void controlGraph::setPanPosition(int value){
-    float linePoint = 1.0 * (value -  rangeMinPan) * (float)scene.width() / visibleRangePan;
+    float linePoint = (float) (value -  rangeMinPan) * (float)scene.width() / visibleRangePan;
     linePan->setLine(linePoint, 0, linePoint, scene.height() );
 }
 
 void controlGraph::setTiltPosition(int value){
-    float linePoint = 1.0 * (value - rangeMinTilt) * (float)scene.height() / visibleRangeTilt;
+    float linePoint = (float) (value - rangeMinTilt) * (float)scene.height() / visibleRangeTilt;
     lineTilt->setLine(0, scene.height()-linePoint, scene.width(), scene.height()-linePoint );
 }
 

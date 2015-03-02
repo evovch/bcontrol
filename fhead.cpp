@@ -27,6 +27,16 @@ void fhead::keyPressEvent(QKeyEvent *event)
             emit srChanged(true);
             return;
         }
+        case Qt::Key_W	: {
+            qDebug() << "ZoomIn pressed";
+            emit zoomInChanged(true);
+            return;
+        }
+        case Qt::Key_Q	: {
+            qDebug() << "ZoomOut pressed";
+            emit zoomOutChanged(true);
+            return;
+        }
         case Qt::Key_K	: {
             emit fpPressed();
             return;
@@ -50,6 +60,13 @@ void fhead::keyReleaseEvent(QKeyEvent *event)
             emit srChanged(false);
             return;
         }
-
+        case Qt::Key_W	: {
+            emit zoomInChanged(false);
+            return;
+        }
+        case Qt::Key_Q	: {
+            emit zoomOutChanged(false);
+            return;
+        }
     }
 }

@@ -142,6 +142,9 @@ public slots:
     void _onAfChanged(bool);
     void _onSrChanged(bool);
 
+    void _onZoomInChanged(bool s);
+    void _onZoomOutChanged(bool s);
+
     void _onGetFilesButtonPressed(void);
     void _onGetFiles5ButtonPressed(void);
 

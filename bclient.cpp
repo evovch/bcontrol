@@ -196,6 +196,8 @@ bClient::bClient(QObject *parent) :
 
     QObject::connect(mp, SIGNAL(afChanged(bool)), this, SLOT(_onAfChanged(bool)));
     QObject::connect(mp, SIGNAL(srChanged(bool)), this, SLOT(_onSrChanged(bool)));
+    QObject::connect(mp, SIGNAL(zoomInChanged(bool)), this, SLOT(_onZoomInChanged(bool)));
+    QObject::connect(mp, SIGNAL(zoomOutChanged(bool)), this, SLOT(_onZoomOutChanged(bool)));
     QObject::connect(mp, SIGNAL(afAndCaptureKey()), this, SLOT(_onCaptureButtonPressed()));
     QObject::connect(mp, SIGNAL(fpPressed()), this, SLOT(_onFixedPointButtonPressed()));
 
@@ -675,7 +677,7 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
     }
 
     if(dev=="live_view" && key=="status") {
-        qDebug() << "lv: " << value;
+//        qDebug() << "lv: " << value;
         if (value=="on") {
             cg->setLVScene();
         }
@@ -783,3 +785,20 @@ void bClient::_onSrChanged(bool s) {
     qDebug() << "sending SR: " << s;
 }
 
+void bClient::_onZoomInChanged(bool s) {
+    int speed = 0;
+    if(s==true)speed=100;
+
+    socket->send("motor_zoom", "set_speed", QString::number(speed));
+
+    qDebug() << "new Zoom speed: " << speed;
+}
+
+void bClient::_onZoomOutChanged(bool s) {
+    int speed = 0;
+    if(s==true)speed=-100;
+
+    socket->send("motor_zoom", "set_speed", QString::number(speed));
+
+    qDebug() << "new Zoom speed: " << speed;
+}
