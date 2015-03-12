@@ -242,12 +242,12 @@ void controlGraph::_onTiltPositionChanged(int value){
 }
 
 void controlGraph::setPanPosition(int value){
-    float linePoint = (float) (value -  rangeMinPan) * (float)scene.width() / visibleRangePan;
+    qreal linePoint = (qreal) (value -  rangeMinPan) * (qreal)scene.width() / visibleRangePan;
     linePan->setLine(linePoint, 0, linePoint, scene.height() );
 }
 
 void controlGraph::setTiltPosition(int value){
-    float linePoint = (float) (value - rangeMinTilt) * (float)scene.height() / visibleRangeTilt;
+    qreal linePoint = (qreal) (value - rangeMinTilt) * (qreal)scene.height() / visibleRangeTilt;
     lineTilt->setLine(0, scene.height()-linePoint, scene.width(), scene.height()-linePoint );
 }
 

@@ -16,7 +16,7 @@
   <widget class="QComboBox" name="camSCombo">
    <property name="geometry">
     <rect>
-     <x>75</x>
+     <x>145</x>
      <y>185</y>
      <width>81</width>
      <height>31</height>
@@ -83,7 +83,7 @@
   <widget class="QComboBox" name="camModeCombo">
    <property name="geometry">
     <rect>
-     <x>75</x>
+     <x>145</x>
      <y>105</y>
      <width>81</width>
      <height>31</height>
@@ -91,9 +91,12 @@
    </property>
   </widget>
   <widget class="QComboBox" name="camDCombo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>75</x>
+     <x>145</x>
      <y>225</y>
      <width>81</width>
      <height>31</height>
@@ -116,7 +119,7 @@
   <widget class="QComboBox" name="camAfCombo">
    <property name="geometry">
     <rect>
-     <x>75</x>
+     <x>145</x>
      <y>65</y>
      <width>81</width>
      <height>31</height>
@@ -126,7 +129,7 @@
   <widget class="QComboBox" name="camExpCombo">
    <property name="geometry">
     <rect>
-     <x>75</x>
+     <x>145</x>
      <y>25</y>
      <width>81</width>
      <height>31</height>
@@ -136,7 +139,7 @@
   <widget class="QComboBox" name="camIsoCombo">
    <property name="geometry">
     <rect>
-     <x>75</x>
+     <x>145</x>
      <y>145</y>
      <width>81</width>
      <height>31</height>
@@ -159,7 +162,7 @@
   <widget class="QPushButton" name="camExpSendButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>230</x>
      <y>25</y>
      <width>71</width>
      <height>36</height>
@@ -172,7 +175,7 @@
   <widget class="QPushButton" name="camAfSendButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>230</x>
      <y>65</y>
      <width>71</width>
      <height>36</height>
@@ -185,7 +188,7 @@
   <widget class="QPushButton" name="camModeSendButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>230</x>
      <y>105</y>
      <width>71</width>
      <height>36</height>
@@ -198,7 +201,7 @@
   <widget class="QPushButton" name="camIsoSendButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>230</x>
      <y>145</y>
      <width>71</width>
      <height>36</height>
@@ -211,7 +214,7 @@
   <widget class="QPushButton" name="camSSendButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>230</x>
      <y>185</y>
      <width>71</width>
      <height>36</height>
@@ -224,7 +227,7 @@
   <widget class="QPushButton" name="camDSendButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>230</x>
      <y>225</y>
      <width>71</width>
      <height>36</height>
@@ -234,7 +237,141 @@
     <string>Send</string>
    </property>
   </widget>
+  <widget class="QLabel" name="camSLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>190</y>
+     <width>56</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="camDLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>230</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="camExpLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>30</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="camAfLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>70</y>
+     <width>56</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="camIsoLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>150</y>
+     <width>56</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="camModeLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>110</y>
+     <width>56</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>285</y>
+     <width>76</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Lightmeter:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="camLightmeterLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>285</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="camRefreshButton">
+   <property name="geometry">
+    <rect>
+     <x>315</x>
+     <y>25</y>
+     <width>81</width>
+     <height>286</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
+ <designerdata>
+  <property name="gridDeltaX">
+   <number>5</number>
+  </property>
+  <property name="gridDeltaY">
+   <number>5</number>
+  </property>
+  <property name="gridSnapX">
+   <bool>true</bool>
+  </property>
+  <property name="gridSnapY">
+   <bool>true</bool>
+  </property>
+  <property name="gridVisible">
+   <bool>true</bool>
+  </property>
+ </designerdata>
 </ui>

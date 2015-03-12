@@ -128,6 +128,8 @@ public slots:
     void _onCamIsoSendButtonPressed();
     void _onCamExpSendButtonPressed();
 
+    void _onCamRefreshButtonPressed();
+
     void _onFlipPanButtonPressed(void);
     void _onFlipTiltButtonPressed(void);
 

@@ -172,6 +172,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_cam->camIsoSendButton, SIGNAL(pressed()), this, SLOT(_onCamIsoSendButtonPressed()));
     QObject::connect(ui_cam->camExpSendButton, SIGNAL(pressed()), this, SLOT(_onCamExpSendButtonPressed()));
     QObject::connect(ui_cam->camAfSendButton, SIGNAL(pressed()), this, SLOT(_onCamAfSendButtonPressed()));
+    QObject::connect(ui_cam->camRefreshButton, SIGNAL(pressed()), this, SLOT(_onCamRefreshButtonPressed()));
 
     QObject::connect(ui->panControl, SIGNAL(speedChanged(int)), this, SLOT(_onPanSpeedChanged(int)));
     QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
@@ -620,6 +621,11 @@ void bClient::_onCamAfSendButtonPressed() {
      qDebug() << "cam:set_af:" << v;
 }
 
+void bClient::_onCamRefreshButtonPressed() {
+    socket->send("cam", "refresh", "");
+}
+
+
 void bClient::_onDataReceived(QString dev, QString key, QString value, QStringList params) {
     if(dev=="motor_pan" && key=="status_position") {
         ui->panControl->setPosition(value.toInt());
@@ -730,12 +736,14 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
 
     if(dev=="cam") {
 //        qDebug() << "cam key: " << key;
-        if(key=="current_d" && !ui_cam->camDCombo->hasFocus())ui_cam->camDCombo->setCurrentIndex(dVals->getIndex(value));
-        if(key=="current_s" && !ui_cam->camSCombo->hasFocus())ui_cam->camSCombo->setCurrentIndex(sVals->getIndex(value));
-        if(key=="current_af" && !ui_cam->camAfCombo->hasFocus())ui_cam->camAfCombo->setCurrentIndex(afVals->getIndex(value));
-        if(key=="current_mode" && !ui_cam->camModeCombo->hasFocus())ui_cam->camModeCombo->setCurrentIndex(modeVals->getIndex(value));
-        if(key=="current_iso" && !ui_cam->camIsoCombo->hasFocus())ui_cam->camIsoCombo->setCurrentIndex(isoVals->getIndex(value));
-        if(key=="current_exp" && !ui_cam->camExpCombo->hasFocus())ui_cam->camExpCombo->setCurrentIndex(expVals->getIndex(value));
+        if(key=="current_d")ui_cam->camDLabel->setText(value);
+        if(key=="current_s")ui_cam->camSLabel->setText(value);
+        if(key=="current_af")ui_cam->camAfLabel->setText(value);
+        if(key=="current_mode")ui_cam->camModeLabel->setText(value);
+        if(key=="current_iso")ui_cam->camIsoLabel->setText(value);
+        if(key=="current_exp")ui_cam->camExpLabel->setText(value);
+
+        if(key=="lightmeter")ui_cam->camLightmeterLabel->setText(value);
 
         if(key=="autofocusarea")cg->hightlightFocusPoint(value.toInt());
     }
