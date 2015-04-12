@@ -10,7 +10,7 @@ focusPoint::focusPoint(unsigned int cid, int x, int y, QGraphicsItem *parent) : 
     float yRate = this->parentItem()->boundingRect().height() / fullHeight;
     setRect(x * xRate, y * yRate, 135 * xRate, 135 * yRate);
     setPen(QPen(QColor("white")));
-    setZValue(1);
+    setZValue(2);
 }
 
 void focusPoint::mousePressEvent(QGraphicsSceneMouseEvent * event) {

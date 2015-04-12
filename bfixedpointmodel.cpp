@@ -74,8 +74,8 @@ void bFixedPointModel::_onFixedPointsUpdated(void) {
     QModelIndex topLeft = index(0, 0);
     QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);
 
-//    sort(4);
-    reset();
+    beginResetModel();
+    endResetModel();
 }
 
 void bFixedPointModel::_onCellClicked ( const QModelIndex index ) {

@@ -52,6 +52,7 @@ private:
     void mousePressEvent(QMouseEvent * event);
 
     FastPixmapItem lvSnapshot;
+    QGraphicsRectItem *fpPlot;
     unsigned char * currentFrameBuffer;
 
     void createFocusPoints(void);

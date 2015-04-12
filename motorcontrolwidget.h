@@ -4,6 +4,9 @@
 #include <QWidget>
 #include "bslider.h"
 #include <QtGui>
+#include <QDial>
+#include <QProgressBar>
+#include <QLabel>
 
 class motorControlWidget : public QWidget
 {

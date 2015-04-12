@@ -15,11 +15,13 @@ controlGraph::controlGraph(QWidget *parent) :
     scene.setSceneRect( 0.0, 0.0, this->width()-4, this->height()-4 );
     setScene(&scene);
 
-    lineTilt = new QGraphicsLineItem(0, &scene);
+    lineTilt = new QGraphicsLineItem(0);
+    scene.addItem(lineTilt);
 //    lineTilt->setLine(0, 100.0, scene.width(), 100.0 );
     lineTilt->setZValue(2);
 
-    linePan = new QGraphicsLineItem(0, &scene);
+    linePan = new QGraphicsLineItem(0);
+    scene.addItem(linePan);
 //    linePan->setLine(100.0, 0, 100.0, scene.height() );
     linePan->setZValue(2);
 
@@ -28,6 +30,9 @@ controlGraph::controlGraph(QWidget *parent) :
     show();
 
     sceneLV.setSceneRect( 0.0, 0.0, this->width()-4, this->height()-4 );
+    fpPlot = new QGraphicsRectItem(0, 0, sceneLV.width(), sceneLV.height());
+    fpPlot->setZValue(1);
+    sceneLV.addItem(fpPlot);
 
 //    QImage img(parent->width(), parent->height(), QImage::Format_RGB32);
 //    img.load("/home/korytov/bbin/pics/1/correct.jpg");
@@ -61,63 +66,64 @@ controlGraph::controlGraph(QWidget *parent) :
 }
 
 void controlGraph::hightlightFocusPoint(int index) {
+    if(activeFocusPointIndex == index)return;
     if(activeFocusPointIndex != 1000)focusPoints.at(activeFocusPointIndex)->setPen(QPen(QColor("#ffffff")));
     focusPoints.at(index)->setPen(QPen(QColor("#fc5c61")));
     activeFocusPointIndex = index;
 }
 
 void controlGraph::createFocusPoints() {
-    focusPoints.append(new focusPoint(0, 2487, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(1, 2487, 1408, &lvSnapshot));
-    focusPoints.append(new focusPoint(2, 2487, 1152, &lvSnapshot));
-    focusPoints.append(new focusPoint(3, 2487, 1921, &lvSnapshot));
-    focusPoints.append(new focusPoint(4, 2487, 2177, &lvSnapshot));
-    focusPoints.append(new focusPoint(5, 2743, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(6, 2743, 1408, &lvSnapshot));
-    focusPoints.append(new focusPoint(7, 2743, 1152, &lvSnapshot));
-    focusPoints.append(new focusPoint(8, 2743, 1921, &lvSnapshot));
-    focusPoints.append(new focusPoint(9, 2743, 2177, &lvSnapshot));
-    focusPoints.append(new focusPoint(10, 2230, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(11, 2230, 1408, &lvSnapshot));
-    focusPoints.append(new focusPoint(12, 2230, 1152, &lvSnapshot));
-    focusPoints.append(new focusPoint(13, 2230, 1921, &lvSnapshot));
-    focusPoints.append(new focusPoint(14, 2230, 2177, &lvSnapshot));
-    focusPoints.append(new focusPoint(15, 2995, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(16, 2995, 1472, &lvSnapshot));
-    focusPoints.append(new focusPoint(17, 2995, 1280, &lvSnapshot));
-    focusPoints.append(new focusPoint(18, 2995, 1856, &lvSnapshot));
-    focusPoints.append(new focusPoint(19, 2995, 2048, &lvSnapshot));
-    focusPoints.append(new focusPoint(20, 3250, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(21, 3250, 1472, &lvSnapshot));
-    focusPoints.append(new focusPoint(22, 3250, 1280, &lvSnapshot));
-    focusPoints.append(new focusPoint(23, 3250, 1856, &lvSnapshot));
-    focusPoints.append(new focusPoint(24, 3250, 2048, &lvSnapshot));
-    focusPoints.append(new focusPoint(25, 3505, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(26, 3505, 1472, &lvSnapshot));
-    focusPoints.append(new focusPoint(27, 3505, 1280, &lvSnapshot));
-    focusPoints.append(new focusPoint(28, 3505, 1856, &lvSnapshot));
-    focusPoints.append(new focusPoint(29, 3505, 2048, &lvSnapshot));
-    focusPoints.append(new focusPoint(30, 3760, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(31, 3760, 1472, &lvSnapshot));
-    focusPoints.append(new focusPoint(32, 3760, 1856, &lvSnapshot));
-    focusPoints.append(new focusPoint(33, 1975, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(34, 1975, 1472, &lvSnapshot));
-    focusPoints.append(new focusPoint(35, 1975, 1280, &lvSnapshot));
-    focusPoints.append(new focusPoint(36, 1975, 1856, &lvSnapshot));
-    focusPoints.append(new focusPoint(37, 1975, 2048, &lvSnapshot));
-    focusPoints.append(new focusPoint(38, 1720, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(39, 1720, 1472, &lvSnapshot));
-    focusPoints.append(new focusPoint(40, 1720, 1280, &lvSnapshot));
-    focusPoints.append(new focusPoint(41, 1720, 1856, &lvSnapshot));
-    focusPoints.append(new focusPoint(42, 1720, 2048, &lvSnapshot));
-    focusPoints.append(new focusPoint(43, 1465, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(44, 1465, 1472, &lvSnapshot));
-    focusPoints.append(new focusPoint(45, 1465, 1280, &lvSnapshot));
-    focusPoints.append(new focusPoint(46, 1465, 1856, &lvSnapshot));
-    focusPoints.append(new focusPoint(47, 1465, 2048, &lvSnapshot));
-    focusPoints.append(new focusPoint(48, 1210, 1665, &lvSnapshot));
-    focusPoints.append(new focusPoint(49, 1210, 1472, &lvSnapshot));
-    focusPoints.append(new focusPoint(50, 1210, 1856, &lvSnapshot));
+    focusPoints.append(new focusPoint(0, 2487, 1665, fpPlot));
+    focusPoints.append(new focusPoint(1, 2487, 1408, fpPlot));
+    focusPoints.append(new focusPoint(2, 2487, 1152, fpPlot));
+    focusPoints.append(new focusPoint(3, 2487, 1921, fpPlot));
+    focusPoints.append(new focusPoint(4, 2487, 2177, fpPlot));
+    focusPoints.append(new focusPoint(5, 2743, 1665, fpPlot));
+    focusPoints.append(new focusPoint(6, 2743, 1408, fpPlot));
+    focusPoints.append(new focusPoint(7, 2743, 1152, fpPlot));
+    focusPoints.append(new focusPoint(8, 2743, 1921, fpPlot));
+    focusPoints.append(new focusPoint(9, 2743, 2177, fpPlot));
+    focusPoints.append(new focusPoint(10, 2230, 1665, fpPlot));
+    focusPoints.append(new focusPoint(11, 2230, 1408, fpPlot));
+    focusPoints.append(new focusPoint(12, 2230, 1152, fpPlot));
+    focusPoints.append(new focusPoint(13, 2230, 1921, fpPlot));
+    focusPoints.append(new focusPoint(14, 2230, 2177, fpPlot));
+    focusPoints.append(new focusPoint(15, 2995, 1665, fpPlot));
+    focusPoints.append(new focusPoint(16, 2995, 1472, fpPlot));
+    focusPoints.append(new focusPoint(17, 2995, 1280, fpPlot));
+    focusPoints.append(new focusPoint(18, 2995, 1856, fpPlot));
+    focusPoints.append(new focusPoint(19, 2995, 2048, fpPlot));
+    focusPoints.append(new focusPoint(20, 3250, 1665, fpPlot));
+    focusPoints.append(new focusPoint(21, 3250, 1472, fpPlot));
+    focusPoints.append(new focusPoint(22, 3250, 1280, fpPlot));
+    focusPoints.append(new focusPoint(23, 3250, 1856, fpPlot));
+    focusPoints.append(new focusPoint(24, 3250, 2048, fpPlot));
+    focusPoints.append(new focusPoint(25, 3505, 1665, fpPlot));
+    focusPoints.append(new focusPoint(26, 3505, 1472, fpPlot));
+    focusPoints.append(new focusPoint(27, 3505, 1280, fpPlot));
+    focusPoints.append(new focusPoint(28, 3505, 1856, fpPlot));
+    focusPoints.append(new focusPoint(29, 3505, 2048, fpPlot));
+    focusPoints.append(new focusPoint(30, 3760, 1665, fpPlot));
+    focusPoints.append(new focusPoint(31, 3760, 1472, fpPlot));
+    focusPoints.append(new focusPoint(32, 3760, 1856, fpPlot));
+    focusPoints.append(new focusPoint(33, 1975, 1665, fpPlot));
+    focusPoints.append(new focusPoint(34, 1975, 1472, fpPlot));
+    focusPoints.append(new focusPoint(35, 1975, 1280, fpPlot));
+    focusPoints.append(new focusPoint(36, 1975, 1856, fpPlot));
+    focusPoints.append(new focusPoint(37, 1975, 2048, fpPlot));
+    focusPoints.append(new focusPoint(38, 1720, 1665, fpPlot));
+    focusPoints.append(new focusPoint(39, 1720, 1472, fpPlot));
+    focusPoints.append(new focusPoint(40, 1720, 1280, fpPlot));
+    focusPoints.append(new focusPoint(41, 1720, 1856, fpPlot));
+    focusPoints.append(new focusPoint(42, 1720, 2048, fpPlot));
+    focusPoints.append(new focusPoint(43, 1465, 1665, fpPlot));
+    focusPoints.append(new focusPoint(44, 1465, 1472, fpPlot));
+    focusPoints.append(new focusPoint(45, 1465, 1280, fpPlot));
+    focusPoints.append(new focusPoint(46, 1465, 1856, fpPlot));
+    focusPoints.append(new focusPoint(47, 1465, 2048, fpPlot));
+    focusPoints.append(new focusPoint(48, 1210, 1665, fpPlot));
+    focusPoints.append(new focusPoint(49, 1210, 1472, fpPlot));
+    focusPoints.append(new focusPoint(50, 1210, 1856, fpPlot));
 }
 
 QList<focusPoint *> controlGraph::getFocusPoints(void) {
@@ -134,6 +140,7 @@ bool controlGraph::viewportEvent(QEvent *event)
     }
 
     case QEvent::TouchUpdate: {
+        if(touchEvent->touchPoints().size() < 2)return(true);
         qDebug() << "touch TouchUpdate";
         const QTouchEvent::TouchPoint &touchPoint0 = touchEvent->touchPoints().first();
 
@@ -242,12 +249,16 @@ void controlGraph::_onTiltPositionChanged(int value){
 }
 
 void controlGraph::setPanPosition(int value){
-    qreal linePoint = (qreal) (value -  rangeMinPan) * (qreal)scene.width() / visibleRangePan;
+    if(visibleRangePan == 0)return;
+
+    int linePoint = (qreal) (value -  rangeMinPan) * (qreal)scene.width() / visibleRangePan;
     linePan->setLine(linePoint, 0, linePoint, scene.height() );
 }
 
 void controlGraph::setTiltPosition(int value){
-    qreal linePoint = (qreal) (value - rangeMinTilt) * (qreal)scene.height() / visibleRangeTilt;
+    if(visibleRangeTilt == 0)return;
+
+    int linePoint = (qreal) (value - rangeMinTilt) * (qreal)scene.height() / visibleRangeTilt;
     lineTilt->setLine(0, scene.height()-linePoint, scene.width(), scene.height()-linePoint );
 }
 

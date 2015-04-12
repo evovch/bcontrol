@@ -1,5 +1,7 @@
 #include "bclient.h"
 #include <QDebug>
+#include <QDialog>
+#include <QHeaderView>
 
 bClient::bClient(QObject *parent) :
     QObject(parent)
@@ -148,14 +150,14 @@ bClient::bClient(QObject *parent) :
     QObject::connect(socket, SIGNAL(bConnected()), this, SLOT(_onConnected()));
     QObject::connect(socket, SIGNAL(bDisconnected()), this, SLOT(_onDisconnected()));
 
-    ui->fpTableView->horizontalHeader()->setResizeMode(0, QHeaderView::Fixed);
+    ui->fpTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
     ui->fpTableView->horizontalHeader()->resizeSection(0, 50);
-    ui->fpTableView->horizontalHeader()->setResizeMode(1, QHeaderView::Stretch);
-    ui->fpTableView->horizontalHeader()->setResizeMode(2, QHeaderView::Fixed);
-    ui->fpTableView->horizontalHeader()->setResizeMode(3, QHeaderView::Fixed);
+    ui->fpTableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->fpTableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+    ui->fpTableView->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
     ui->fpTableView->horizontalHeader()->resizeSection(2, 25);
     ui->fpTableView->horizontalHeader()->resizeSection(3, 25);
-    ui->fpTableView->horizontalHeader()->setResizeMode(4, QHeaderView::Fixed);
+    ui->fpTableView->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
     ui->fpTableView->horizontalHeader()->resizeSection(4, 0);
 
 /*
@@ -229,6 +231,10 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->setNullButton, SIGNAL(pressed()), this, SLOT(_onSetNullButtonPressed()));
     QObject::connect(ui->setCenterZFButton, SIGNAL(pressed()), this, SLOT(_onSetCenterZFButtonPressed()));
     QObject::connect(ui->setNullZFButton, SIGNAL(pressed()), this, SLOT(_onSetNullZFButtonPressed()));
+
+
+    ui->fixedPointNameInput->hide();
+    QObject::connect(ui->fixedPointNameInput, SIGNAL(returnPressed()), this, SLOT(_onFixedPointInputReturnPressed()));
 
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
@@ -314,6 +320,19 @@ void bClient::_onFixedPointButtonPressed(void) {
     qDebug() << "fixPoint pressed!";
 
     fixedPoint fp;
+
+    ui->fixedPointNameInput->show();
+    ui->fixedPointNameInput->setFocus();
+}
+
+void bClient::_onFixedPointInputReturnPressed(void) {
+    qDebug() << "fixPoint sent!";
+
+    fixedPoint fp;
+    fp.name = ui->fixedPointNameInput->text();
+
+     ui->fixedPointNameInput->clear();
+    ui->fixedPointNameInput->hide();
 
     sendFixedPoint(0, fp);
 }

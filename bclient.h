@@ -162,6 +162,8 @@ public slots:
     void _onSetCenterZFButtonPressed(void);
     void _onSetNullZFButtonPressed(void);
 
+    void _onFixedPointInputReturnPressed(void);
+
     void _onReconnectButtonPressed();
 };
 
