@@ -130,6 +130,9 @@ public slots:
 
     void _onCamRefreshButtonPressed();
 
+    void _onCamUsbOnButtonPressed(void);
+    void _onCamUsbOffButtonPressed(void);
+
     void _onFlipPanButtonPressed(void);
     void _onFlipTiltButtonPressed(void);
 

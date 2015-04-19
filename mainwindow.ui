@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="fhead" name="fheadTab">
      <property name="font">
@@ -42,6 +42,9 @@
     <widget class="camera" name="camTab">
      <property name="enabled">
       <bool>true</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
      </property>
      <attribute name="title">
       <string>Camera</string>

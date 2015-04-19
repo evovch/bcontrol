@@ -175,6 +175,8 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_cam->camExpSendButton, SIGNAL(pressed()), this, SLOT(_onCamExpSendButtonPressed()));
     QObject::connect(ui_cam->camAfSendButton, SIGNAL(pressed()), this, SLOT(_onCamAfSendButtonPressed()));
     QObject::connect(ui_cam->camRefreshButton, SIGNAL(pressed()), this, SLOT(_onCamRefreshButtonPressed()));
+    QObject::connect(ui_cam->camUsbOnButton, SIGNAL(pressed()), this, SLOT(_onCamUsbOnButtonPressed()));
+    QObject::connect(ui_cam->camUsbOffButton, SIGNAL(pressed()), this, SLOT(_onCamUsbOffButtonPressed()));
 
     QObject::connect(ui->panControl, SIGNAL(speedChanged(int)), this, SLOT(_onPanSpeedChanged(int)));
     QObject::connect(ui->panControl, SIGNAL(positionChanged(int)), this, SLOT(_onPanPositionChanged(int)));
@@ -644,6 +646,13 @@ void bClient::_onCamRefreshButtonPressed() {
     socket->send("cam", "refresh", "");
 }
 
+void bClient::_onCamUsbOnButtonPressed() {
+    socket->send("cam", "usb_power", "1");
+}
+
+void bClient::_onCamUsbOffButtonPressed() {
+    socket->send("cam", "usb_power", "2");
+}
 
 void bClient::_onDataReceived(QString dev, QString key, QString value, QStringList params) {
     if(dev=="motor_pan" && key=="status_position") {
@@ -763,6 +772,11 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         if(key=="current_exp")ui_cam->camExpLabel->setText(value);
 
         if(key=="lightmeter")ui_cam->camLightmeterLabel->setText(value);
+
+        if(key=="usb_power") {
+            if(value=="1")ui_cam->camUsbLabel->setText("on");
+            if(value=="0")ui_cam->camUsbLabel->setText("off");
+        }
 
         if(key=="autofocusarea")cg->hightlightFocusPoint(value.toInt());
     }

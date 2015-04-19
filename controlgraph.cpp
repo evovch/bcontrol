@@ -145,7 +145,7 @@ bool controlGraph::viewportEvent(QEvent *event)
         const QTouchEvent::TouchPoint &touchPoint0 = touchEvent->touchPoints().first();
 
         int s = 2;
-        if(touchEvent->touchPoints().size()==3)s = 10;
+        if(touchEvent->touchPoints().size() == 3)s = 10;
 
         float deltaX = touchPoint0.normalizedPos().x() - touchPoint0.startNormalizedPos().x();
         float deltaY = touchPoint0.normalizedPos().y() - touchPoint0.startNormalizedPos().y();

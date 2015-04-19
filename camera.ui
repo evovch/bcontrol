@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>145</x>
-     <y>185</y>
+     <y>187</y>
      <width>81</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="font">
@@ -84,9 +84,9 @@
    <property name="geometry">
     <rect>
      <x>145</x>
-     <y>105</y>
+     <y>107</y>
      <width>81</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
@@ -97,9 +97,9 @@
    <property name="geometry">
     <rect>
      <x>145</x>
-     <y>225</y>
+     <y>227</y>
      <width>81</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
@@ -120,9 +120,9 @@
    <property name="geometry">
     <rect>
      <x>145</x>
-     <y>65</y>
+     <y>67</y>
      <width>81</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
@@ -130,9 +130,9 @@
    <property name="geometry">
     <rect>
      <x>145</x>
-     <y>25</y>
+     <y>27</y>
      <width>81</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
@@ -140,9 +140,9 @@
    <property name="geometry">
     <rect>
      <x>145</x>
-     <y>145</y>
+     <y>147</y>
      <width>81</width>
-     <height>31</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
@@ -165,7 +165,7 @@
      <x>230</x>
      <y>25</y>
      <width>71</width>
-     <height>36</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -178,7 +178,7 @@
      <x>230</x>
      <y>65</y>
      <width>71</width>
-     <height>36</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -191,7 +191,7 @@
      <x>230</x>
      <y>105</y>
      <width>71</width>
-     <height>36</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -204,7 +204,7 @@
      <x>230</x>
      <y>145</y>
      <width>71</width>
-     <height>36</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -217,7 +217,7 @@
      <x>230</x>
      <y>185</y>
      <width>71</width>
-     <height>36</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -225,12 +225,15 @@
    </property>
   </widget>
   <widget class="QPushButton" name="camDSendButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>230</x>
      <y>225</y>
      <width>71</width>
-     <height>36</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -333,12 +336,12 @@
     <rect>
      <x>85</x>
      <y>285</y>
-     <width>51</width>
+     <width>60</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>unknown</string>
    </property>
   </widget>
   <widget class="QPushButton" name="camRefreshButton">
@@ -352,6 +355,58 @@
    </property>
    <property name="text">
     <string>Refresh</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>43</x>
+     <y>305</y>
+     <width>36</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>USB:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="camUsbLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>305</y>
+     <width>60</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>unknown</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="camUsbOnButton">
+   <property name="geometry">
+    <rect>
+     <x>145</x>
+     <y>302</y>
+     <width>51</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>On</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="camUsbOffButton">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>302</y>
+     <width>51</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Off</string>
    </property>
   </widget>
  </widget>
