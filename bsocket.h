@@ -9,7 +9,7 @@ class bSocket : public QTcpSocket
     Q_OBJECT
 
 private:
-    QString hostAddr = "192.168.1.100";
+    QString hostAddr = "192.168.1.101";
 
 public:
     void send(QString dev, QString key, QString value, QStringList params = QStringList::QStringList());

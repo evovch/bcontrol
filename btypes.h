@@ -26,6 +26,12 @@ typedef struct {
     int rangeMinSlider;
     int rangeMaxSlider;
 
+    int powerStatusPan;
+    int powerStatusTilt;
+    int powerStatusFocus;
+    int powerStatusZoom;
+    int powerStatusSlider;
+
 } motorsInfo;
 
 #endif // BTYPES_H

@@ -13,6 +13,14 @@ TARGET = bjoy
 CONFIG   += console
 #CONFIG   -= app_bundle
 
+release: DESTDIR = ../bjoy-build-release
+debug:   DESTDIR = ../bjoy-build-debug
+
+OBJECTS_DIR = $$DESTDIR/.obj
+MOC_DIR = $$DESTDIR/.moc
+RCC_DIR = $$DESTDIR/.qrc
+UI_DIR = $$DESTDIR/.ui
+
 CONFIG += c++11
 
 QMAKE_CXXFLAGS += -fpermissive -I/usr/include -I/opt/libjpeg-turbo/include

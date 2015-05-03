@@ -17,6 +17,7 @@ public:
 
     void init(QString ms);
     void setPosition(int pos);
+    void setPowerControl(bool state);
 
 private:
     Ui::motorWidget *ui;
@@ -28,6 +29,7 @@ signals:
     void doSetCenter(QString);
     void doSetLimit(QString);
     void doResetLimit(QString);
+    void doPower(QString);
 
 public slots:
     void _onSeekPressed(void);
@@ -35,6 +37,7 @@ public slots:
     void _onCenterPressed(void);
     void _onLimitPressed(void);
     void _onResetPressed(void);
+    void _onPowerPressed(void);
 };
 
 

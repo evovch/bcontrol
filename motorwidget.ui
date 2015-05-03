@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>490</width>
+    <width>600</width>
     <height>30</height>
    </rect>
   </property>
@@ -102,6 +102,19 @@
    </property>
    <property name="text">
     <string>Set NULL</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="powerControl">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>0</y>
+     <width>101</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Power: on</string>
    </property>
   </widget>
  </widget>

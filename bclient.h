@@ -158,6 +158,7 @@ public slots:
     void _onDoSetCenter(QString name);
     void _onDoSetLimit(QString name);
     void _onDoResetLimit(QString name);
+    void _onDoPower(QString name);
 
     void _onFlipZoomButtonPressed(void);
     void _onFlipFocusButtonPressed(void);

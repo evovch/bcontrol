@@ -140,7 +140,10 @@ bool controlGraph::viewportEvent(QEvent *event)
     }
 
     case QEvent::TouchUpdate: {
-        if(touchEvent->touchPoints().size() < 2)return(true);
+        if(touchEvent->touchPoints().size() < 2) {
+//            emit touchMove(0, 0);
+            return(true);
+        }
         qDebug() << "touch TouchUpdate";
         const QTouchEvent::TouchPoint &touchPoint0 = touchEvent->touchPoints().first();
 
@@ -156,6 +159,12 @@ bool controlGraph::viewportEvent(QEvent *event)
         return true;
     }
     case QEvent::TouchEnd:
+    {
+        emit touchMove(0, 0);
+
+        return true;
+    }
+    case QEvent::TouchCancel:
     {
         emit touchMove(0, 0);
 

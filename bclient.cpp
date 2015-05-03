@@ -45,6 +45,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_lw->panLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
     QObject::connect(ui_lw->panLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
     QObject::connect(ui_lw->panLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+    QObject::connect(ui_lw->panLimits, SIGNAL(doPower(QString)), this, SLOT(_onDoPower(QString)));
 
     ui_lw->tiltLimits->init("tilt");
     QObject::connect(ui_lw->tiltLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
@@ -52,6 +53,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_lw->tiltLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
     QObject::connect(ui_lw->tiltLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
     QObject::connect(ui_lw->tiltLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+    QObject::connect(ui_lw->tiltLimits, SIGNAL(doPower(QString)), this, SLOT(_onDoPower(QString)));
 
     ui_lw->zoomLimits->init("zoom");
     QObject::connect(ui_lw->zoomLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
@@ -59,6 +61,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_lw->zoomLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
     QObject::connect(ui_lw->zoomLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
     QObject::connect(ui_lw->zoomLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+    QObject::connect(ui_lw->zoomLimits, SIGNAL(doPower(QString)), this, SLOT(_onDoPower(QString)));
 
     ui_lw->focusLimits->init("focus");
     QObject::connect(ui_lw->focusLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
@@ -66,6 +69,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_lw->focusLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
     QObject::connect(ui_lw->focusLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
     QObject::connect(ui_lw->focusLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+    QObject::connect(ui_lw->focusLimits, SIGNAL(doPower(QString)), this, SLOT(_onDoPower(QString)));
 
     ui_lw->sliderLimits->init("slider");
     QObject::connect(ui_lw->sliderLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
@@ -73,6 +77,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_lw->sliderLimits, SIGNAL(doSetCenter(QString)), this, SLOT(_onDoSetCenter(QString)));
     QObject::connect(ui_lw->sliderLimits, SIGNAL(doSetLimit(QString)), this, SLOT(_onDoSetLimit(QString)));
     QObject::connect(ui_lw->sliderLimits, SIGNAL(doResetLimit(QString)), this, SLOT(_onDoResetLimit(QString)));
+    QObject::connect(ui_lw->sliderLimits, SIGNAL(doPower(QString)), this, SLOT(_onDoPower(QString)));
 
     QObject::connect(ui->popupLimitsBitton, SIGNAL(pressed()), this, SLOT(_onPopupLimitsButtonPressed()));
 
@@ -291,6 +296,13 @@ void bClient::_onDoResetLimit(QString name) {
 
     socket->send("motor_" + name, "reset_limit", "");
 }
+
+void bClient::_onDoPower(QString name) {
+    qDebug() << "toggle power for -" + name + "- pressed";
+
+    socket->send("motor_" + name, "toggle_power", "");
+}
+
 
 void bClient::_onPopupLimitsButtonPressed() {
      qDebug() << "limits window point pressed!";
@@ -655,27 +667,37 @@ void bClient::_onCamUsbOffButtonPressed() {
 }
 
 void bClient::_onDataReceived(QString dev, QString key, QString value, QStringList params) {
-    if(dev=="motor_pan" && key=="status_position") {
-        ui->panControl->setPosition(value.toInt());
-        ui_lw->panLimits->setPosition(value.toInt());
-        cg->setPanPosition(value.toInt());
+    if(dev=="motor_pan") {
+        if(key=="status_position") {
+            ui->panControl->setPosition(value.toInt());
+            ui_lw->panLimits->setPosition(value.toInt());
+            cg->setPanPosition(value.toInt());
+         }
     }
-    if(dev=="motor_tilt" && key=="status_position") {
-        ui->tiltControl->setPosition(value.toInt());
-        ui_lw->tiltLimits->setPosition(value.toInt());
-        cg->setTiltPosition(value.toInt());
+    if(dev=="motor_tilt") {
+        if(key=="status_position") {
+            ui->tiltControl->setPosition(value.toInt());
+            ui_lw->tiltLimits->setPosition(value.toInt());
+            cg->setTiltPosition(value.toInt());
+        }
     }
-    if(dev=="motor_zoom" && key=="status_position") {
-        ui_lw->zoomLimits->setPosition(value.toInt());
-        ui->zoomControl->setPosition(value.toInt());
+    if(dev=="motor_zoom") {
+        if(key=="status_position") {
+            ui_lw->zoomLimits->setPosition(value.toInt());
+            ui->zoomControl->setPosition(value.toInt());
+        }
     }
-    if(dev=="motor_focus" && key=="status_position") {
-        ui_lw->focusLimits->setPosition(value.toInt());
-        ui->focusControl->setPosition(value.toInt());
+    if(dev=="motor_focus") {
+        if(key=="status_position") {
+            ui_lw->focusLimits->setPosition(value.toInt());
+            ui->focusControl->setPosition(value.toInt());
+        }
     }
-    if(dev=="motor_slider" && key=="status_position") {
-        ui_lw->sliderLimits->setPosition(value.toInt());
-        ui->sliderControl->setPosition(value.toInt());
+    if(dev=="motor_slider") {
+        if(key=="status_position") {
+            ui_lw->sliderLimits->setPosition(value.toInt());
+            ui->sliderControl->setPosition(value.toInt());
+        }
     }
 
     if(dev=="fixed_point" && key=="get") {
@@ -731,6 +753,25 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         mInfo.rangeMaxFocus = params[7].toInt();
         mInfo.rangeMinSlider = params[8].toInt();
         mInfo.rangeMaxSlider = params[9].toInt();
+
+        if(params.size() > 11) {
+            mInfo.powerStatusPan = params[10].toInt();
+            mInfo.powerStatusTilt = params[11].toInt();
+            mInfo.powerStatusFocus = params[12].toInt();
+            mInfo.powerStatusZoom = params[13].toInt();
+            mInfo.powerStatusSlider = params[14].toInt();
+        }
+
+        if(mInfo.powerStatusPan == 1)ui_lw->panLimits->setPowerControl(false);
+        else ui_lw->panLimits->setPowerControl(true);
+        if(mInfo.powerStatusTilt == 1)ui_lw->tiltLimits->setPowerControl(false);
+        else ui_lw->tiltLimits->setPowerControl(true);
+        if(mInfo.powerStatusZoom == 1)ui_lw->zoomLimits->setPowerControl(false);
+        else ui_lw->zoomLimits->setPowerControl(true);
+        if(mInfo.powerStatusFocus == 1)ui_lw->focusLimits->setPowerControl(false);
+        else ui_lw->focusLimits->setPowerControl(true);
+        if(mInfo.powerStatusSlider == 1)ui_lw->sliderLimits->setPowerControl(false);
+        else ui_lw->sliderLimits->setPowerControl(true);
 
         cg->setRange(mInfo.rangeMinPan, mInfo.rangeMaxPan, mInfo.rangeMinTilt, mInfo.rangeMaxTilt);
         ui->panControl->setMinPosition(mInfo.rangeMinPan);

@@ -13,6 +13,7 @@ motorWidget::motorWidget(QWidget *parent) :
     connect(ui->centerControl, SIGNAL(pressed()), this, SLOT(_onCenterPressed()));
     connect(ui->limitControl, SIGNAL(pressed()), this, SLOT(_onLimitPressed()));
     connect(ui->resetControl, SIGNAL(pressed()), this, SLOT(_onResetPressed()));
+    connect(ui->powerControl, SIGNAL(pressed()), this, SLOT(_onPowerPressed()));
 }
 
 void motorWidget::init(QString ms) {
@@ -22,6 +23,15 @@ void motorWidget::init(QString ms) {
 
 void motorWidget::setPosition(int pos) {
     if(!ui->positionControl->hasFocus())ui->positionControl->setValue(pos);
+}
+
+void motorWidget::setPowerControl(bool state) {
+    if(state)ui->powerControl->setText("Power: on");
+    else ui->powerControl->setText("Power: off");
+}
+
+void motorWidget::_onPowerPressed(void) {
+   emit doPower(motorSuffix);
 }
 
 void motorWidget::_onSeekPressed(void) {
