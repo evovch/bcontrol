@@ -15,14 +15,19 @@ private:
     int realRangeY = 40;
     int realRangeZ = 40;
 
+    uint maxValue;
+    uint maxNormalizedValue;
+    bool reverse;
+
     int lastX = 0, lastY = 0, lastZ = 0;
 
-    const int adcNoiseThreshold = 60;
+    const int adcNoiseThreshold = 30;
 
     int readAdcValue(QString sid);
+    int normalizeValue(int val);
 
 public:
-    poller();
+   poller(uint mv);
 
 signals:
     void valueChangedX(int value);

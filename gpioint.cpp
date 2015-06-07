@@ -18,7 +18,17 @@ gpioInt::gpioInt(unsigned int gpio, QObject *parent) :
     QThread(parent)
 {
     gpioNum = gpio;
+    gpio_export(gpio);
 }
+
+void gpioInt::setOutput(void) {
+    gpio_set_dir(gpioNum, 1);
+}
+
+void gpioInt::setValue(unsigned int value) {
+    gpio_set_value(gpioNum, value);
+}
+
 
 void gpioInt::run(void) {
     pollingLoop(gpioNum);
@@ -32,7 +42,6 @@ void gpioInt::pollingLoop(unsigned int gpio)
 
     int len;
 
-    gpio_export(gpio);
     gpio_set_dir(gpio, 0);
     gpio_set_edge(gpio, "both");
 
@@ -66,10 +75,10 @@ void gpioInt::pollingLoop(unsigned int gpio)
 
 //            printf("\npoll() GPIO %d interrupt occurred\n", gpio);
 
-            if(v == 1)emit gpioEdge(gpio, true);
-            else emit gpioEdge(gpio, false);
+            if(v == 1)emit gpioEdge(gpio, false);
+            else emit gpioEdge(gpio, true);
 
-            Sleeper::msleep(500);
+            Sleeper::msleep(100);
         }
 
     }
@@ -199,7 +208,6 @@ int gpioInt::gpio_get_value(unsigned int gpio, unsigned int *value)
     close(fd);
     return 0;
 }
-
 
 /****************************************************************
  * gpio_set_edge

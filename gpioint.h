@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QThread>
+#include <string>
 
 class gpioInt : public QThread
 {
@@ -10,6 +11,7 @@ class gpioInt : public QThread
 
 private:
     void pollingLoop(unsigned int gpio);
+    void pollingLoopEqep(unsigned int eqep);
     unsigned int gpioNum;
 
 protected:
@@ -17,6 +19,8 @@ protected:
 
 public:
     explicit gpioInt(unsigned int gpio, QObject *parent = 0);
+    void setOutput(void);
+    void setValue(unsigned int value);
 
     static int gpio_export(unsigned int gpio);
     static int gpio_unexport(unsigned int gpio);
@@ -26,6 +30,10 @@ public:
     static int gpio_set_edge(unsigned int gpio, char *edge);
     static int gpio_fd_open(unsigned int gpio);
     static int gpio_fd_close(int fd);
+    static int eqep_get_value(std::string eqep_filename, unsigned int *value);
+    static int eqep_fd_open(std::string eqep_filename);
+
+
 
 signals:
      void gpioEdge(unsigned int, bool);

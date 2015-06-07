@@ -38,7 +38,8 @@ HEADERS += bsocket.h \
     focuspoint.h \
     btypes.h \
     liveviewsocket.h \
-    fastpixmapitem.h
+    fastpixmapitem.h \
+    eqepint.h
 
 SOURCES += bjoy.cpp \
     bjoycontrol.cpp \
@@ -50,7 +51,8 @@ SOURCES += bjoy.cpp \
     mainbox.cpp \
     focuspoint.cpp \
     liveviewsocket.cpp \
-    fastpixmapitem.cpp
+    fastpixmapitem.cpp \
+    eqepint.cpp
 
 FORMS += \
     mainbox.ui

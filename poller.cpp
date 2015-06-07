@@ -4,48 +4,56 @@
 #include <QString>
 #include <QDebug>
 
-poller::poller()
+poller::poller(uint mv)
 {
     //trim non-simetric (bigger) part of range
-    centerX = readAdcValue("0");
+    centerX = readAdcValue("6");
     rangeX = centerX * 2;
-    centerY = readAdcValue("1");
+    centerY = readAdcValue("0");
     rangeY = centerY * 2;
     centerZ = readAdcValue("2");
     rangeZ = centerZ * 2;
 
+    maxValue = mv;
+    maxNormalizedValue = 100;
+
     QTimer *pollTimer = new QTimer(this);
     connect(pollTimer, SIGNAL(timeout()), this, SLOT(_onPollTimer()));
-    pollTimer->start(100);
+    pollTimer->start(30);
+}
+
+int poller::normalizeValue(int val) {
+    int res = val * (double)(maxNormalizedValue / maxValue);
+    if((res > 0) && (res > maxNormalizedValue))res=maxNormalizedValue;
+    else if ((res < 0) && (res < -1*maxNormalizedValue))res=-1*maxNormalizedValue;
+
+    return res;
 }
 
 void poller::_onPollTimer(void) {
-    int x = readAdcValue("0");
+    int x = readAdcValue("6");
     if(abs(x-lastX) > adcNoiseThreshold) {
         lastX = x;
-        x = (x - rangeX/2) * (double)((double)realRangeX/rangeX);
+        x = normalizeValue((x - rangeX/2) * (double)((double)realRangeX/rangeX));
         qDebug() << "got x:" << x;
-        emit valueChangedX(x);
+        emit valueChangedX(-1*x);
     }
 
-    int y = readAdcValue("1");
+    int y = readAdcValue("0");
     if(abs(y-lastY) > adcNoiseThreshold) {
         lastY = y;
-        y = (y - rangeY/2) * (double)((double)realRangeY/rangeY);
+        y = normalizeValue((y - rangeY/2) * (double)((double)realRangeY/rangeY));
         qDebug() << "got y:" << y;
-        emit valueChangedY(y);
+        emit valueChangedY(-1*y);
     }
 
     int z = readAdcValue("2");
     if(abs(z-lastZ) > adcNoiseThreshold) {
         lastZ = z;
-        z = (z - rangeZ/2) * (double)((double)realRangeZ/rangeZ);
+        z = normalizeValue((z - rangeZ/2) * (double)((double)realRangeZ/rangeZ));
         qDebug() << "got z:" << z;
         emit valueChangedZ(z);
     }
-
-//    int y = readAdcValue(1);
-//    int z = readAdcValue(2);
 }
 
 int poller::readAdcValue(QString sid) {

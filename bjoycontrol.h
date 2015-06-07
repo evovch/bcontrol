@@ -6,6 +6,7 @@
 #include "controlgraph.h"
 #include "liveviewsocket.h"
 #include "btypes.h"
+#include "gpioint.h"
 
 class bJoyControl : public QObject
 {
@@ -17,6 +18,8 @@ private:
     controlGraph *cg;
     liveViewSocket *socketLv;
 
+    gpioInt *led2Gpio, *led3Gpio;
+
 //    bFixedPointModel *fpModel;
 //    QSortFilterProxyModel *fpProxyModel;
 
@@ -24,6 +27,8 @@ private:
     QString currentFixedPointId;
 
     motorsInfo mInfo;
+
+    QTimer *cWatchTimer;
 
 public:
     explicit bJoyControl(QObject *parent = 0);
@@ -46,6 +51,12 @@ public slots:
     void _onDataReceived(QString dev, QString key, QString value, QStringList params);
     
     void _onGpioEdge(unsigned int gpioNum, bool level);
+
+    void _onConnected(void);
+    void _onDisonnected(void);
+
+    void _onAfChanged(bool s);
+    void _onSrChanged(bool s);
 };
 
 #endif // BJOYCONTROL_H

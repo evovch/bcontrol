@@ -1,6 +1,7 @@
 #include "bjoycontrol.h"
 #include "mainBox.h"
 #include <QDebug>
+#include <QTimer>
 
 bJoyControl::bJoyControl(QObject *parent) :
     QObject(parent)
@@ -21,27 +22,44 @@ bJoyControl::bJoyControl(QObject *parent) :
     socket = new bSocket();
     socket->reconnect();
 
+    led2Gpio = new gpioInt(66);
+    led3Gpio = new gpioInt(67);
+    led2Gpio->setOutput();
+    led3Gpio->setOutput();
+    led2Gpio->setValue(1);
+    led3Gpio->setValue(0);
+
+    QObject::connect(socket, SIGNAL(bConnected()), this, SLOT(_onConnected()));
+    QObject::connect(socket, SIGNAL(bDisonnected()), this, SLOT(_onDisonnected()));
+
     QObject::connect(socket, SIGNAL(dataReceived(QString,QString,QString,QStringList)), this, SLOT(_onDataReceived(QString,QString,QString,QStringList)));
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), cg, SLOT(_onFixedPointsUpdated()));
+
+    cWatchTimer = new QTimer(this);
+    connect(cWatchTimer, SIGNAL(timeout()), socket, SLOT(_onCWatchTimer()));
+    connect(cWatchTimer, SIGNAL(timeout()), socketLv, SLOT(_onCWatchTimer()));
+    cWatchTimer->start(1000);
 }
 
 void bJoyControl::_onSpeedChangedX(int val) {
-    socket->send("motor_pan", "set_speed", QString::number(val * 5));
+    socket->send("motor_pan", "set_speed", QString::number(val));
     qDebug() << "new Pan speed by bJoy: " << val;
 }
 
 void bJoyControl::_onSpeedChangedY(int val) {
-    socket->send("motor_tilt", "set_speed", QString::number(val * 5));
+    socket->send("motor_tilt", "set_speed", QString::number(val));
     qDebug() << "new Tilt speed by bJoy: " << val;
 }
 
 void bJoyControl::_onSpeedChangedZ(int val) {
-    socket->send("motor_ziim", "set_speed", QString::number(val * 5));
+    socket->send("motor_ziim", "set_speed", QString::number(val));
     qDebug() << "new Zoom speed by bJoy: " << val;
 }
 
 void bJoyControl::_onGpioEdge(unsigned int gpioNum, bool level) {
     if(gpioNum == 67 && level == false)socket->send("live_view", "toggle", 0);
+    else if(gpioNum == 2)_onSrChanged(level);
+    else if(gpioNum == 4)_onAfChanged(level);
 
     qDebug() << "gpioNum: " << gpioNum << "=" << level;
 }
@@ -126,4 +144,26 @@ void bJoyControl::clearFixedPoints(void) {
 
 void bJoyControl::refreshFixedPoints(void) {
     emit fixedPointsUpdated();
+}
+
+void bJoyControl::_onConnected(void) {
+    led3Gpio->setValue(1);
+}
+
+void bJoyControl::_onDisonnected(void) {
+    led3Gpio->setValue(0);
+}
+
+void bJoyControl::_onAfChanged(bool s) {
+    if(s==true)socket->send("cam", "af_trigger", "1");
+    else socket->send("cam", "af_trigger", "0");
+
+    qDebug() << "sending AF: " << s;
+}
+
+void bJoyControl::_onSrChanged(bool s) {
+    if(s==true)socket->send("cam", "sr_trigger", "1");
+    else socket->send("cam", "sr_trigger", "0");
+
+    qDebug() << "sending SR: " << s;
 }
