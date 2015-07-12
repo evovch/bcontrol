@@ -29,6 +29,7 @@ private:
     motorsInfo mInfo;
 
     QTimer *cWatchTimer;
+    bool fpMemoryOnStatus;
 
 public:
     explicit bJoyControl(QObject *parent = 0);
@@ -57,6 +58,18 @@ public slots:
 
     void _onAfChanged(bool s);
     void _onSrChanged(bool s);
+
+    void _onZoomInChanged(bool s);
+    void _onZoomOutChanged(bool s);
+
+    void _onFixedPointButtonPressed(int buttonNum);
+
+    void _onPanResetButtonPressed();
+    void _onTiltResetButtonPressed();
+    void _onPanNullButtonPressed();
+    void _onTiltNullButtonPressed();
+    void _onPanLimitButtonPressed();
+    void _onTiltLimitButtonPressed();
 };
 
 #endif // BJOYCONTROL_H

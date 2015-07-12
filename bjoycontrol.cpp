@@ -3,9 +3,36 @@
 #include <QDebug>
 #include <QTimer>
 
+#define BUTTON_FLIPZOOM 10000
+#define BUTTON_FLIPFOCUS 10001
+#define BUTTON_FLIPPAN 10002
+#define BUTTON_FLIPTILT 10003
+#define BUTTON_ZOOMIN 10004
+#define BUTTON_ZOOMOUT 10005
+
+#define BUTTON_FPMEM 10006
+#define BUTTON_FP1 10007
+#define BUTTON_FP2 10008
+#define BUTTON_FP3 10009
+#define BUTTON_FP4 10010
+#define BUTTON_FP5 10011
+
+#define BUTTON_PANRESET 10012
+#define BUTTON_TILTRESET 10013
+#define BUTTON_PANNULL 10014
+#define BUTTON_TILTNULL 10015
+#define BUTTON_PANLIMIT 10016
+#define BUTTON_TILTLIMIT 10017
+
+#define BUTTON_LIVEVIEW 67
+#define BUTTON_SR 2
+#define BUTTON_AF 4
+
 bJoyControl::bJoyControl(QObject *parent) :
     QObject(parent)
 {
+    fpMemoryOnStatus = false;
+
     mainBox *mb = new mainBox();
     mb->show();
 
@@ -52,14 +79,101 @@ void bJoyControl::_onSpeedChangedY(int val) {
 }
 
 void bJoyControl::_onSpeedChangedZ(int val) {
-    socket->send("motor_ziim", "set_speed", QString::number(val));
+    socket->send("motor_zoom", "set_speed", QString::number(val));
     qDebug() << "new Zoom speed by bJoy: " << val;
 }
 
 void bJoyControl::_onGpioEdge(unsigned int gpioNum, bool level) {
-    if(gpioNum == 67 && level == false)socket->send("live_view", "toggle", 0);
-    else if(gpioNum == 2)_onSrChanged(level);
-    else if(gpioNum == 4)_onAfChanged(level);
+    switch ( gpioNum ) {
+        case BUTTON_LIVEVIEW:
+          if(level == false)socket->send("live_view", "toggle", 0);
+          break;
+
+        case BUTTON_SR:
+          _onSrChanged(level);
+          break;
+
+        case BUTTON_AF:
+          _onAfChanged(level);
+          break;
+
+        case BUTTON_ZOOMIN:
+            _onZoomInChanged(level);
+            break;
+
+        case BUTTON_ZOOMOUT:
+            _onZoomOutChanged(level);
+            break;
+
+        case BUTTON_FLIPPAN:
+            if(level == false)socket->send("motor_pan", "flip_reverse", "");
+            break;
+
+        case BUTTON_FLIPTILT:
+            if(level == false)socket->send("motor_tilt", "flip_reverse", "");
+            break;
+
+        case BUTTON_FLIPZOOM:
+            if(level == false)socket->send("motor_zoom", "flip_reverse", "");
+            break;
+
+        case BUTTON_FLIPFOCUS:
+            if(level == false)socket->send("motor_focus", "flip_reverse", "");
+            break;
+
+        case BUTTON_FPMEM:
+            fpMemoryOnStatus = false;
+            if(level == false)fpMemoryOnStatus = true;
+            break;
+
+        case BUTTON_FP1:
+            if(level == false)_onFixedPointButtonPressed(1);
+            break;
+
+        case BUTTON_FP2:
+            if(level == false)_onFixedPointButtonPressed(2);
+            break;
+
+        case BUTTON_FP3:
+            if(level == false)_onFixedPointButtonPressed(3);
+            break;
+
+        case BUTTON_FP4:
+            if(level == false)_onFixedPointButtonPressed(4);
+            break;
+
+        case BUTTON_FP5:
+            if(level == false)_onFixedPointButtonPressed(5);
+            break;
+
+        case BUTTON_PANRESET:
+            if(level == false)_onPanResetButtonPressed();
+            break;
+
+        case BUTTON_TILTRESET:
+            if(level == false)_onTiltResetButtonPressed();
+            break;
+
+        case BUTTON_PANNULL:
+            if(level == false)_onPanNullButtonPressed();
+            break;
+
+        case BUTTON_TILTNULL:
+            if(level == false)_onTiltNullButtonPressed();
+            break;
+
+        case BUTTON_PANLIMIT:
+            if(level == false)_onPanLimitButtonPressed();
+            break;
+
+        case BUTTON_TILTLIMIT:
+            if(level == false)_onTiltLimitButtonPressed();
+            break;
+
+        default:
+              qDebug() << "button not assgned. gpio: " << gpioNum;
+              break;
+    }
 
     qDebug() << "gpioNum: " << gpioNum << "=" << level;
 }
@@ -167,3 +281,59 @@ void bJoyControl::_onSrChanged(bool s) {
 
     qDebug() << "sending SR: " << s;
 }
+
+void bJoyControl::_onZoomInChanged(bool s) {
+    int speed = 0;
+    if(s==true)speed=100;
+    socket->send("motor_zoom", "set_speed", QString::number(speed));
+
+    qDebug() << "new Zoom speed: " << speed;
+}
+
+void bJoyControl::_onZoomOutChanged(bool s) {
+    int speed = 0;
+    if(s==true)speed=-100;
+
+    socket->send("motor_zoom", "set_speed", QString::number(speed));
+
+    qDebug() << "new Zoom speed: " << speed;
+}
+
+void bJoyControl::_onFixedPointButtonPressed(int buttonNum) {
+    QString id = "bjoy_" + buttonNum;
+
+    if(fpMemoryOnStatus==true) {
+        socket->send("fixed_point", "set_current", id);
+    }
+    else {
+        socket->send("fixed_point", "select", id);
+    }
+}
+
+void bJoyControl::_onPanResetButtonPressed() {
+    socket->send("motor_pan", "reset_limit", "");
+    socket->send("motor_pan", "set_center", "");
+}
+
+void bJoyControl::_onTiltResetButtonPressed() {
+    socket->send("motor_tilt", "reset_limit", "");
+    socket->send("motor_tilt", "set_center", "");
+}
+
+void bJoyControl::_onPanNullButtonPressed() {
+    socket->send("motor_pan", "set_null", "");
+}
+
+void bJoyControl::_onTiltNullButtonPressed() {
+    socket->send("motor_tilt", "set_null", "");
+}
+
+void bJoyControl::_onPanLimitButtonPressed() {
+    socket->send("motor_pan", "set_limit", "");
+}
+
+void bJoyControl::_onTiltLimitButtonPressed() {
+    socket->send("motor_tilt", "set_limit", "");
+}
+
+
