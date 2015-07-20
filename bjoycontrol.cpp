@@ -3,28 +3,29 @@
 #include <QDebug>
 #include <QTimer>
 
-#define BUTTON_FLIPZOOM 10000
-#define BUTTON_FLIPFOCUS 10001
-#define BUTTON_FLIPPAN 10002
-#define BUTTON_FLIPTILT 10003
-#define BUTTON_ZOOMIN 10004
-#define BUTTON_ZOOMOUT 10005
+#define BUTTON_FLIPZOOM 68
+#define BUTTON_FLIPFOCUS 69
+#define BUTTON_FLIPPAN 15
+#define BUTTON_FLIPTILT 27
+#define BUTTON_ZOOMIN 49
+#define BUTTON_ZOOMOUT 22
 
-#define BUTTON_FPMEM 10006
-#define BUTTON_FP1 10007
-#define BUTTON_FP2 10008
-#define BUTTON_FP3 10009
-#define BUTTON_FP4 10010
+#define BUTTON_FPMEM 61
+#define BUTTON_FP1 65
+#define BUTTON_FP2 14
+#define BUTTON_FP3 46
+#define BUTTON_FP4 23
 #define BUTTON_FP5 10011
 
-#define BUTTON_PANRESET 10012
-#define BUTTON_TILTRESET 10013
-#define BUTTON_PANNULL 10014
-#define BUTTON_TILTNULL 10015
-#define BUTTON_PANLIMIT 10016
-#define BUTTON_TILTLIMIT 10017
+#define BUTTON_PANRESET 50
+#define BUTTON_TILTRESET 51
+#define BUTTON_PANNULL 48
+#define BUTTON_TILTNULL 26
+#define BUTTON_PANLIMIT 5
+#define BUTTON_TILTLIMIT 47
 
-#define BUTTON_LIVEVIEW 67
+#define BUTTON_LIVEVIEW 1160
+#define BUTTON_FINEMODE 116
 #define BUTTON_SR 2
 #define BUTTON_AF 4
 
@@ -32,6 +33,7 @@ bJoyControl::bJoyControl(QObject *parent) :
     QObject(parent)
 {
     fpMemoryOnStatus = false;
+    fineMode = false;
 
     mainBox *mb = new mainBox();
     mb->show();
@@ -69,16 +71,19 @@ bJoyControl::bJoyControl(QObject *parent) :
 }
 
 void bJoyControl::_onSpeedChangedX(int val) {
+    if(fineMode)val = val/10;
     socket->send("motor_pan", "set_speed", QString::number(val));
     qDebug() << "new Pan speed by bJoy: " << val;
 }
 
 void bJoyControl::_onSpeedChangedY(int val) {
+    if(fineMode)val = val/10;
     socket->send("motor_tilt", "set_speed", QString::number(val));
     qDebug() << "new Tilt speed by bJoy: " << val;
 }
 
 void bJoyControl::_onSpeedChangedZ(int val) {
+    if(fineMode)val = val/10;
     socket->send("motor_zoom", "set_speed", QString::number(val));
     qDebug() << "new Zoom speed by bJoy: " << val;
 }
@@ -123,7 +128,13 @@ void bJoyControl::_onGpioEdge(unsigned int gpioNum, bool level) {
 
         case BUTTON_FPMEM:
             fpMemoryOnStatus = false;
-            if(level == false)fpMemoryOnStatus = true;
+            if(level == true)fpMemoryOnStatus = true;
+            qDebug() << "fpMemoryOnStatus set: " << fpMemoryOnStatus;
+            break;
+
+        case BUTTON_FINEMODE:
+            fineMode = false;
+            if(level == true)fineMode = true;
             break;
 
         case BUTTON_FP1:
@@ -300,8 +311,9 @@ void bJoyControl::_onZoomOutChanged(bool s) {
 }
 
 void bJoyControl::_onFixedPointButtonPressed(int buttonNum) {
-    QString id = "bjoy_" + buttonNum;
+    QString id = "bj_" + QString::number(buttonNum);
 
+    qDebug() << "fpMemoryOnStatus: " << fpMemoryOnStatus;
     if(fpMemoryOnStatus==true) {
         socket->send("fixed_point", "set_current", id);
     }
@@ -311,29 +323,60 @@ void bJoyControl::_onFixedPointButtonPressed(int buttonNum) {
 }
 
 void bJoyControl::_onPanResetButtonPressed() {
-    socket->send("motor_pan", "reset_limit", "");
-    socket->send("motor_pan", "set_center", "");
+    if(fpMemoryOnStatus==false) {
+        socket->send("motor_pan", "reset_limit", "");
+        socket->send("motor_pan", "set_center", "");
+    }
+    else {
+        socket->send("motor_zoom", "reset_limit", "");
+        socket->send("motor_zoom", "set_center", "");
+    }
 }
 
 void bJoyControl::_onTiltResetButtonPressed() {
-    socket->send("motor_tilt", "reset_limit", "");
-    socket->send("motor_tilt", "set_center", "");
+    if(fpMemoryOnStatus==false) {
+        socket->send("motor_tilt", "reset_limit", "");
+        socket->send("motor_tilt", "set_center", "");
+    }
+    else {
+        socket->send("motor_focus", "reset_limit", "");
+        socket->send("motor_focus", "set_center", "");
+    }
 }
 
 void bJoyControl::_onPanNullButtonPressed() {
-    socket->send("motor_pan", "set_null", "");
+    if(fpMemoryOnStatus==false) {
+        socket->send("motor_pan", "set_null", "");
+    }
+    else {
+        socket->send("motor_zoom", "set_null", "");
+    }
 }
 
 void bJoyControl::_onTiltNullButtonPressed() {
-    socket->send("motor_tilt", "set_null", "");
+    if(fpMemoryOnStatus==false) {
+      socket->send("motor_tilt", "set_null", "");
+    }
+    else {
+      socket->send("motor_focus", "set_null", "");
+    }
 }
 
 void bJoyControl::_onPanLimitButtonPressed() {
-    socket->send("motor_pan", "set_limit", "");
+    if(fpMemoryOnStatus==false) {
+      socket->send("motor_pan", "set_limit", "");
+    }
+    else {
+      socket->send("motor_zoom", "set_limit", "");
+    }
 }
 
 void bJoyControl::_onTiltLimitButtonPressed() {
-    socket->send("motor_tilt", "set_limit", "");
+    if(fpMemoryOnStatus==false) {
+      socket->send("motor_tilt", "set_limit", "");
+    }
+    else {
+      socket->send("motor_focus", "set_limit", "");
+    }
 }
-
 

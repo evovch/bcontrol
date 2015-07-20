@@ -30,6 +30,7 @@ private:
 
     QTimer *cWatchTimer;
     bool fpMemoryOnStatus;
+    bool fineMode;
 
 public:
     explicit bJoyControl(QObject *parent = 0);
