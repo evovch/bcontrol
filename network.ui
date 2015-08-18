@@ -52,6 +52,19 @@
     <string>Reconnect</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="resetButton">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>40</y>
+     <width>101</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset DKV</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

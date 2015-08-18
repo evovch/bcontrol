@@ -12,6 +12,10 @@ class eqepInt : public QThread
 private:
     void pollingLoop(unsigned int eqep);
     unsigned int eqepNum;
+    int currentValue, oldValue;
+    int topLimit;
+    int bottomLimit;
+    int offset;
 
 protected:
     void run(void);
@@ -27,6 +31,7 @@ public:
 
 signals:
 //     void gpioEdge(unsigned int, bool);
+    void newValue(int);
     
 public slots:
     

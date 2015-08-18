@@ -17,12 +17,17 @@ eqepInt::eqepInt(unsigned int eqep, QObject *parent) :
     QThread(parent)
 {
     eqepNum = eqep;
+
+    topLimit = 20;
+    bottomLimit = 0;
+    offset = 0;
 }
 
 void eqepInt::run(void) {
     pollingLoop(eqepNum);
 }
 
+/*
 void eqepInt::pollingLoop(unsigned int eqep)
 {
     std::string eqep_filename;
@@ -88,6 +93,49 @@ void eqepInt::pollingLoop(unsigned int eqep)
 
 
 }
+*/
+
+void eqepInt::pollingLoop(unsigned int eqep)
+{
+    std::string eqep_filename;
+    switch(eqep){
+        case 0:
+            eqep_filename = "/sys/devices/ocp.3/48300000.epwmss/48300180.eqep/position";
+            break;
+        case 1:
+            eqep_filename = "/sys/devices/ocp.3/48302000.epwmss/48302180.eqep/position";
+            break;
+        case 2:
+            eqep_filename = "/sys/devices/ocp.3/48304000.epwmss/48304180.eqep/position";
+            break;
+    }
+
+
+
+    while (1) {
+            int v;
+            eqep_get_value(eqep_filename, &v);
+
+            currentValue = v - offset;
+
+            if(currentValue > topLimit) {
+                currentValue = topLimit;
+                offset = v - topLimit;
+            }
+            if(currentValue < bottomLimit) {
+                currentValue = bottomLimit;
+                offset = v + bottomLimit;
+            }
+
+            if(oldValue != currentValue)emit(newValue(currentValue));
+            oldValue = currentValue;
+
+//            qDebug() << "eqep: " << v << ":" << currentValue;
+
+            usleep(0.1 * 1000 * 1000);
+    }
+}
+
 
 int eqepInt::eqep_get_value(std::string eqep_filename, int *value)
 {

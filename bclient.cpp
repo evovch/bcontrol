@@ -38,6 +38,7 @@ bClient::bClient(QObject *parent) :
 //    limitsWindow->show();
 
     QObject::connect(ui_nw->reconnectButton, SIGNAL(pressed()), this, SLOT(_onReconnectButtonPressed()));
+    QObject::connect(ui_nw->resetButton, SIGNAL(pressed()), this, SLOT(_onResetButtonPressed()));
 
     ui_lw->panLimits->init("pan");
     QObject::connect(ui_lw->panLimits, SIGNAL(doSeek(QString,int)), this, SLOT(_onDoSeek(QString,int)));
@@ -264,6 +265,10 @@ void bClient::_onReconnectButtonPressed(){
     socketLv->setAddr(ui_nw->addressInput->text());
     socket->reconnect();
     socketLv->reconnect();
+}
+
+void bClient::_onResetButtonPressed(){
+    system("ssh root@172.16.248.200 /home/korytov/bbin/restart-qbone.sh");
 }
 
 void bClient::_onDoSeek(QString name, int pos) {

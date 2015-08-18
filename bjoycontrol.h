@@ -32,6 +32,8 @@ private:
     bool fpMemoryOnStatus;
     bool fineMode;
 
+    int speedFactor;
+
 public:
     explicit bJoyControl(QObject *parent = 0);
 
@@ -64,6 +66,8 @@ public slots:
     void _onZoomOutChanged(bool s);
 
     void _onFixedPointButtonPressed(int buttonNum);
+
+    void _onNewValueTopEqep(int value);
 
     void _onPanResetButtonPressed();
     void _onTiltResetButtonPressed();

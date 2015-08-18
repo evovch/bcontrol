@@ -29,10 +29,12 @@ int main(int argc, char *argv[])
         QObject::connect(buttonGpio, SIGNAL(gpioEdge(unsigned int, bool)), bjc, SLOT(_onGpioEdge(unsigned int, bool)));
     }
 
-    eqepInt *topEqep = new eqepInt(0);
+//    eqepInt *topEqep = new eqepInt(0);
+//    topEqep->start();
+    eqepInt *topEqep = new eqepInt(2);
     topEqep->start();
-    eqepInt *bottomsEqep = new eqepInt(2);
-    bottomsEqep->start();
+
+    QObject::connect(topEqep, SIGNAL(newValue(int)), bjc, SLOT(_onNewValueTopEqep(int)));
 
     QObject::connect(p, SIGNAL(valueChangedX(int)), bjc, SLOT(_onSpeedChangedX(int)));
     QObject::connect(p, SIGNAL(valueChangedY(int)), bjc, SLOT(_onSpeedChangedY(int)));

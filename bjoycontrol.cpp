@@ -33,7 +33,8 @@ bJoyControl::bJoyControl(QObject *parent) :
     QObject(parent)
 {
     fpMemoryOnStatus = false;
-    fineMode = false;
+    fineMode = true;
+    speedFactor = 1;
 
     mainBox *mb = new mainBox();
     mb->show();
@@ -71,19 +72,19 @@ bJoyControl::bJoyControl(QObject *parent) :
 }
 
 void bJoyControl::_onSpeedChangedX(int val) {
-    if(fineMode)val = val/10;
+   if(speedFactor > 2)val = val/(speedFactor/2);
     socket->send("motor_pan", "set_speed", QString::number(val));
     qDebug() << "new Pan speed by bJoy: " << val;
 }
 
 void bJoyControl::_onSpeedChangedY(int val) {
-    if(fineMode)val = val/10;
+    if(speedFactor > 2)val = val/(speedFactor/2);
     socket->send("motor_tilt", "set_speed", QString::number(val));
     qDebug() << "new Tilt speed by bJoy: " << val;
 }
 
 void bJoyControl::_onSpeedChangedZ(int val) {
-    if(fineMode)val = val/10;
+    if(speedFactor > 2)val = val/(speedFactor/2);
     socket->send("motor_zoom", "set_speed", QString::number(val));
     qDebug() << "new Zoom speed by bJoy: " << val;
 }
@@ -133,8 +134,8 @@ void bJoyControl::_onGpioEdge(unsigned int gpioNum, bool level) {
             break;
 
         case BUTTON_FINEMODE:
-            fineMode = false;
-            if(level == true)fineMode = true;
+            fineMode = true;
+            if(level == true)fineMode = false;
             break;
 
         case BUTTON_FP1:
@@ -380,3 +381,8 @@ void bJoyControl::_onTiltLimitButtonPressed() {
     }
 }
 
+void bJoyControl::_onNewValueTopEqep(int value) {
+    qDebug() << "new top Eqep val: " << value;
+
+    speedFactor = value;
+}

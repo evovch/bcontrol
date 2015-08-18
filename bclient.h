@@ -169,6 +169,7 @@ public slots:
     void _onFixedPointInputReturnPressed(void);
 
     void _onReconnectButtonPressed();
+    void _onResetButtonPressed();
 };
 
 #endif // BCLIENT_H
