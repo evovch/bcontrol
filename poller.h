@@ -11,23 +11,21 @@ class poller : public QObject
 private:
     int centerX, centerY, centerZ;
     int rangeX, rangeY, rangeZ;
-    int realRangeX = 40;
-    int realRangeY = 40;
-    int realRangeZ = 40;
+    int realRangeX = 400;
+    int realRangeY = 400;
+    int realRangeZ = 400;
 
-    uint maxValue;
     uint maxNormalizedValue;
     bool reverse;
 
     int lastX = 0, lastY = 0, lastZ = 0;
 
-    const int adcNoiseThreshold = 30;
+    const int adcNoiseThreshold = 15;
 
     int readAdcValue(QString sid);
-    int normalizeValue(int val);
 
 public:
-   poller(uint mv);
+   poller();
 
 signals:
     void valueChangedX(int value);

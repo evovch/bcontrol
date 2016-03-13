@@ -101,7 +101,14 @@ bClient::bClient(QObject *parent) :
     ui->captureButton->setFocus();
 
     fixedPoints = fixedPointHash();
+
+    QThread *thread = new QThread();
+
     cg = new controlGraph(ui->headGraph);
+
+    cg->moveToThread(thread);
+    thread->start();
+
     cg->setFixedPoints(&fixedPoints);
 
     fpModel = new bFixedPointModel(0, &fixedPoints);
@@ -247,7 +254,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
 
-    QObject::connect(cg, SIGNAL(touchMove(float, float)), this, SLOT(_onTouchMove(float, float)));
+    QObject::connect(cg, SIGNAL(touchMove(float, float)), this, SLOT(_onTouchMove(float, float)), Qt::DirectConnection);
 
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), cg, SLOT(_onFixedPointsUpdated()));
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), fpModel, SLOT(_onFixedPointsUpdated()));
@@ -765,6 +772,14 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
             mInfo.powerStatusFocus = params[12].toInt();
             mInfo.powerStatusZoom = params[13].toInt();
             mInfo.powerStatusSlider = params[14].toInt();
+        }
+
+        if(params.size() > 12) {
+            mInfo.reverseDirPan = params[15].toInt();
+            mInfo.reverseDirTilt = params[16].toInt();
+            mInfo.reverseDirFocus = params[17].toInt();
+            mInfo.reverseDirZoom = params[18].toInt();
+            mInfo.reverseDirSlider = params[19].toInt();
         }
 
         if(mInfo.powerStatusPan == 1)ui_lw->panLimits->setPowerControl(false);

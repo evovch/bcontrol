@@ -34,8 +34,9 @@ bJoyControl::bJoyControl(QObject *parent) :
 {
     fpMemoryOnStatus = false;
     fineMode = true;
+    lockZoom = false;
     speedFactor = 1;
-
+/*
     mainBox *mb = new mainBox();
     mb->show();
 
@@ -48,7 +49,7 @@ bJoyControl::bJoyControl(QObject *parent) :
     socketLv->reconnect();
 
     QObject::connect(socketLv, SIGNAL(gotAFrame(QByteArray)), cg, SLOT(_onGotAFrame(QByteArray)));
-
+*/
     socket = new bSocket();
     socket->reconnect();
 
@@ -62,12 +63,12 @@ bJoyControl::bJoyControl(QObject *parent) :
     QObject::connect(socket, SIGNAL(bConnected()), this, SLOT(_onConnected()));
     QObject::connect(socket, SIGNAL(bDisonnected()), this, SLOT(_onDisonnected()));
 
-    QObject::connect(socket, SIGNAL(dataReceived(QString,QString,QString,QStringList)), this, SLOT(_onDataReceived(QString,QString,QString,QStringList)));
-    QObject::connect(this, SIGNAL(fixedPointsUpdated()), cg, SLOT(_onFixedPointsUpdated()));
+/*    QObject::connect(socket, SIGNAL(dataReceived(QString,QString,QString,QStringList)), this, SLOT(_onDataReceived(QString,QString,QString,QStringList)));
+    QObject::connect(this, SIGNAL(fixedPointsUpdated()), cg, SLOT(_onFixedPointsUpdated())); */
 
     cWatchTimer = new QTimer(this);
     connect(cWatchTimer, SIGNAL(timeout()), socket, SLOT(_onCWatchTimer()));
-    connect(cWatchTimer, SIGNAL(timeout()), socketLv, SLOT(_onCWatchTimer()));
+//    connect(cWatchTimer, SIGNAL(timeout()), socketLv, SLOT(_onCWatchTimer()));
     cWatchTimer->start(1000);
 }
 
@@ -84,6 +85,7 @@ void bJoyControl::_onSpeedChangedY(int val) {
 }
 
 void bJoyControl::_onSpeedChangedZ(int val) {
+    if(lockZoom)return;
     if(speedFactor > 2)val = val/(speedFactor/2);
     socket->send("motor_zoom", "set_speed", QString::number(val));
     qDebug() << "new Zoom speed by bJoy: " << val;
@@ -296,7 +298,11 @@ void bJoyControl::_onSrChanged(bool s) {
 
 void bJoyControl::_onZoomInChanged(bool s) {
     int speed = 0;
-    if(s==true)speed=100;
+    lockZoom = false;
+    if(s==true) {
+        speed=100;
+        lockZoom = true;
+    }
     socket->send("motor_zoom", "set_speed", QString::number(speed));
 
     qDebug() << "new Zoom speed: " << speed;
@@ -304,7 +310,11 @@ void bJoyControl::_onZoomInChanged(bool s) {
 
 void bJoyControl::_onZoomOutChanged(bool s) {
     int speed = 0;
-    if(s==true)speed=-100;
+    lockZoom = false;
+    if(s==true) {
+        speed=-100;
+        lockZoom = true;
+    }
 
     socket->send("motor_zoom", "set_speed", QString::number(speed));
 

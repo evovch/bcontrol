@@ -32,6 +32,12 @@ typedef struct {
     int powerStatusZoom;
     int powerStatusSlider;
 
+    int reverseDirPan;
+    int reverseDirTilt;
+    int reverseDirFocus;
+    int reverseDirZoom;
+    int reverseDirSlider;
+
 } motorsInfo;
 
 #endif // BTYPES_H

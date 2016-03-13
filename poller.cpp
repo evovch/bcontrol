@@ -4,7 +4,7 @@
 #include <QString>
 #include <QDebug>
 
-poller::poller(uint mv)
+poller::poller()
 {
     //trim non-simetric (bigger) part of range
     centerX = readAdcValue("6");
@@ -14,7 +14,6 @@ poller::poller(uint mv)
     centerZ = readAdcValue("2");
     rangeZ = centerZ * 2;
 
-    maxValue = mv;
     maxNormalizedValue = 100;
 
     QTimer *pollTimer = new QTimer(this);
@@ -22,19 +21,13 @@ poller::poller(uint mv)
     pollTimer->start(30);
 }
 
-int poller::normalizeValue(int val) {
-    int res = val * (double)(maxNormalizedValue / maxValue);
-    if((res > 0) && (res > maxNormalizedValue))res=maxNormalizedValue;
-    else if ((res < 0) && (res < -1*maxNormalizedValue))res=-1*maxNormalizedValue;
-
-    return res;
-}
-
 void poller::_onPollTimer(void) {
     int x = readAdcValue("6");
     if(abs(x-lastX) > adcNoiseThreshold) {
         lastX = x;
-        x = normalizeValue((x - rangeX/2) * (double)((double)realRangeX/rangeX));
+        x = x - rangeX/2;
+        x = x * ((double)maxNormalizedValue/(rangeX/2));
+        if(x==-1 || x==1)x=0;
         qDebug() << "got x:" << x;
         emit valueChangedX(-1*x);
     }
@@ -42,7 +35,9 @@ void poller::_onPollTimer(void) {
     int y = readAdcValue("0");
     if(abs(y-lastY) > adcNoiseThreshold) {
         lastY = y;
-        y = normalizeValue((y - rangeY/2) * (double)((double)realRangeY/rangeY));
+        y = y - rangeY/2;
+        y = y * ((double)maxNormalizedValue/(rangeY/2));
+        if(y==-1 || y==1)y=0;
         qDebug() << "got y:" << y;
         emit valueChangedY(-1*y);
     }
@@ -50,7 +45,9 @@ void poller::_onPollTimer(void) {
     int z = readAdcValue("2");
     if(abs(z-lastZ) > adcNoiseThreshold) {
         lastZ = z;
-        z = normalizeValue((z - rangeZ/2) * (double)((double)realRangeZ/rangeZ));
+        z = z - rangeZ/2;
+        z = z * ((double)maxNormalizedValue/(rangeZ/2));
+        if(z==-1 || z==1)z=0;
         qDebug() << "got z:" << z;
         emit valueChangedZ(z);
     }

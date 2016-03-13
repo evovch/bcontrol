@@ -6,7 +6,7 @@ void liveViewSocket::reconnect()
 {
     if(state()==QAbstractSocket::ConnectedState)disconnectFromHost();
     connectToHost(hostAddr, 60005);
-    QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
+    QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()), Qt::QueuedConnection);
 }
 
 void liveViewSocket::_onCWatchTimer(void) {

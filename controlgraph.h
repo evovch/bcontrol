@@ -7,7 +7,7 @@
 #include <QMouseEvent>
 
 #include "btypes.h"
-#include "bgraphicsellipseitem.h";
+#include "bgraphicsellipseitem.h"
 #include "focuspoint.h"
 #include "fastpixmapitem.h"
 

@@ -6,6 +6,8 @@ CONFIG += c++11
 QMAKE_CXXFLAGS += -fpermissive -I/usr/include -I/opt/libjpeg-turbo/include
 QMAKE_LFLAGS += -L/opt/libjpeg-turbo/lib -lturbojpeg
 
+QMAKE_MAC_SDK = macosx10.11
+
 SOURCES += \
     main.cpp \
     bsocket.cpp \

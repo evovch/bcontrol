@@ -15,7 +15,7 @@ void FastPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 //         painter->setBrush(currentBrush);
 //         painter->drawRoundedRect(10, 10, 20, 20, 5, 5);
          painter->drawImage(QPoint(0,0), currentImage);
-         qDebug() << "painting";
+//         qDebug() << "painting";
 
 }
 

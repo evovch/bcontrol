@@ -14,7 +14,8 @@ public:
 
 private:
     QByteArray mjpegBuffer;
-    QString hostAddr = "172.16.248.200";
+    QString hostAddr = "192.168.1.201";
+//    QString hostAddr = "172.16.248.200";
 
 signals:
     void gotAFrame(QByteArray frame);

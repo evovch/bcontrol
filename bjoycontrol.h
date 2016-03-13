@@ -17,6 +17,7 @@ private:
 
     controlGraph *cg;
     liveViewSocket *socketLv;
+    bool lockZoom;
 
     gpioInt *led2Gpio, *led3Gpio;
 

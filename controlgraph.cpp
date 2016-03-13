@@ -147,7 +147,7 @@ bool controlGraph::viewportEvent(QEvent *event)
         qDebug() << "touch TouchUpdate";
         const QTouchEvent::TouchPoint &touchPoint0 = touchEvent->touchPoints().first();
 
-        int s = 2;
+        int s = 1;
         if(touchEvent->touchPoints().size() == 3)s = 10;
 
         float deltaX = touchPoint0.normalizedPos().x() - touchPoint0.startNormalizedPos().x();
@@ -206,7 +206,7 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
     tjDecompressHeader2(_jpegDecompressor, _compressedImage, _jpegSize, &width, &height, &jpegSubsamp);
     qDebug() << "size: " << width << "x" << height;
     qDebug() << "subsamp: " << jpegSubsamp;
-    if(jpegSubsamp < 0 || width != 640 || height != 424) {
+    if(jpegSubsamp < 0 || (width != 640 && width != 960)) {
         qDebug() << "corrupted frame";
         tjDestroy(_jpegDecompressor);
         framerBusy = false;
@@ -222,14 +222,14 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
     currentFrameBuffer = (unsigned char*)malloc(width*height*tjPixelSize[TJPF_RGB]);
 
     int res = tjDecompress2(_jpegDecompressor, _compressedImage, _jpegSize, currentFrameBuffer, width,  0 /*pitch*/, height, TJPF_RGB, TJFLAG_FASTDCT);
-    qDebug() << "tjDecompress2: " << res;
+//    qDebug() << "tjDecompress2: " << res;
 
     tjDestroy(_jpegDecompressor);
     QImage i(currentFrameBuffer, width, height, QImage::Format_RGB888);
-    i.save("/Users/korytov/2/_out.jpg", "JPEG");
+//    i.save("/Users/korytov/2/_out.jpg", "JPEG");
 
     if(i.width() != this->width()) {
-        qDebug() << "scaling to viewport: " << i.width() << " -> " << this->width();
+//        qDebug() << "scaling to viewport: " << i.width() << " -> " << this->width();
         i = i.scaled(this->width(), this->height());
     }
 
