@@ -1,5 +1,6 @@
 #include <QtCore>
 #include <QtGui>
+
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QDialog>
@@ -20,8 +21,6 @@
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-
-
 
     bClient *cl = new bClient();
 

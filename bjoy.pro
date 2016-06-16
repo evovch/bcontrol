@@ -23,8 +23,8 @@ UI_DIR = $$DESTDIR/.ui
 
 CONFIG += c++11
 
-QMAKE_CXXFLAGS += -fpermissive -I/usr/include -I/opt/libjpeg-turbo/include
-QMAKE_LFLAGS += -L/opt/libjpeg-turbo-arm/lib -L/opt/libjpeg-turbo/lib -lturbojpeg
+QMAKE_CXXFLAGS += -fpermissive -I/usr/include -I/opt/arm/include
+QMAKE_LFLAGS += -L/opt/arm/lib -L/opt/arm/lib -lturbojpeg
 
 TEMPLATE = app
 

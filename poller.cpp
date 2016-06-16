@@ -27,7 +27,7 @@ void poller::_onPollTimer(void) {
         lastX = x;
         x = x - rangeX/2;
         x = x * ((double)maxNormalizedValue/(rangeX/2));
-        if(x==-1 || x==1)x=0;
+        if(x > -3 && x < 3)x=0;
         qDebug() << "got x:" << x;
         emit valueChangedX(-1*x);
     }
@@ -37,7 +37,7 @@ void poller::_onPollTimer(void) {
         lastY = y;
         y = y - rangeY/2;
         y = y * ((double)maxNormalizedValue/(rangeY/2));
-        if(y==-1 || y==1)y=0;
+        if(y > -3 && y < 3)y=0;
         qDebug() << "got y:" << y;
         emit valueChangedY(-1*y);
     }
@@ -47,7 +47,7 @@ void poller::_onPollTimer(void) {
         lastZ = z;
         z = z - rangeZ/2;
         z = z * ((double)maxNormalizedValue/(rangeZ/2));
-        if(z==-1 || z==1)z=0;
+        if(z > -3 && z < 3)z=0;
         qDebug() << "got z:" << z;
         emit valueChangedZ(z);
     }

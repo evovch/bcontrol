@@ -322,7 +322,7 @@
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>285</y>
+     <y>318</y>
      <width>76</width>
      <height>21</height>
     </rect>
@@ -335,7 +335,7 @@
    <property name="geometry">
     <rect>
      <x>85</x>
-     <y>285</y>
+     <y>318</y>
      <width>60</width>
      <height>21</height>
     </rect>
@@ -361,7 +361,7 @@
    <property name="geometry">
     <rect>
      <x>43</x>
-     <y>305</y>
+     <y>338</y>
      <width>36</width>
      <height>21</height>
     </rect>
@@ -374,7 +374,7 @@
    <property name="geometry">
     <rect>
      <x>85</x>
-     <y>305</y>
+     <y>338</y>
      <width>60</width>
      <height>21</height>
     </rect>
@@ -387,7 +387,7 @@
    <property name="geometry">
     <rect>
      <x>145</x>
-     <y>302</y>
+     <y>335</y>
      <width>51</width>
      <height>31</height>
     </rect>
@@ -400,13 +400,67 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>302</y>
+     <y>335</y>
      <width>51</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Off</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>25</x>
+     <y>265</y>
+     <width>56</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>FMeter:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="camFocusmetermodeCombo">
+   <property name="geometry">
+    <rect>
+     <x>145</x>
+     <y>265</y>
+     <width>81</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <kerning>true</kerning>
+    </font>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="camFocusmetermodeSendButton">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>265</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Send</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="camFocusmetermodeLabel">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>265</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

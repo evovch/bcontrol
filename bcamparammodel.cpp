@@ -26,6 +26,9 @@ bCamParamModel::bCamParamModel(QList<QString> *bm, int defaultMap, QObject *pare
             case bCamParamModel::expMapId:
                 baseMap = &expMap;
             break;
+            case bCamParamModel::focusmetermodeMapId:
+                baseMap = &focusmetermodeMap;
+            break;
         }
     }
 }
@@ -157,6 +160,11 @@ void bCamParamModel::initDefaultStructs() {
     afMap.append("on");
     afMap.append("off");
 
+    focusmetermodeMap.append("Multi-spot");
+    focusmetermodeMap.append("Single Area");
+    focusmetermodeMap.append("Closest Subject");
+    focusmetermodeMap.append("Group Dynamic");
+
     isoMap.append("50");
     isoMap.append("64");
     isoMap.append("80");
@@ -187,35 +195,35 @@ void bCamParamModel::initDefaultStructs() {
     isoMap.append("25600");
     isoMap.append("51200");
 
-    expMap.append("-5000");
-    expMap.append("-4666");
-    expMap.append("-4333");
-    expMap.append("-4000");
-    expMap.append("-3666");
-    expMap.append("-3333");
-    expMap.append("-3000");
-    expMap.append("-2666");
-    expMap.append("-2333");
-    expMap.append("-2000");
-    expMap.append("-1666");
-    expMap.append("-1333");
-    expMap.append("-1000");
-    expMap.append("-666");
-    expMap.append("-333");
+    expMap.append("-5");
+    expMap.append("-4.666");
+    expMap.append("-4.333");
+    expMap.append("-4");
+    expMap.append("-3.666");
+    expMap.append("-3.333");
+    expMap.append("-");
+    expMap.append("-2.666");
+    expMap.append("-2.333");
+    expMap.append("-2");
+    expMap.append("-1.666");
+    expMap.append("-1.333");
+    expMap.append("-1");
+    expMap.append("-0.666");
+    expMap.append("-0.333");
     expMap.append("0");
-    expMap.append("333");
-    expMap.append("666");
-    expMap.append("1000");
-    expMap.append("1333");
-    expMap.append("1666");
-    expMap.append("2000");
-    expMap.append("2333");
-    expMap.append("2666");
-    expMap.append("3000");
-    expMap.append("3333");
-    expMap.append("3666");
-    expMap.append("4000");
-    expMap.append("4333");
-    expMap.append("4666");
-    expMap.append("5000");
+    expMap.append("0.333");
+    expMap.append("0.666");
+    expMap.append("1");
+    expMap.append("1.333");
+    expMap.append("1.666");
+    expMap.append("2");
+    expMap.append("2.333");
+    expMap.append("2.666");
+    expMap.append("3");
+    expMap.append("3.333");
+    expMap.append("3.666");
+    expMap.append("4");
+    expMap.append("4.333");
+    expMap.append("4.666");
+    expMap.append("5");
 }

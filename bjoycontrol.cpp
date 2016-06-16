@@ -24,8 +24,8 @@
 #define BUTTON_PANLIMIT 5
 #define BUTTON_TILTLIMIT 47
 
-#define BUTTON_LIVEVIEW 1160
-#define BUTTON_FINEMODE 116
+#define BUTTON_LIVEVIEW 116
+#define BUTTON_FINEMODE 1160
 #define BUTTON_SR 2
 #define BUTTON_AF 4
 
@@ -94,15 +94,19 @@ void bJoyControl::_onSpeedChangedZ(int val) {
 void bJoyControl::_onGpioEdge(unsigned int gpioNum, bool level) {
     switch ( gpioNum ) {
         case BUTTON_LIVEVIEW:
-          if(level == false)socket->send("live_view", "toggle", 0);
+//          if(level == false)socket->send("live_view", "toggle", 0);
+          _onAfChanged(level);
+          _onSrChanged(level); //FIXME
           break;
 
         case BUTTON_SR:
+          _onAfChanged(level); //FIXME remove
           _onSrChanged(level);
           break;
 
         case BUTTON_AF:
           _onAfChanged(level);
+          _onSrChanged(level); //FIXME
           break;
 
         case BUTTON_ZOOMIN:

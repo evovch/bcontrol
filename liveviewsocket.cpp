@@ -1,7 +1,6 @@
 #include "liveviewsocket.h"
 #include <QDebug>
 
-
 void liveViewSocket::reconnect()
 {
     if(state()==QAbstractSocket::ConnectedState)disconnectFromHost();

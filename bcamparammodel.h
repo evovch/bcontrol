@@ -16,7 +16,7 @@ public:
     int getIndex(QString key);
     QString getValue(int index);
 
-    enum {foo, dMapId, sMapId, afMapId, modeMapId, isoMapId, expMapId};
+    enum {foo, dMapId, sMapId, afMapId, modeMapId, isoMapId, expMapId, focusmetermodeMapId};
 
 private:
     QList<QString> *baseMap;
@@ -27,6 +27,7 @@ private:
     QList<QString> isoMap;
     QList<QString> modeMap;
     QList<QString> expMap;
+    QList<QString> focusmetermodeMap;
 
     void initDefaultStructs();
 

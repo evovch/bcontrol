@@ -147,6 +147,9 @@ bClient::bClient(QObject *parent) :
     ui_cam->camExpCombo->setModel(expVals);
     ui_cam->camExpCombo->setModelColumn(1);
 
+    focusmetermodeVals = new bCamParamModel(NULL, bCamParamModel::focusmetermodeMapId);
+    ui_cam->camFocusmetermodeCombo->setModel(focusmetermodeVals);
+    ui_cam->camFocusmetermodeCombo->setModelColumn(1);
 
 //    currentFixedPointId = "p1";
 //    fpModel->selectFixedPoint(currentFixedPointId);
@@ -187,6 +190,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui_cam->camIsoSendButton, SIGNAL(pressed()), this, SLOT(_onCamIsoSendButtonPressed()));
     QObject::connect(ui_cam->camExpSendButton, SIGNAL(pressed()), this, SLOT(_onCamExpSendButtonPressed()));
     QObject::connect(ui_cam->camAfSendButton, SIGNAL(pressed()), this, SLOT(_onCamAfSendButtonPressed()));
+    QObject::connect(ui_cam->camFocusmetermodeSendButton, SIGNAL(pressed()), this, SLOT(_onCamFocusmetermodeSendButtonPressed()));
     QObject::connect(ui_cam->camRefreshButton, SIGNAL(pressed()), this, SLOT(_onCamRefreshButtonPressed()));
     QObject::connect(ui_cam->camUsbOnButton, SIGNAL(pressed()), this, SLOT(_onCamUsbOnButtonPressed()));
     QObject::connect(ui_cam->camUsbOffButton, SIGNAL(pressed()), this, SLOT(_onCamUsbOffButtonPressed()));
@@ -666,6 +670,13 @@ void bClient::_onCamAfSendButtonPressed() {
      qDebug() << "cam:set_af:" << v;
 }
 
+void bClient::_onCamFocusmetermodeSendButtonPressed() {
+     QString v = focusmetermodeVals->getValue(ui_cam->camFocusmetermodeCombo->currentIndex());
+     socket->send("cam", "set_focusmetermode", v);
+
+     qDebug() << "cam:set_focusmetermode:" << v;
+}
+
 void bClient::_onCamRefreshButtonPressed() {
     socket->send("cam", "refresh", "");
 }
@@ -831,6 +842,7 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         if(key=="current_mode")ui_cam->camModeLabel->setText(value);
         if(key=="current_iso")ui_cam->camIsoLabel->setText(value);
         if(key=="current_exp")ui_cam->camExpLabel->setText(value);
+        if(key=="current_focusmetermode")ui_cam->camFocusmetermodeLabel->setText(value);
 
         if(key=="lightmeter")ui_cam->camLightmeterLabel->setText(value);
 

@@ -62,6 +62,7 @@ private:
     bCamParamModel *afVals;
     bCamParamModel *isoVals;
     bCamParamModel *expVals;
+    bCamParamModel *focusmetermodeVals;
 
     fixedPointHash fixedPoints;
     QString currentFixedPointId;
@@ -127,6 +128,7 @@ public slots:
     void _onCamAfSendButtonPressed();
     void _onCamIsoSendButtonPressed();
     void _onCamExpSendButtonPressed();
+    void _onCamFocusmetermodeSendButtonPressed();
 
     void _onCamRefreshButtonPressed();
 
