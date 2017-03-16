@@ -51,7 +51,8 @@ private:
 
     void mousePressEvent(QMouseEvent * event);
 
-    FastPixmapItem lvSnapshot;
+//    FastPixmapItem lvSnapshot;
+    QGraphicsPixmapItem lvSnapshot;
     QGraphicsRectItem *fpPlot;
     unsigned char * currentFrameBuffer;
 

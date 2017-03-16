@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
     poller *p = new poller();
     bJoyControl *bjc = new bJoyControl();
 
+   qDebug() << "bJoyControl up";
+
     unsigned int gpioArray[27] = {69,68,23,26,27,65,22,61,30,60,31,50,48,51,5,4,3,2,49,15,14,116,117,46,47};
 
     for(int i=0; i < 27; i++) {

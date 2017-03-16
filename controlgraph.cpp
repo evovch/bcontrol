@@ -1,5 +1,6 @@
 #include "controlgraph.h"
 #include <QDebug>
+#include <QThread>
 #include "bgraphicsellipseitem.h"
 #include <turbojpeg.h>
 
@@ -39,13 +40,13 @@ controlGraph::controlGraph(QWidget *parent) :
 //    img.load("/Users/korytov/2/correct.jpg");
 
 
-    QFile f("/Users/korytov/2/correct2.jpg");
-    f.open(QIODevice::ReadOnly);
+//    QFile f("/Users/korytov/2/correct2.jpg");
+//    f.open(QIODevice::ReadOnly);
 
     currentFrameBuffer = (unsigned char*)malloc(1);
     framerBusy = false;
 
-    _onGotAFrame(f.readAll());
+  //  _onGotAFrame(f.readAll());
 
  //   QPixmap pm = QPixmap::fromImage(img);
  //   pm = pm.scaled(sceneLV.width(), sceneLV.height(),  Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -194,7 +195,7 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
     }
     framerBusy = true;
 
-    qDebug() << "got new frame: " << frame.size();
+//    qDebug() << "got new frame: " << frame.size();
 
     long unsigned int _jpegSize = frame.size(); //!< _jpegSize from above
     unsigned char* _compressedImage = (unsigned char*)frame.data(); //!< _compressedImage from above
@@ -204,8 +205,8 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
     tjhandle _jpegDecompressor = tjInitDecompress();
 
     tjDecompressHeader2(_jpegDecompressor, _compressedImage, _jpegSize, &width, &height, &jpegSubsamp);
-    qDebug() << "size: " << width << "x" << height;
-    qDebug() << "subsamp: " << jpegSubsamp;
+//    qDebug() << "size: " << width << "x" << height;
+//    qDebug() << "subsamp: " << jpegSubsamp;
     if(jpegSubsamp < 0 || (width != 640 && width != 960)) {
         qDebug() << "corrupted frame";
         tjDestroy(_jpegDecompressor);
@@ -225,16 +226,20 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
 //    qDebug() << "tjDecompress2: " << res;
 
     tjDestroy(_jpegDecompressor);
-    QImage i(currentFrameBuffer, width, height, QImage::Format_RGB888);
+  QImage i(currentFrameBuffer, width, height, QImage::Format_RGB888);
+//   QImage i();
 //    i.save("/Users/korytov/2/_out.jpg", "JPEG");
 
     if(i.width() != this->width()) {
 //        qDebug() << "scaling to viewport: " << i.width() << " -> " << this->width();
-        i = i.scaled(this->width(), this->height());
+//        i = i.scaled(this->width(), this->height());
     }
 
+   QPixmap pm = QPixmap::fromImage(i);
+//   lvSnapshot.setTransformationMode(Qt::FastTransformation);
+    lvSnapshot.setPixmap(pm);
 
-    lvSnapshot.setPicture(&i);
+//    lvSnapshot.setPicture(&i);
 
     framerBusy = false;
 }

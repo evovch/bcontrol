@@ -1,4 +1,4 @@
 #!/bin/sh
 
-scp ../bjoy-build-debug/bjoy root@10.1.131.14:~korytov/bbin
+scp ../bjoy-build-debug/bjoy root@192.168.1.200:~korytov/bbin
 

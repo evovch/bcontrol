@@ -42,6 +42,8 @@ private:
     Ui_network *ui_nw;
     controlGraph *cg;
 
+    QLabel *camLabel, *connectionLabel, *camLabelPic, *connectionLabelPic;
+
     QDialog *limitsWindow;
 
     fhead *mp;
@@ -145,6 +147,8 @@ public slots:
 
     void _onConnected(void);
     void _onDisconnected(void);
+    void _onReconnecting(void);
+    void _onBSocketStateChanged(QAbstractSocket::SocketState state);
 
     void _onAfChanged(bool);
     void _onSrChanged(bool);
@@ -154,6 +158,7 @@ public slots:
 
     void _onGetFilesButtonPressed(void);
     void _onGetFiles5ButtonPressed(void);
+    void _onGetFilesStopButtonPressed(void);
 
     void _onDoSeek(QString name, int pos);
     void _onDoSetNull(QString name);

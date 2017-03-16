@@ -9,7 +9,7 @@ class bSocket : public QTcpSocket
     Q_OBJECT
 
 private:
-    QString hostAddr = "192.168.1.201";
+    QString hostAddr = "192.168.1.100";
 //    QString hostAddr = "172.16.248.200";
 
 public:
@@ -22,6 +22,7 @@ signals:
     void dataReceived(QString dev, QString key, QString value, QStringList arrayValue);
     void bConnected(void);
     void bDisconnected(void);
+    void bReconnecting(void);
 
 public slots:
     void _onNewData(void);

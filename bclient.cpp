@@ -85,16 +85,40 @@ bClient::bClient(QObject *parent) :
     ui_mw->mwTabs->setCurrentIndex(0);
     mw->show();
 
+    camLabel = new QLabel("Camera");
+    camLabelPic = new QLabel();
+    connectionLabel = new QLabel("DKV");
+    connectionLabelPic = new QLabel();
+
+    QPixmap camLabelPicPm(13, 13);
+    camLabelPicPm.fill(Qt::red);
+    camLabelPic->setPixmap(camLabelPicPm);
+
+    QPixmap connectionLabelPm(13, 13);
+    connectionLabelPm.fill(Qt::red);
+    connectionLabelPic->setPixmap(connectionLabelPm);
+
+ //   camLabelPicPm.fill(Qt::green);
+
+
+    mw->statusBar()->addPermanentWidget(connectionLabel);
+    mw->statusBar()->addPermanentWidget(connectionLabelPic);
+    mw->statusBar()->addPermanentWidget(camLabel);
+    mw->statusBar()->addPermanentWidget(camLabelPic);
+
     socket = new bSocket();
+    socket->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
     socket->reconnect();
+
 
     socketLv = new liveViewSocket();
     socketLv->reconnect();
 
+
     cWatchTimer = new QTimer(this);
-    connect(cWatchTimer, SIGNAL(timeout()), socket, SLOT(_onCWatchTimer()));
-    connect(cWatchTimer, SIGNAL(timeout()), socketLv, SLOT(_onCWatchTimer()));
-    cWatchTimer->start(1000);
+    connect(cWatchTimer, SIGNAL(timeout()), socket, SLOT(_onCWatchTimer()), Qt::QueuedConnection);
+    connect(cWatchTimer, SIGNAL(timeout()), socketLv, SLOT(_onCWatchTimer()), Qt::QueuedConnection);
+    cWatchTimer->start(3000);
 
     this->ui = ui;
 
@@ -102,12 +126,14 @@ bClient::bClient(QObject *parent) :
 
     fixedPoints = fixedPointHash();
 
-    QThread *thread = new QThread();
+ //   QThread *thread = new QThread();
 
     cg = new controlGraph(ui->headGraph);
 
-    cg->moveToThread(thread);
+/*
+    ui->headGraph->moveToThread(thread);
     thread->start();
+*/
 
     cg->setFixedPoints(&fixedPoints);
 
@@ -165,6 +191,8 @@ bClient::bClient(QObject *parent) :
 
     QObject::connect(socket, SIGNAL(bConnected()), this, SLOT(_onConnected()));
     QObject::connect(socket, SIGNAL(bDisconnected()), this, SLOT(_onDisconnected()));
+    QObject::connect(socket, SIGNAL(bReconnecting()), this, SLOT(_onReconnecting()));
+    QObject::connect(socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(_onBSocketStateChanged(QAbstractSocket::SocketState)));
 
     ui->fpTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
     ui->fpTableView->horizontalHeader()->resizeSection(0, 50);
@@ -225,6 +253,8 @@ bClient::bClient(QObject *parent) :
 
     QObject::connect(ui->getFilesButton, SIGNAL(pressed()), this, SLOT(_onGetFilesButtonPressed()));
     QObject::connect(ui->getFiles5Button, SIGNAL(pressed()), this, SLOT(_onGetFiles5ButtonPressed()));
+    QObject::connect(ui->getFilesStopButton, SIGNAL(pressed()), this, SLOT(_onGetFilesStopButtonPressed()));
+
     QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onFixedPointButtonPressed()));
 
     QObject::connect(ui->liveViewZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(_onLiveZoomSliderValueChanged(int)));
@@ -258,7 +288,7 @@ bClient::bClient(QObject *parent) :
     QObject::connect(cg, SIGNAL(panPositionRequested(int)), this, SLOT(_onPanPositionChanged(int)));
     QObject::connect(cg, SIGNAL(tiltPositionRequested(int)), this, SLOT(_onTiltPositionChanged(int)));
 
-    QObject::connect(cg, SIGNAL(touchMove(float, float)), this, SLOT(_onTouchMove(float, float)), Qt::DirectConnection);
+    QObject::connect(cg, SIGNAL(touchMove(float, float)), this, SLOT(_onTouchMove(float, float)), Qt::QueuedConnection);
 
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), cg, SLOT(_onFixedPointsUpdated()));
     QObject::connect(this, SIGNAL(fixedPointsUpdated()), fpModel, SLOT(_onFixedPointsUpdated()));
@@ -268,7 +298,20 @@ bClient::bClient(QObject *parent) :
     for(int i = 0; i < focusPoints.size(); i++) {
         QObject::connect(focusPoints.at(i), SIGNAL(focusPointPressed(int)), this, SLOT(_onFocusPointPressed(int)));
     }
+}
 
+void bClient::_onBSocketStateChanged(QAbstractSocket::SocketState state) {
+    switch ( state ) {
+        case QAbstractSocket::UnconnectedState:
+           _onDisconnected();
+           break;
+        case QAbstractSocket::ConnectingState:
+           _onReconnecting();
+           break;
+        case QAbstractSocket::ConnectedState:
+           _onConnected();
+           break;
+    }
 }
 
 void bClient::_onReconnectButtonPressed(){
@@ -337,13 +380,19 @@ void bClient::_onFocusPointPressed(int id) {
 void bClient::_onGetFilesButtonPressed(void) {
     qDebug() << "getFilesButton pressed!";
 
-    socket->send("cam", "get_files", "");
+    socket->send("cam", "get_files", "50");
 }
 
 void bClient::_onGetFiles5ButtonPressed(void) {
     qDebug() << "get5FilesButton pressed!";
 
     socket->send("cam", "get_files", "5");
+}
+
+void bClient::_onGetFilesStopButtonPressed(void) {
+    qDebug() << "getFilesStopButton pressed!";
+
+    socket->send("cam", "get_files", "stop");
 }
 
 void bClient::_onFixedPointButtonPressed(void) {
@@ -853,6 +902,10 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
 
         if(key=="autofocusarea")cg->hightlightFocusPoint(value.toInt());
     }
+
+    if(dev=="log" && key=="string") {
+        ui_nw->headLogText->append(value);
+    }
 }
 
 void bClient::updateRangeLabel() {
@@ -878,10 +931,26 @@ void bClient::_onVirtualY(int val) {
 void bClient::_onConnected() {
     mw->statusBar()->showMessage("Connected", 0);
 
+    QPixmap connectionLabelPm(13, 13);
+    connectionLabelPm.fill(Qt::green);
+    connectionLabelPic->setPixmap(connectionLabelPm);
+
     if(!ui_nw->addressInput->hasFocus())ui_nw->addressInput->setText(socket->getAddr());
 }
 
+void bClient::_onReconnecting() {
+    mw->statusBar()->showMessage("Reconnecting", 0);
+
+    QPixmap connectionLabelPm(13, 13);
+    connectionLabelPm.fill(Qt::yellow);
+    connectionLabelPic->setPixmap(connectionLabelPm);
+}
+
 void bClient::_onDisconnected() {
+    QPixmap connectionLabelPm(13, 13);
+    connectionLabelPm.fill(Qt::red);
+    connectionLabelPic->setPixmap(connectionLabelPm);
+
     mw->statusBar()->showMessage("Disconnected", 0);
 }
 

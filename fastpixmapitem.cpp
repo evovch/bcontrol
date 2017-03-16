@@ -20,6 +20,6 @@ void FastPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 }
 
 void FastPixmapItem::setPicture(const QImage *i) {
-    currentImage = QImage(*i);
+   currentImage = *i;
     update();
 }

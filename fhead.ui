@@ -657,8 +657,35 @@
     </rect>
    </property>
   </widget>
+  <widget class="QPushButton" name="getFilesStopButton">
+   <property name="geometry">
+    <rect>
+     <x>990</x>
+     <y>245</y>
+     <width>110</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="text">
+    <string>Get STOP</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>fhead</class>
+   <extends>QWidget</extends>
+   <header location="global">fhead.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>panControlWidget</class>
    <extends>QWidget</extends>
@@ -669,12 +696,6 @@
    <class>tiltControlWidget</class>
    <extends>QWidget</extends>
    <header location="global">tiltcontrolwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>fhead</class>
-   <extends>QWidget</extends>
-   <header location="global">fhead.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

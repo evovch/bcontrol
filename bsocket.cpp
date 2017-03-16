@@ -5,19 +5,24 @@
 void bSocket::reconnect()
 {
     connectToHost(hostAddr, 60000);
-    QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
+
+
+
+//    qDebug() << "reconnecting";
+    if(waitForConnected(2000)) {
+        qDebug() << "connected";
+        QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
+    }
+
+    qDebug() << "error string: " << errorString();
 }
 
 void bSocket::_onCWatchTimer(void) {
-    if(state()==QAbstractSocket::UnconnectedState){
-        reconnect();
-    }
+//    qDebug() << state();
 
-    if(state()==QAbstractSocket::ConnectedState) {
-        emit bConnected();
-        return;
-    }
-    emit bDisconnected();
+    emit stateChanged(state());
+
+    if(state() == QAbstractSocket::UnconnectedState)reconnect();
 }
 
 void bSocket::_onNewData(void) {
