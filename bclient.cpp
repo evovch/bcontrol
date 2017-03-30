@@ -804,10 +804,14 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
         if(!ui->focusValue->hasFocus())ui->focusValue->setValue(value.toInt());
     }
 
-    if(dev=="live_view" && key=="status") {
-//        qDebug() << "lv: " << value;
+    if((dev=="live_view" || dev=="viewfinder_cam") && key=="status") {
         if (value=="on") {
-            cg->setLVScene();
+            if(dev=="live_view") {
+                cg->setLVScene(controlGraph::MODE_LIVEVIEW);
+            }
+            else if(dev=="viewfinder_cam") {
+                cg->setLVScene(controlGraph::MODE_VIEWFINDER_CAM);
+            }
         }
         else {
             cg->setFPScene();

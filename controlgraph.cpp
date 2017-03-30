@@ -177,10 +177,17 @@ bool controlGraph::viewportEvent(QEvent *event)
     return QGraphicsView::viewportEvent(event);
 }
 
-void controlGraph::setLVScene() {
+void controlGraph::setLVScene(Mode m) {
     if (currentScene == &sceneLV)return;
     currentScene = &sceneLV;
     setScene(&sceneLV);
+
+    if(m == MODE_VIEWFINDER_CAM) {
+        lvSnapshot.setZValue(3);
+    }
+    else {
+        lvSnapshot.setZValue(0);
+    }
 }
 
 void controlGraph::setFPScene() {
@@ -232,7 +239,7 @@ void controlGraph::_onGotAFrame(QByteArray frame) {
 
     if(i.width() != this->width()) {
 //        qDebug() << "scaling to viewport: " << i.width() << " -> " << this->width();
-//        i = i.scaled(this->width(), this->height());
+        i = i.scaled(this->width(), this->height());
     }
 
    QPixmap pm = QPixmap::fromImage(i);

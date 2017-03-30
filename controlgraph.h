@@ -15,6 +15,8 @@ class controlGraph : public QGraphicsView
 {
     Q_OBJECT
 public:
+    enum Mode {MODE_LIVEVIEW, MODE_VIEWFINDER_CAM};
+
     controlGraph(QWidget *parent = 0);
 
     fixedPointHash *fixedPoints;
@@ -27,13 +29,15 @@ public:
     void setPanPosition(int value);
     void setTiltPosition(int value);
 
-    void setLVScene();
+    void setLVScene(Mode m);
     void setFPScene();
 
     QList<focusPoint *> getFocusPoints(void);
     void hightlightFocusPoint(int index);
 
     bool framerBusy;
+
+
     
 private:
     QGraphicsScene scene;
