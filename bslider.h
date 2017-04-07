@@ -12,7 +12,8 @@ public:
     bSlider(QWidget *parent = 0);
 
 public slots:
-    void reset();
+    void reset(void);
+
 };
 
 #endif // BSLIDER_H

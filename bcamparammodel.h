@@ -19,7 +19,7 @@ public:
     enum {foo, dMapId, sMapId, afMapId, modeMapId, isoMapId, expMapId, focusmetermodeMapId};
 
 private:
-    QList<QString> *baseMap;
+    QList<QString> *baseMap; //TODO pointer to the list of strings - wat?
 
     QList<QString> dMap;
     QList<QString> sMap;

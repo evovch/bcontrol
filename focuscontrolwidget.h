@@ -2,10 +2,11 @@
 #define FOCUSCONTROLWIDGET_H
 
 #include <QWidget>
-#include "motorcontrolwidget.h";
+
+#include "motorcontrolwidget.h"
 
 namespace Ui {
-class focusControlWidget;
+    class focusControlWidget;
 }
 
 class focusControlWidget : public motorControlWidget

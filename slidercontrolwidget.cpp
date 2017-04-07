@@ -1,4 +1,5 @@
 #include "slidercontrolwidget.h"
+
 #include "ui_slidercontrolwidget.h"
 
 sliderControlWidget::sliderControlWidget(QWidget *parent) :

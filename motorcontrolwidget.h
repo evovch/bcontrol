@@ -2,11 +2,12 @@
 #define MOTORCONTROLWIDGET_H
 
 #include <QWidget>
-#include "bslider.h"
 #include <QtGui>
 #include <QDial>
 #include <QProgressBar>
 #include <QLabel>
+
+#include "bslider.h"
 
 class motorControlWidget : public QWidget
 {

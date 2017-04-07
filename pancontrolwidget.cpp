@@ -1,4 +1,5 @@
 #include "pancontrolwidget.h"
+
 #include "ui_pancontrolwidget.h"
 
 panControlWidget::panControlWidget(QWidget *parent) :

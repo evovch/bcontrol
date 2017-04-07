@@ -1,4 +1,5 @@
 #include "focuscontrolwidget.h"
+
 #include "ui_focuscontrolwidget.h"
 
 focusControlWidget::focusControlWidget(QWidget *parent) :

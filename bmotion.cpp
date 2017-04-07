@@ -1,18 +1,24 @@
 #include "bmotion.h"
-#include "ui_bmotion.h"
+
 #include <QMouseEvent>
+#include <QDebug>
+
+#include "ui_bmotion.h"
 
 bmotion::bmotion(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::bmotion)
 {
     ui->setupUi(this);
-
     setMouseTracking(false);
     trackingOn = false;
 }
 
-void bmotion::mouseMoveEvent( QMouseEvent * event ){
+bmotion::~bmotion() {
+    delete ui;
+}
+
+void bmotion::mouseMoveEvent (QMouseEvent *event) {
     qDebug() << "mouse event received";
 
     if(trackingOn) {
@@ -21,23 +27,16 @@ void bmotion::mouseMoveEvent( QMouseEvent * event ){
     }
 }
 
-void bmotion::mousePressEvent( QMouseEvent * event ){
+void bmotion::mousePressEvent (QMouseEvent *event) {
     if(trackingOn) {
         setStyleSheet("background-color:none;");
         setMouseTracking(false);
         trackingOn = false;
         emit virtualX(5000);
         emit virtualY(5000);
-    }
-    else {
+    } else {
         setStyleSheet("background-color:#b7d6ee;");
         setMouseTracking(true);
         trackingOn = true;
     }
-
-}
-
-bmotion::~bmotion()
-{
-    delete ui;
 }

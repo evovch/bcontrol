@@ -2,10 +2,11 @@
 #define SLIDERCONTROLWIDGET_H
 
 #include <QWidget>
-#include "motorcontrolwidget.h";
+
+#include "motorcontrolwidget.h"
 
 namespace Ui {
-class sliderControlWidget;
+    class sliderControlWidget;
 }
 
 class sliderControlWidget : public motorControlWidget

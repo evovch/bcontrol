@@ -1,7 +1,10 @@
 #include "bclient.h"
+
 #include <QDebug>
 #include <QDialog>
 #include <QHeaderView>
+
+#include "bcamparammodel.h"
 
 bClient::bClient(QObject *parent) :
     QObject(parent)
@@ -312,7 +315,7 @@ bClient::bClient(QObject *parent) :
 }
 
 void bClient::_onBSocketStateChanged(QAbstractSocket::SocketState state) {
-    switch ( state ) {
+    switch (state) {
         case QAbstractSocket::UnconnectedState:
            _onDisconnected();
            break;

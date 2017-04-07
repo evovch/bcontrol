@@ -2,10 +2,9 @@
 #define BMOTION_H
 
 #include <QWidget>
-#include <qDebug>
 
 namespace Ui {
-class bmotion;
+    class bmotion;
 }
 
 class bmotion : public QWidget
@@ -16,8 +15,8 @@ public:
     explicit bmotion(QWidget *parent = 0);
     ~bmotion();
     
-    void mouseMoveEvent( QMouseEvent * event );
-    void mousePressEvent( QMouseEvent * event );
+    void mouseMoveEvent (QMouseEvent *event);
+    void mousePressEvent (QMouseEvent *event);
 
 private:
     Ui::bmotion *ui;

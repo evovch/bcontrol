@@ -1,4 +1,5 @@
 #include "zoomcontrolwidget.h"
+
 #include "ui_zoomcontrolwidget.h"
 
 zoomControlWidget::zoomControlWidget(QWidget *parent) :

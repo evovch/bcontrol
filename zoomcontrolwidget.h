@@ -2,10 +2,11 @@
 #define ZOOMCONTROLWIDGET_H
 
 #include <QWidget>
+
 #include "motorcontrolwidget.h"
 
 namespace Ui {
-class zoomControlWidget;
+    class zoomControlWidget;
 }
 
 class zoomControlWidget : public motorControlWidget

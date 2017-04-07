@@ -2,20 +2,23 @@
 #define BCLIENT_H
 
 #include <QObject>
+#include <QStringList>
+
 #include "bsocket.h"
 #include "liveviewsocket.h"
+#include "mainwindow.h"
+#include "controlgraph.h"
+#include "btypes.h"
+#include "bfixedpointmodel.h"
+
 #include "ui_fhead.h"
 #include "ui_mainwindow.h"
 #include "ui_camera.h"
 #include "ui_timelapse.h"
 #include "ui_limitswindow.h"
 #include "ui_network.h"
-#include "mainwindow.h"
-#include "controlgraph.h"
-#include <QStringList>
-#include "btypes.h"
-#include "bfixedpointmodel.h"
-#include "bcamparammodel.h"
+
+class bCamParamModel;
 
 class bClient : public QObject
 {

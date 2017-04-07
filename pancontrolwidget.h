@@ -2,10 +2,11 @@
 #define PANCONTROLWIDGET_H
 
 #include <QWidget>
-#include "motorcontrolwidget.h";
+
+#include "motorcontrolwidget.h"
 
 namespace Ui {
-class panControlWidget;
+    class panControlWidget;
 }
 
 class panControlWidget : public motorControlWidget

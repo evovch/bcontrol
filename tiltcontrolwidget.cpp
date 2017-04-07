@@ -1,4 +1,5 @@
 #include "tiltcontrolwidget.h"
+
 #include "ui_tiltcontrolwidget.h"
 
 tiltControlWidget::tiltControlWidget(QWidget *parent) :

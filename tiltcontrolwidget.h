@@ -2,7 +2,7 @@
 #define TILTCONTROLWIDGET_H
 
 #include <QWidget>
-#include "motorcontrolwidget.h";
+#include "motorcontrolwidget.h"
 
 namespace Ui {
 class tiltControlWidget;

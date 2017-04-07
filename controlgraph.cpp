@@ -1,8 +1,11 @@
 #include "controlgraph.h"
+
 #include <QDebug>
 #include <QThread>
-#include "bgraphicsellipseitem.h"
+
 #include <turbojpeg.h>
+
+#include "bgraphicsellipseitem.h"
 
 controlGraph::controlGraph(QWidget *parent) :
     QGraphicsView(parent)
