@@ -6,6 +6,13 @@
 bClient::bClient(QObject *parent) :
     QObject(parent)
 {
+    greenPixmap = QPixmap(50,30);
+    greenPixmap.fill(Qt::green);
+
+    redPixmap = QPixmap(50,30);
+    redPixmap.fill(Qt::red);
+
+    nonePixmap = QPixmap(50,30);
 
     mw = new mainWindow();
     ui_mw = new Ui_mainWindow;
@@ -177,6 +184,9 @@ bClient::bClient(QObject *parent) :
     ui_cam->camFocusmetermodeCombo->setModel(focusmetermodeVals);
     ui_cam->camFocusmetermodeCombo->setModelColumn(1);
 
+    ui->liveViewButton_label->clear();
+    ui->viewFinderCamButton_label->clear();
+
 //    currentFixedPointId = "p1";
 //    fpModel->selectFixedPoint(currentFixedPointId);
 
@@ -258,8 +268,9 @@ bClient::bClient(QObject *parent) :
     QObject::connect(ui->fixedPointButton, SIGNAL(pressed()), this, SLOT(_onFixedPointButtonPressed()));
 
     QObject::connect(ui->liveViewZoomSlider, SIGNAL(valueChanged(int)), this, SLOT(_onLiveZoomSliderValueChanged(int)));
-
     QObject::connect(ui->liveViewButton, SIGNAL(pressed()), this, SLOT(_onLiveViewButtonPressed()));
+    QObject::connect(ui->viewFinderCamButton, SIGNAL(pressed()), this, SLOT(_onViewfinderCamButtonPressed()));
+
     QObject::connect(ui->focusUpButton, SIGNAL(pressed()), this, SLOT(_onFocusUpButtonPressed()));
     QObject::connect(ui->focusDownButton, SIGNAL(pressed()), this, SLOT(_onFocusDownButtonPressed()));
     QObject::connect(ui->focusUpMuchButton, SIGNAL(pressed()), this, SLOT(_onFocusUpMuchButtonPressed()));
@@ -421,6 +432,13 @@ void bClient::_onLiveViewButtonPressed(void) {
 
     socket->send("live_view", "toggle", 0);
 }
+
+void bClient::_onViewfinderCamButtonPressed(void) {
+    qDebug() << "viewfinderCam pressed!";
+
+    socket->send("viewfinder_cam", "toggle", 0);
+}
+
 
 void bClient::_onFocusUpButtonPressed(void) {
     qDebug() << "focusUp pressed!";
@@ -805,12 +823,16 @@ void bClient::_onDataReceived(QString dev, QString key, QString value, QStringLi
     }
 
     if((dev=="live_view" || dev=="viewfinder_cam") && key=="status") {
+        ui->liveViewButton_label->clear();
+        ui->viewFinderCamButton_label->clear();
         if (value=="on") {
             if(dev=="live_view") {
                 cg->setLVScene(controlGraph::MODE_LIVEVIEW);
+                ui->liveViewButton_label->setPixmap(greenPixmap);
             }
             else if(dev=="viewfinder_cam") {
                 cg->setLVScene(controlGraph::MODE_VIEWFINDER_CAM);
+                ui->viewFinderCamButton_label->setPixmap(greenPixmap);
             }
         }
         else {

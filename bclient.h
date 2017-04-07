@@ -32,6 +32,8 @@ public:
     void refreshFixedPoints(void);
 
 private:
+    QPixmap greenPixmap, redPixmap, nonePixmap;
+
     bSocket *socket;
     liveViewSocket *socketLv;
     Ui_fhead *ui;
@@ -97,6 +99,8 @@ public slots:
 
     void _onFixedPointButtonPressed(void);
     void _onLiveViewButtonPressed(void);
+    void _onViewfinderCamButtonPressed(void);
+
     void _onFocusUpButtonPressed(void);
     void _onFocusDownButtonPressed(void);
     void _onFocusUpMuchButtonPressed(void);

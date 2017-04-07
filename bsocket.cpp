@@ -10,7 +10,7 @@ void bSocket::reconnect()
 
 //    qDebug() << "reconnecting";
     if(waitForConnected(2000)) {
-        qDebug() << "connected";
+        qDebug() << "MAIN connected";
         QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
     }
 

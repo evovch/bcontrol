@@ -3,21 +3,24 @@
 
 void liveViewSocket::reconnect()
 {
-    if(state()==QAbstractSocket::ConnectedState)disconnectFromHost();
     connectToHost(hostAddr, 60005);
-    QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()), Qt::QueuedConnection);
+
+//    qDebug() << "reconnecting";
+    if(waitForConnected(2000)) {
+        qDebug() << "LV connected";
+        QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
+    }
+
+    qDebug() << "error string: " << errorString();
+
 }
 
 void liveViewSocket::_onCWatchTimer(void) {
-    if(state()==QAbstractSocket::UnconnectedState){
-        reconnect();
-    }
+    qDebug() << "SSSS: " << state();
 
-    if(state()==QAbstractSocket::ConnectedState) {
-        emit bConnected();
-        return;
-    }
-    emit bDisconnected();
+    emit stateChanged(state());
+
+    if(state() == QAbstractSocket::UnconnectedState)reconnect();
 }
 
 void liveViewSocket::_onNewData(void) {
