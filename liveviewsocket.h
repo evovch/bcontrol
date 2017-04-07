@@ -14,7 +14,7 @@ public:
 
 private:
     QByteArray mjpegBuffer;
-    QString hostAddr = "192.168.1.100";
+    QString hostAddr = "127.0.0.1";
 //    QString hostAddr = "172.16.248.200";
 
 signals:
@@ -25,6 +25,7 @@ signals:
 public slots:
     void _onNewData(void);
     void _onCWatchTimer(void);
+
 };
 
 #endif // LIVEVIEWSOCKET_H

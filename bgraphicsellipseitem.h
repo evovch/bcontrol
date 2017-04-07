@@ -7,9 +7,11 @@
 class bGraphicsEllipseItem : public QGraphicsEllipseItem
 {
 public:
-    bGraphicsEllipseItem( QGraphicsItem * parent = 0 );
+    bGraphicsEllipseItem(QGraphicsItem *parent = 0);
+
 protected:
-    void mousePressEvent(QMouseEvent * event);
+    void mousePressEvent(QMouseEvent *event);
+
 };
 
 #endif // BGRAPHICSELLIPSEITEM_H

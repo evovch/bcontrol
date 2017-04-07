@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class timelapse;
+    class timelapse;
 }
 
 class timelapse : public QWidget

@@ -1,5 +1,7 @@
 #include "fhead.h"
+
 #include "ui_fhead.h"
+
 #include <QDebug>
 
 fhead::fhead(QWidget *parent) :
@@ -46,7 +48,6 @@ void fhead::keyPressEvent(QKeyEvent *event)
             return;
         }
     }
-
 }
 
 void fhead::keyReleaseEvent(QKeyEvent *event)

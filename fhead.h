@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class fhead;
+    class fhead;
 }
 
 class fhead : public QWidget
@@ -29,6 +29,7 @@ protected:
 
 private:
     Ui::fhead *ui;
+
 };
 
 #endif // FHEAD_H

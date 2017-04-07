@@ -1,4 +1,5 @@
 #include "bfixedpointmodel.h"
+
 #include <QDebug>
 #include <QColor>
 
@@ -51,11 +52,9 @@ QVariant bFixedPointModel::data(const QModelIndex &index, int role) const
         return QColor("#d3f9fe");
     }
 
-
     if (role == Qt::DecorationRole && index.column() == 3 ) {
         return QColor("#fc757b");
     }
-
 
     if (role == Qt::ToolTipRole) {
         return id;

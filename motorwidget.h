@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class motorWidget;
+    class motorWidget;
 }
 
 class motorWidget : public QWidget
@@ -39,7 +39,5 @@ public slots:
     void _onResetPressed(void);
     void _onPowerPressed(void);
 };
-
-
 
 #endif // MOTORWIDGET_H

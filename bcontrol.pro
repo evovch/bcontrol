@@ -8,19 +8,25 @@ CONFIG += c++11
 
 #QMAKE_MAC_SDK = macosx10.11
 
+#LIBS += -L/home/evovch/Documents/DKV/libjpeg-turbo_build/
+LIBS += -lturbojpeg
+
+INCLUDEPATH += gui/
+
 SOURCES += \
     main.cpp \
     bsocket.cpp \
-    bslider.cpp \
-    blabel.cpp \
-    bcontrolwidget.cpp \
-    tiltcontrolwidget.cpp \
-    pancontrolwidget.cpp \
-    slidercontrolwidget.cpp \
-    zoomcontrolwidget.cpp \
-    focuscontrolwidget.cpp \
-    basic.cpp \
+    gui/bslider.cpp \
+    gui/blabel.cpp \
+    gui/bcontrolwidget.cpp \
+    gui/tiltcontrolwidget.cpp \
+    gui/pancontrolwidget.cpp \
+    gui/slidercontrolwidget.cpp \
+    gui/zoomcontrolwidget.cpp \
+    gui/focuscontrolwidget.cpp \
+    motorwidget.cpp \
     motorcontrolwidget.cpp \
+    basic.cpp \
     bclient.cpp \
     controlgraph.cpp \
     fhead.cpp \
@@ -30,23 +36,23 @@ SOURCES += \
     bcamparammodel.cpp \
     bmotion.cpp \
     mainwindow.cpp \
-    camera.cpp \
+    gui/camera.cpp \
     focuspoint.cpp \
     timelapse.cpp \
-    motorwidget.cpp \
     network.cpp \
     fastpixmapitem.cpp
 
 HEADERS += \
     bsocket.h \
-    bslider.h \
-    blabel.h \
-    bcontrolwidget.h \
-    tiltcontrolwidget.h \
-    pancontrolwidget.h \
-    slidercontrolwidget.h \
-    zoomcontrolwidget.h \
-    focuscontrolwidget.h \
+    gui/bslider.h \
+    gui/blabel.h \
+    gui/bcontrolwidget.h \
+    gui/tiltcontrolwidget.h \
+    gui/pancontrolwidget.h \
+    gui/slidercontrolwidget.h \
+    gui/zoomcontrolwidget.h \
+    gui/focuscontrolwidget.h \
+    motorwidget.h \
     motorcontrolwidget.h \
     bclient.h \
     controlgraph.h \
@@ -58,25 +64,24 @@ HEADERS += \
     bcamparammodel.h \
     bmotion.h \
     mainwindow.h \
-    camera.h \
+    gui/camera.h \
     focuspoint.h \
     timelapse.h \
-    motorwidget.h \
     network.h \
     fastpixmapitem.h
 
 FORMS += \
     main.ui \
     fhead.ui \
-    tiltcontrolwidget.ui \
-    pancontrolwidget.ui \
-    slidercontrolwidget.ui \
-    zoomcontrolwidget.ui \
-    focuscontrolwidget.ui \
+    gui/tiltcontrolwidget.ui \
+    gui/pancontrolwidget.ui \
+    gui/slidercontrolwidget.ui \
+    gui/zoomcontrolwidget.ui \
+    gui/focuscontrolwidget.ui \
+    motorwidget.ui \
     bmotion.ui \
     mainwindow.ui \
-    camera.ui \
+    gui/camera.ui \
     timelapse.ui \
     limitswindow.ui \
-    motorwidget.ui \
     network.ui

@@ -1,12 +1,11 @@
 #include "bsocket.h"
+
 #include <QDebug>
 #include <QRegExp>
 
 void bSocket::reconnect()
 {
     connectToHost(hostAddr, 60000);
-
-
 
 //    qDebug() << "reconnecting";
     if(waitForConnected(2000)) {

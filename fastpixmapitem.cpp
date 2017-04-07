@@ -1,4 +1,5 @@
 #include "fastpixmapitem.h"
+
 #include <QDebug>
 
 FastPixmapItem::FastPixmapItem(QGraphicsItem *parent) :
@@ -20,6 +21,6 @@ void FastPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 }
 
 void FastPixmapItem::setPicture(const QImage *i) {
-   currentImage = *i;
+    currentImage = *i;
     update();
 }

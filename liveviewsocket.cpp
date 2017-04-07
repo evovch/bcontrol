@@ -1,4 +1,5 @@
 #include "liveviewsocket.h"
+
 #include <QDebug>
 
 void liveViewSocket::reconnect()
@@ -12,7 +13,6 @@ void liveViewSocket::reconnect()
     }
 
     qDebug() << "error string: " << errorString();
-
 }
 
 void liveViewSocket::_onCWatchTimer(void) {
@@ -33,7 +33,7 @@ void liveViewSocket::_onNewData(void) {
     int i;
     while(1) {
         i = mjpegBuffer.indexOf(delim);
-        if(i==-1)break;
+        if (i==-1) break;
 
         frame = mjpegBuffer.left(i);
         mjpegBuffer.remove(0, i+delim.size());

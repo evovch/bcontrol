@@ -1,12 +1,15 @@
+#include <QApplication>
+
 #include <QtCore>
 #include <QtGui>
 #include <QSlider>
 #include <QVBoxLayout>
 #include <QDialog>
 #include <QLabel>
-#include <QApplication>
 #include <QObject>
+
 #include "bsocket.h"
+
 #include "bslider.h"
 #include "ui_main.h"
 #include "blabel.h"

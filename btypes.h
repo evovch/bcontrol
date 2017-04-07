@@ -11,6 +11,7 @@ typedef struct {
 
     int timelapseMember;
 } fixedPoint;
+
 typedef QHash<QString, fixedPoint> fixedPointHash;
 typedef QVector<fixedPoint> fixedPointArray;
 

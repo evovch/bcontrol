@@ -9,11 +9,12 @@
 #include "btypes.h"
 #include "bgraphicsellipseitem.h"
 #include "focuspoint.h"
-#include "fastpixmapitem.h"
+//#include "fastpixmapitem.h"
 
 class controlGraph : public QGraphicsView
 {
     Q_OBJECT
+
 public:
     enum Mode {MODE_LIVEVIEW, MODE_VIEWFINDER_CAM};
 
@@ -32,13 +33,11 @@ public:
     void setLVScene(Mode m);
     void setFPScene();
 
-    QList<focusPoint *> getFocusPoints(void);
+    QList<focusPoint*> getFocusPoints(void);
     void hightlightFocusPoint(int index);
 
     bool framerBusy;
 
-
-    
 private:
     QGraphicsScene scene;
     QGraphicsScene sceneLV;
@@ -47,7 +46,7 @@ private:
     QGraphicsLineItem *lineTilt;
     QGraphicsLineItem *linePan;
 
-    QList<focusPoint *> focusPoints;
+    QList<focusPoint*> focusPoints;
     int activeFocusPointIndex;
 
     QHash<QString, bGraphicsEllipseItem*> elliseFixedPointHash;

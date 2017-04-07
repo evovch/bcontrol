@@ -13,7 +13,7 @@ private:
 //    QString hostAddr = "172.16.248.200";
 
 public:
-    void send(QString dev, QString key, QString value, QStringList params = QStringList::QStringList());
+    void send(QString dev, QString key, QString value, QStringList params = QStringList()); // TODO how is that?
     void reconnect();
     void setAddr(QString addr);
     QString getAddr();

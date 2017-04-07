@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class camera;
+    class camera;
 }
 
 class camera : public QWidget

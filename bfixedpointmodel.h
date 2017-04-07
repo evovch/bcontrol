@@ -2,6 +2,7 @@
 #define BFIXEDPOINTMODEL_H
 
 #include <QAbstractTableModel>
+
 #include "btypes.h"
 
 class bFixedPointModel : public QAbstractTableModel
@@ -30,6 +31,7 @@ signals:
 public slots:
     void _onFixedPointsUpdated(void);
     void _onCellClicked ( const QModelIndex index );
+
 };
 
 #endif // BFIXEDPOINTMODEL_H

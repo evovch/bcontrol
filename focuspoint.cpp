@@ -1,4 +1,5 @@
 #include "focuspoint.h"
+
 #include <QPen>
 #include <QDebug>
 

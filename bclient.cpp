@@ -325,6 +325,8 @@ void bClient::_onBSocketStateChanged(QAbstractSocket::SocketState state) {
         case QAbstractSocket::ConnectedState:
            _onConnected();
            break;
+        default:
+            break;
     }
 }
 

@@ -1,4 +1,5 @@
 #include "camera.h"
+
 #include "ui_camera.h"
 
 camera::camera(QWidget *parent) :

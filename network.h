@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class network;
+    class network;
 }
 
 class network : public QWidget
