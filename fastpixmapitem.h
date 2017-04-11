@@ -6,8 +6,6 @@
 
 class FastPixmapItem : public QGraphicsItem
 {
-private:
-    QImage currentImage;
 
 public:
     explicit FastPixmapItem(QGraphicsItem *parent = 0);
@@ -20,6 +18,9 @@ signals:
     
 public slots:
     
+private:
+    QImage currentImage;
+
 };
 
 #endif // FASTPIXMAPITEM_H

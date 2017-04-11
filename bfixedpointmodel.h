@@ -18,10 +18,6 @@ public:
 
     void selectFixedPoint(QString id);
 
-private:
-    fixedPointHash *fPs;
-    QString currentFixedPointId;
-
 signals:
     void removeFixedPointClicked(QString id);
     void selectFixedPointClicked(QString id);
@@ -31,6 +27,10 @@ signals:
 public slots:
     void _onFixedPointsUpdated(void);
     void _onCellClicked ( const QModelIndex index );
+
+private:
+    fixedPointHash *fPs;
+    QString currentFixedPointId;
 
 };
 

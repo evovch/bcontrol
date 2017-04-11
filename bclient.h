@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QSortFilterProxyModel>
 
 #include "bsocket.h"
 #include "liveviewsocket.h"

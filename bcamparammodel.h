@@ -6,6 +6,7 @@
 class bCamParamModel : public QAbstractTableModel
 {
     Q_OBJECT
+
 public:
     explicit bCamParamModel(QList<QString> *bm = NULL, int defaultMap = 0, QObject *parent = 0);
     
@@ -16,7 +17,7 @@ public:
     int getIndex(QString key);
     QString getValue(int index);
 
-    enum {foo, dMapId, sMapId, afMapId, modeMapId, isoMapId, expMapId, focusmetermodeMapId};
+    enum {foo, dMapId, sMapId, afMapId, modeMapId, isoMapId, expMapId, focusmetermodeMapId}; //TODO no name enum - ?
 
 private:
     QList<QString> *baseMap; //TODO pointer to the list of strings - wat?

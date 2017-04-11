@@ -2,6 +2,12 @@ QT += widgets
 QT += network
 
 CONFIG += c++11
+CONFIG += console
+
+release: DESTDIR = ../qbone2-build-release
+debug:   DESTDIR = ../qbone2-build-debug
+
+QMAKE_CXXFLAGS += -Wall -Wextra -Wpedantic
 
 #QMAKE_CXXFLAGS += -fpermissive -I/usr/include -I/opt/libjpeg-turbo/include
 #QMAKE_LFLAGS += -L/opt/libjpeg-turbo/lib -lturbojpeg

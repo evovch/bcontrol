@@ -14,8 +14,8 @@ focusPoint::focusPoint(unsigned int cid, int x, int y, QGraphicsItem *parent) : 
     setZValue(2);
 }
 
-void focusPoint::mousePressEvent(QGraphicsSceneMouseEvent * event) {
+void focusPoint::mousePressEvent(QGraphicsSceneMouseEvent* /*event*/)
+{
     qDebug() << "focus point pressed: " << id;
-
     emit(focusPointPressed(id));
 }

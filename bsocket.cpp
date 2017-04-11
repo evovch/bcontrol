@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QRegExp>
 
-void bSocket::reconnect()
+void bSocket::reconnect(void)
 {
     connectToHost(hostAddr, 60000);
 
@@ -16,15 +16,17 @@ void bSocket::reconnect()
     qDebug() << "error string: " << errorString();
 }
 
-void bSocket::_onCWatchTimer(void) {
+void bSocket::_onCWatchTimer(void)
+{
 //    qDebug() << state();
 
     emit stateChanged(state());
 
-    if(state() == QAbstractSocket::UnconnectedState)reconnect();
+    if (state() == QAbstractSocket::UnconnectedState) reconnect();
 }
 
-void bSocket::_onNewData(void) {
+void bSocket::_onNewData(void)
+{
     QByteArray d = readAll();
 
     QString str = QString(d);
@@ -45,10 +47,10 @@ void bSocket::_onNewData(void) {
 
 void bSocket::send(QString dev, QString key, QString value, QStringList params)
 {
-    if(state()==QAbstractSocket::UnconnectedState){
+    if (state() == QAbstractSocket::UnconnectedState) {
         reconnect();
     }
-    if(state()==QAbstractSocket::ConnectedState){
+    if (state() == QAbstractSocket::ConnectedState) {
         QString str = dev + ":" + key + ":" + value + ":" + params.join(",");
         QByteArray byteArray = str.toUtf8();
         const char* cString = byteArray.constData();
@@ -58,11 +60,12 @@ void bSocket::send(QString dev, QString key, QString value, QStringList params)
     }
 }
 
-void bSocket::setAddr(QString addr) {
+void bSocket::setAddr(QString addr)
+{
     hostAddr = addr;
 }
 
-QString bSocket::getAddr() {
+QString bSocket::getAddr(void)
+{
     return hostAddr;
 }
-

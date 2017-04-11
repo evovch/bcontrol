@@ -18,13 +18,13 @@ public:
     void mouseMoveEvent (QMouseEvent *event);
     void mousePressEvent (QMouseEvent *event);
 
-private:
-    Ui::bmotion *ui;
-    bool trackingOn;
-
 signals:
     void virtualX(int);
     void virtualY(int);
+
+private:
+    Ui::bmotion *ui;
+    bool trackingOn;
 
 };
 

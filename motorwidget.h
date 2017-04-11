@@ -19,10 +19,6 @@ public:
     void setPosition(int pos);
     void setPowerControl(bool state);
 
-private:
-    Ui::motorWidget *ui;
-    QString motorSuffix;
-
 signals:
     void doSeek(QString, int);
     void doSetNull(QString);
@@ -38,6 +34,11 @@ public slots:
     void _onLimitPressed(void);
     void _onResetPressed(void);
     void _onPowerPressed(void);
+
+private:
+    Ui::motorWidget *ui;
+    QString motorSuffix;
+
 };
 
 #endif // MOTORWIDGET_H

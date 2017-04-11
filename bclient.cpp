@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QDialog>
+#include <QTimer>
 #include <QHeaderView>
 
 #include "bcamparammodel.h"
@@ -343,45 +344,38 @@ void bClient::_onResetButtonPressed(){
 
 void bClient::_onDoSeek(QString name, int pos) {
     qDebug() << "seek to "+  QString::number(pos) +" for -" + name + "- pressed";
-
     socket->send("motor_" + name, "set_position", QString::number(pos));
 }
 
 void bClient::_onDoSetNull(QString name) {
     qDebug() << "set null for -" + name + "- pressed";
-
     socket->send("motor_" + name, "set_null", "");
 
 }
 
 void bClient::_onDoSetCenter(QString name) {
     qDebug() << "set center for -" + name + "- pressed";
-
     socket->send("motor_" + name, "set_center", "");
 }
 
 void bClient::_onDoSetLimit(QString name) {
     qDebug() << "set limit for -" + name + "- pressed";
-
     socket->send("motor_" + name, "set_limit", "");
 }
 
 void bClient::_onDoResetLimit(QString name) {
     qDebug() << "reset limit for -" + name + "- pressed";
-
     socket->send("motor_" + name, "reset_limit", "");
 }
 
 void bClient::_onDoPower(QString name) {
     qDebug() << "toggle power for -" + name + "- pressed";
-
     socket->send("motor_" + name, "toggle_power", "");
 }
 
 
 void bClient::_onPopupLimitsButtonPressed() {
      qDebug() << "limits window point pressed!";
-
      if(limitsWindow->isHidden())limitsWindow->show();
      else limitsWindow->hide();
 }
@@ -389,33 +383,27 @@ void bClient::_onPopupLimitsButtonPressed() {
 
 void bClient::_onFocusPointPressed(int id) {
      qDebug() << "focus point pressed!";
-
      socket->send("cam", "set_autofocusarea", QString::number(id));
 }
 
 void bClient::_onGetFilesButtonPressed(void) {
     qDebug() << "getFilesButton pressed!";
-
     socket->send("cam", "get_files", "50");
 }
 
 void bClient::_onGetFiles5ButtonPressed(void) {
     qDebug() << "get5FilesButton pressed!";
-
     socket->send("cam", "get_files", "5");
 }
 
 void bClient::_onGetFilesStopButtonPressed(void) {
     qDebug() << "getFilesStopButton pressed!";
-
     socket->send("cam", "get_files", "stop");
 }
 
 void bClient::_onFixedPointButtonPressed(void) {
     qDebug() << "fixPoint pressed!";
-
     fixedPoint fp;
-
     ui->fixedPointNameInput->show();
     ui->fixedPointNameInput->setFocus();
 }
@@ -426,7 +414,7 @@ void bClient::_onFixedPointInputReturnPressed(void) {
     fixedPoint fp;
     fp.name = ui->fixedPointNameInput->text();
 
-     ui->fixedPointNameInput->clear();
+    ui->fixedPointNameInput->clear();
     ui->fixedPointNameInput->hide();
 
     sendFixedPoint(0, fp);
@@ -434,32 +422,27 @@ void bClient::_onFixedPointInputReturnPressed(void) {
 
 void bClient::_onLiveViewButtonPressed(void) {
     qDebug() << "liveView pressed!";
-
     socket->send("live_view", "toggle", 0);
 }
 
 void bClient::_onViewfinderCamButtonPressed(void) {
     qDebug() << "viewfinderCam pressed!";
-
     socket->send("viewfinder_cam", "toggle", 0);
 }
 
 
 void bClient::_onFocusUpButtonPressed(void) {
     qDebug() << "focusUp pressed!";
-
     socket->send("focus", "step", "up");
 }
 
 void bClient::_onFocusDownButtonPressed(void) {
     qDebug() << "focusDown pressed!";
-
     socket->send("focus", "step", "down");
 }
 
 void bClient::_onFocusUpMuchButtonPressed(void) {
     qDebug() << "focusUpMuch pressed!";
-
     socket->send("focus", "step", "up_much");
 }
 
@@ -471,43 +454,36 @@ void bClient::_onFocusDownMuchButtonPressed(void) {
 
 void bClient::_onFocusValue(int value) {
     qDebug() << "focusDown pressed!";
-
     socket->send("focus", "set_value", QString::number(value));
 }
 
 void bClient::_onCaptureButtonPressed(void) {
     qDebug() << "capture pressed!";
-
     socket->send("shutter", "capture", "");
 }
 
 void bClient::_onFlipPanButtonPressed(void) {
     qDebug() << "flipPan pressed!";
-
     socket->send("motor_pan", "flip_reverse", "");
 }
 
 void bClient::_onFlipTiltButtonPressed(void) {
     qDebug() << "flipTilt pressed!";
-
     socket->send("motor_tilt", "flip_reverse", "");
 }
 
 void bClient::_onFlipZoomButtonPressed(void) {
     qDebug() << "flipZoom pressed!";
-
     socket->send("motor_zoom", "flip_reverse", "");
 }
 
 void bClient::_onFlipFocusButtonPressed(void) {
     qDebug() << "flipFocus pressed!";
-
     socket->send("motor_focus", "flip_reverse", "");
 }
 
 void bClient::_onFlipSliderButtonPressed(void) {
     qDebug() << "flipSlider pressed!";
-
     socket->send("motor_slider", "flip_reverse", "");
 }
 
@@ -519,9 +495,7 @@ void bClient::_onTlRunButtonPressed(void) {
     socket->send("timelapse", "set_direction", QString::number(ui_tl->tlDirectionInput->value()));
     socket->send("timelapse", "set_frames", QString::number(ui_tl->tlFramesInput->value()));
     socket->send("timelapse", "set_shutterdelay", QString::number(ui_tl->tlShutterDelayInput->value()));
-
     socket->send("timelapse", "set_mirrorup", QString::number(ui_tl->tlMirrorupInput->checkState()));
-
     socket->send("timelapse", "toggle", "run");
 }
 
@@ -532,9 +506,7 @@ void bClient::_onTlDemoButtonPressed(void) {
     socket->send("timelapse", "set_direction", QString::number(ui_tl->tlDirectionInput->value()));
     socket->send("timelapse", "set_frames", QString::number(ui_tl->tlFramesInput->value()));
     socket->send("timelapse", "set_shutterdelay", QString::number(ui_tl->tlShutterDelayInput->value()));
-
     socket->send("timelapse", "set_mirrorup", QString::number(ui_tl->tlMirrorupInput->checkState()));
-
     socket->send("timelapse", "toggle", "demo");
 }
 
@@ -562,15 +534,12 @@ void bClient::clearFixedPoints(void) {
 
 void bClient::refreshFixedPoints(void) {
 //    qDebug() << "resreshing fps";
-
     emit fixedPointsUpdated();
     fpProxyModel->sort(4);
 }
 
-
 void bClient::_onPanSpeedChanged(int value) {
     socket->send("motor_pan", "set_speed", QString::number(value));
-
     qDebug() << "new Pan speed: " << value;
 }
 
@@ -580,7 +549,6 @@ void bClient::_onPanPositionChanged(int value) {
 
 void bClient::_onTiltSpeedChanged(int value) {
     socket->send("motor_tilt", "set_speed", QString::number(value));
-
     qDebug() << "new Tilt speed: " << value;
 }
 
@@ -607,22 +575,18 @@ void bClient::_onSliderPositionChanged(int value) {
 
 void bClient::_onZoomSpeedChanged(int value) {
     socket->send("motor_zoom", "set_speed", QString::number(value));
-
     qDebug() << "new Zoom speed: " << value;
 }
 
 void bClient::_onFocusSpeedChanged(int value) {
     socket->send("motor_focus", "set_speed", QString::number(value));
-
     qDebug() << "new Focus speed: " << value;
 }
 
 void bClient::_onSliderSpeedChanged(int value) {
     socket->send("motor_slider", "set_speed", QString::number(value));
-
     qDebug() << "new Slider speed: " << value;
 }
-
 
 void bClient::_onSetCenterButtonPressed(void) {
     socket->send("motor_pan", "set_center", "");
@@ -644,7 +608,6 @@ void bClient::_onSetNullZFButtonPressed(void) {
     socket->send("motor_focus", "set_null", "");
 }
 
-
 void bClient::_onRemoveFixedPoint(QString id) {
     socket->send("fixed_point", "remove", id);
 }
@@ -662,90 +625,75 @@ void bClient::_onLiveZoomSliderValueChanged(int val) {
      socket->send("live_view", "set_zoom", QString::number(val));
 }
 
-
 void bClient::_onCamDIndexChanged(int val) {
      socket->send("cam", "set_d", dVals->getValue(val));
-
      qDebug() << "cam:set_d:" << dVals->getValue(val);
 }
 
 void bClient::_onCamSIndexChanged(int val) {
      socket->send("cam", "set_s", sVals->getValue(val));
-
      qDebug() << "cam:set_s:" << sVals->getValue(val);
 }
 
 void bClient::_onCamAfIndexChanged(int val) {
      socket->send("cam", "set_af", afVals->getValue(val));
-
      qDebug() << "cam:set_af:" << afVals->getValue(val);
 }
 
 void bClient::_onCamModeIndexChanged(int val) {
      socket->send("cam", "set_mode", modeVals->getValue(val));
-
      qDebug() << "cam:set_mode:" << modeVals->getValue(val);
 }
 
 void bClient::_onCamIsoIndexChanged(int val) {
      socket->send("cam", "set_iso", isoVals->getValue(val));
-
      qDebug() << "cam:set_iso:" << isoVals->getValue(val);
 }
 
 void bClient::_onCamExpIndexChanged(int val) {
      socket->send("cam", "set_exp", expVals->getValue(val));
-
      qDebug() << "cam:set_exp:" << expVals->getValue(val);
 }
-
 
 void bClient::_onCamDSendButtonPressed() {
      QString v = dVals->getValue(ui_cam->camDCombo->currentIndex());
      socket->send("cam", "set_d", v);
-
      qDebug() << "cam:set_d:" << v;
 }
 
 void bClient::_onCamSSendButtonPressed() {
      QString v = sVals->getValue(ui_cam->camSCombo->currentIndex());
      socket->send("cam", "set_s", v);
-
      qDebug() << "cam:set_s:" << v;
 }
 
 void bClient::_onCamModeSendButtonPressed() {
      QString v = modeVals->getValue(ui_cam->camModeCombo->currentIndex());
      socket->send("cam", "set_mode", v);
-
      qDebug() << "cam:set_mode:" << v;
 }
 
 void bClient::_onCamIsoSendButtonPressed() {
      QString v = isoVals->getValue(ui_cam->camIsoCombo->currentIndex());
      socket->send("cam", "set_iso", v);
-
      qDebug() << "cam:set_iso:" << v;
 }
 
 void bClient::_onCamExpSendButtonPressed() {
      QString v = expVals->getValue(ui_cam->camExpCombo->currentIndex());
      socket->send("cam", "set_exp", v);
-
      qDebug() << "cam:set_exp:" << v;
 }
 
 void bClient::_onCamAfSendButtonPressed() {
      QString v = afVals->getValue(ui_cam->camAfCombo->currentIndex());
      socket->send("cam", "set_af", v);
-
      qDebug() << "cam:set_af:" << v;
 }
 
 void bClient::_onCamFocusmetermodeSendButtonPressed() {
      QString v = focusmetermodeVals->getValue(ui_cam->camFocusmetermodeCombo->currentIndex());
      socket->send("cam", "set_focusmetermode", v);
-
      qDebug() << "cam:set_focusmetermode:" << v;
 }
 
@@ -988,31 +936,25 @@ void bClient::_onDisconnected() {
 void bClient::_onAfChanged(bool s) {
     if(s==true)socket->send("cam", "af_trigger", "1");
     else socket->send("cam", "af_trigger", "0");
-
     qDebug() << "sending AF: " << s;
 }
 
 void bClient::_onSrChanged(bool s) {
     if(s==true)socket->send("cam", "sr_trigger", "1");
     else socket->send("cam", "sr_trigger", "0");
-
     qDebug() << "sending SR: " << s;
 }
 
 void bClient::_onZoomInChanged(bool s) {
     int speed = 0;
     if(s==true)speed=100;
-
     socket->send("motor_zoom", "set_speed", QString::number(speed));
-
     qDebug() << "new Zoom speed: " << speed;
 }
 
 void bClient::_onZoomOutChanged(bool s) {
     int speed = 0;
     if(s==true)speed=-100;
-
     socket->send("motor_zoom", "set_speed", QString::number(speed));
-
     qDebug() << "new Zoom speed: " << speed;
 }

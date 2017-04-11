@@ -1,6 +1,6 @@
 #include "motorwidget.h"
-#include "ui_motorwidget.h"
 
+#include "ui_motorwidget.h"
 
 motorWidget::motorWidget(QWidget *parent) :
     QWidget(parent),

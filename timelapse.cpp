@@ -1,4 +1,5 @@
 #include "timelapse.h"
+
 #include "ui_timelapse.h"
 
 timelapse::timelapse(QWidget *parent) :

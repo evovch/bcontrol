@@ -1,4 +1,5 @@
 #include "network.h"
+
 #include "ui_network.h"
 
 network::network(QWidget *parent) :

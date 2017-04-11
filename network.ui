@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>705</width>
-    <height>469</height>
+    <width>535</width>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,13 +76,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>label</zorder>
-  <zorder>addressInput</zorder>
-  <zorder>reconnectButton</zorder>
-  <zorder>resetButton</zorder>
-  <zorder>label_2</zorder>
-  <zorder>headLogText</zorder>
-  <zorder>headLogText</zorder>
  </widget>
  <resources/>
  <connections/>

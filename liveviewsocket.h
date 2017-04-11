@@ -12,11 +12,6 @@ public:
     void reconnect();
     void setAddr(QString addr);
 
-private:
-    QByteArray mjpegBuffer;
-    QString hostAddr = "127.0.0.1";
-//    QString hostAddr = "172.16.248.200";
-
 signals:
     void gotAFrame(QByteArray frame);
     void bConnected(void);
@@ -25,6 +20,11 @@ signals:
 public slots:
     void _onNewData(void);
     void _onCWatchTimer(void);
+
+private:
+    QByteArray mjpegBuffer;
+    QString hostAddr = "127.0.0.1";
+//    QString hostAddr = "172.16.248.200";
 
 };
 

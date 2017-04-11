@@ -1,5 +1,7 @@
 #include "motorcontrolwidget.h"
 
+#include "bslider.h"
+
 motorControlWidget::motorControlWidget(QWidget *parent) :
     QWidget(parent)
 {

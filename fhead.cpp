@@ -3,6 +3,7 @@
 #include "ui_fhead.h"
 
 #include <QDebug>
+#include <QKeyEvent>
 
 fhead::fhead(QWidget *parent) :
     QWidget(parent),

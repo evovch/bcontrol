@@ -6,7 +6,7 @@ void liveViewSocket::reconnect()
 {
     connectToHost(hostAddr, 60005);
 
-//    qDebug() << "reconnecting";
+    qDebug() << "reconnecting";
     if(waitForConnected(2000)) {
         qDebug() << "LV connected";
         QObject::connect(this, SIGNAL(readyRead()), this, SLOT(_onNewData()));
@@ -20,7 +20,7 @@ void liveViewSocket::_onCWatchTimer(void) {
 
     emit stateChanged(state());
 
-    if(state() == QAbstractSocket::UnconnectedState)reconnect();
+    if (state() == QAbstractSocket::UnconnectedState) reconnect();
 }
 
 void liveViewSocket::_onNewData(void) {
@@ -33,16 +33,16 @@ void liveViewSocket::_onNewData(void) {
     int i;
     while(1) {
         i = mjpegBuffer.indexOf(delim);
-        if (i==-1) break;
+        if (i == -1) break;
 
         frame = mjpegBuffer.left(i);
         mjpegBuffer.remove(0, i+delim.size());
 
         emit gotAFrame(frame);
-//        qDebug() << "got a frame: " << i;
+        qDebug() << "got a frame: " << i;
     }
 
-//    qDebug() << "bunch done";
+    qDebug() << "bunch done";
 }
 
 void liveViewSocket::send()

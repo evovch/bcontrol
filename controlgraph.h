@@ -38,6 +38,20 @@ public:
 
     bool framerBusy;
 
+signals:
+    void panPositionRequested(int);
+    void tiltPositionRequested(int);
+    void touchMove(float, float);
+
+public slots:
+    void _onPanPositionChanged(int value);
+    void _onTiltPositionChanged(int value);
+    void _onFixedPointsUpdated(void);
+
+    void _onGotAFrame(QByteArray frame);
+    
+public slots:
+    
 private:
     QGraphicsScene scene;
     QGraphicsScene sceneLV;
@@ -68,20 +82,6 @@ private:
     unsigned int visibleRangePan;
     unsigned int visibleRangeTilt;
 
-signals:
-    void panPositionRequested(int);
-    void tiltPositionRequested(int);
-    void touchMove(float, float);
-
-public slots:
-    void _onPanPositionChanged(int value);
-    void _onTiltPositionChanged(int value);
-    void _onFixedPointsUpdated(void);
-
-    void _onGotAFrame(QByteArray frame);
-    
-public slots:
-    
 };
 
 #endif // CONTROLGRAPH_H

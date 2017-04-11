@@ -27,7 +27,7 @@ void bmotion::mouseMoveEvent (QMouseEvent *event) {
     }
 }
 
-void bmotion::mousePressEvent (QMouseEvent *event) {
+void bmotion::mousePressEvent (QMouseEvent* /*event*/) {
     if(trackingOn) {
         setStyleSheet("background-color:none;");
         setMouseTracking(false);
