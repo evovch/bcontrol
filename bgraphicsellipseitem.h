@@ -2,7 +2,8 @@
 #define BGRAPHICSELLIPSEITEM_H
 
 #include <QGraphicsEllipseItem>
-#include <QMouseEvent>
+
+class QMouseEvent;
 
 class bGraphicsEllipseItem : public QGraphicsEllipseItem
 {

@@ -1,7 +1,12 @@
 #include "bjoycontrol.h"
-#include "mainBox.h"
+
 #include <QDebug>
 #include <QTimer>
+
+#include "controlgraph.h"
+#include "mainbox.h"
+#include "liveviewsocket.h"
+#include "gpioint.h"
 
 #define BUTTON_FLIPZOOM 68
 #define BUTTON_FLIPFOCUS 69
@@ -207,7 +212,7 @@ void bJoyControl::_onDataReceived(QString dev, QString key, QString value, QStri
 
     if(dev=="live_view" && key=="status") {
         if (value=="on") {
-            cg->setLVScene();
+            cg->setLVScene(controlGraph::MODE_LIVEVIEW); //FIXME - argument-?
         }
         else {
             cg->setFPScene();

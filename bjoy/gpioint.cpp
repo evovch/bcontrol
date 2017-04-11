@@ -84,8 +84,6 @@ void gpioInt::pollingLoop(unsigned int gpio)
     }
 
     gpio_fd_close(gpio_fd);
-
-
 }
 
 

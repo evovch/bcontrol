@@ -1,6 +1,7 @@
 #include "fastpixmapitem.h"
 
 #include <QDebug>
+#include <QPainter>
 
 FastPixmapItem::FastPixmapItem(QGraphicsItem *parent) :
     QGraphicsItem(parent)

@@ -2,11 +2,14 @@
 #define BJOYCONTROL_H
 
 #include <QObject>
+#include <QTimer>
+
 #include "bsocket.h"
-#include "controlgraph.h"
-#include "liveviewsocket.h"
 #include "btypes.h"
-#include "gpioint.h"
+
+class controlGraph;
+class liveViewSocket;
+class gpioInt;
 
 class bJoyControl : public QObject
 {

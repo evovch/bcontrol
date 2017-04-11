@@ -286,7 +286,6 @@ void controlGraph::setTiltPosition(int value){
     lineTilt->setLine(0, scene.height()-linePoint, scene.width(), scene.height()-linePoint );
 }
 
-
 void controlGraph::mousePressEvent(QMouseEvent * event) {
     if(currentScene == &scene) {
         emit panPositionRequested(event->x() * visibleRangePan / scene.width() + rangeMinPan);
@@ -329,8 +328,3 @@ void controlGraph::drawFixedPoints() {
         elliseFixedPointHash.insert(i.key(), e);
     }
 }
-
-
-
-
-

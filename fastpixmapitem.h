@@ -2,7 +2,7 @@
 #define FASTPIXMAPITEM_H
 
 #include <QGraphicsItem>
-#include <QPainter>
+#include <QImage>
 
 class FastPixmapItem : public QGraphicsItem
 {
