@@ -9,7 +9,7 @@ class bSocket : public QTcpSocket
     Q_OBJECT
 
 public:
-    void send(QString dev, QString key, QString value, QStringList params = QStringList()); // TODO how is that?
+    void send(QString dev, QString key, QString value, QStringList params = QStringList());
     void reconnect(void);
     void setAddr(QString addr);
     QString getAddr(void);

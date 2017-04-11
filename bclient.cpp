@@ -2,8 +2,8 @@
 
 #include <QDebug>
 #include <QDialog>
-#include <QTimer>
 #include <QHeaderView>
+#include <QTimer>
 
 #include "bcamparammodel.h"
 
@@ -373,13 +373,11 @@ void bClient::_onDoPower(QString name) {
     socket->send("motor_" + name, "toggle_power", "");
 }
 
-
 void bClient::_onPopupLimitsButtonPressed() {
      qDebug() << "limits window point pressed!";
      if(limitsWindow->isHidden())limitsWindow->show();
      else limitsWindow->hide();
 }
-
 
 void bClient::_onFocusPointPressed(int id) {
      qDebug() << "focus point pressed!";
@@ -430,7 +428,6 @@ void bClient::_onViewfinderCamButtonPressed(void) {
     socket->send("viewfinder_cam", "toggle", 0);
 }
 
-
 void bClient::_onFocusUpButtonPressed(void) {
     qDebug() << "focusUp pressed!";
     socket->send("focus", "step", "up");
@@ -448,7 +445,6 @@ void bClient::_onFocusUpMuchButtonPressed(void) {
 
 void bClient::_onFocusDownMuchButtonPressed(void) {
     qDebug() << "focusDownMuch pressed!";
-
     socket->send("focus", "step", "down_much");
 }
 
@@ -487,7 +483,6 @@ void bClient::_onFlipSliderButtonPressed(void) {
     socket->send("motor_slider", "flip_reverse", "");
 }
 
-
 void bClient::_onTlRunButtonPressed(void) {
     qDebug() << "run TL pressed!";
 
@@ -513,7 +508,6 @@ void bClient::_onTlDemoButtonPressed(void) {
 void bClient::sendFixedPoint(QString id, fixedPoint fp) {
     QStringList params;
     params.append(fp.name);
-
     socket->send("fixed_point", "set_current", id,  params);
 }
 
@@ -523,7 +517,6 @@ void bClient::addFixedPoint(QString id, fixedPoint fp) {
 
 void bClient::removeFixedPoint(QString id) {
     if(fixedPoints.find(id)==fixedPoints.end())return;
-
     fixedPoints.remove(id);
 }
 

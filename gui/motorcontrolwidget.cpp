@@ -1,5 +1,8 @@
 #include "motorcontrolwidget.h"
 
+#include <QDial>
+#include <QLabel>
+
 #include "bslider.h"
 
 motorControlWidget::motorControlWidget(QWidget *parent) :

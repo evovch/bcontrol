@@ -17,6 +17,7 @@ public:
     
 private:
     Ui::camera *ui;
+
 };
 
 #endif // CAMERA_H

@@ -2,15 +2,17 @@
 #define MOTORCONTROLWIDGET_H
 
 #include <QWidget>
-#include <QDial>
-#include <QProgressBar>
-#include <QLabel>
 
+#include <QDial> // makes file easier for daughter classes
+
+//class QProgressBar;
+class QLabel;
 class bSlider;
 
 class motorControlWidget : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit motorControlWidget(QWidget *parent = 0);
     void linkUi(void);
@@ -19,7 +21,7 @@ public:
     bSlider *positionSlider;
     bSlider *speedSlider;
     QDial *positionDial;
-    QProgressBar *positionBar;
+    //QProgressBar *positionBar;
 
     void setPosition(int value);
     void setMaxPosition(int value);
@@ -35,6 +37,7 @@ public slots:
     void _onPositionSliderValueChanged(int value);
     void _onPositionDialValueChanged(int value);
     void _onSpeedSliderValueChanged(int value);
+
 };
 
 #endif // MOTORCONTROLWIDGET_H

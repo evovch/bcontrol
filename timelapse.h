@@ -17,6 +17,7 @@ public:
     
 private:
     Ui::timelapse *ui;
+
 };
 
 #endif // TIMELAPSE_H

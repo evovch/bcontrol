@@ -15,7 +15,8 @@ void liveViewSocket::reconnect()
     qDebug() << "error string: " << errorString();
 }
 
-void liveViewSocket::_onCWatchTimer(void) {
+void liveViewSocket::_onCWatchTimer(void)
+{
     qDebug() << "SSSS: " << state();
 
     emit stateChanged(state());
@@ -23,7 +24,8 @@ void liveViewSocket::_onCWatchTimer(void) {
     if (state() == QAbstractSocket::UnconnectedState) reconnect();
 }
 
-void liveViewSocket::_onNewData(void) {
+void liveViewSocket::_onNewData(void)
+{
     mjpegBuffer += readAll();
 
     QByteArray delim = "--cutjpeg--";
@@ -47,11 +49,12 @@ void liveViewSocket::_onNewData(void) {
 
 void liveViewSocket::send()
 {
-    if(state()==QAbstractSocket::UnconnectedState){
+    if (state()==QAbstractSocket::UnconnectedState) {
         reconnect();
     }
 }
 
-void liveViewSocket::setAddr(QString addr) {
+void liveViewSocket::setAddr(QString addr)
+{
     hostAddr = addr;
 }

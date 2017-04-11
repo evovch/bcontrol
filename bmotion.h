@@ -15,8 +15,8 @@ public:
     explicit bmotion(QWidget *parent = 0);
     ~bmotion();
     
-    void mouseMoveEvent (QMouseEvent *event);
-    void mousePressEvent (QMouseEvent *event);
+    void mouseMoveEvent (QMouseEvent* event);
+    void mousePressEvent (QMouseEvent* event);
 
 signals:
     void virtualX(int);

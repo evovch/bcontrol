@@ -10,9 +10,9 @@
 
 #include "bsocket.h"
 
-#include "bslider.h"
+//#include "bslider.h"
 #include "ui_main.h"
-#include "blabel.h"
+//#include "blabel.h"
 
 int main_basic(int argc, char* argv[]) {
     QApplication app(argc, argv);

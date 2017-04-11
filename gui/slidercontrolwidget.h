@@ -1,8 +1,6 @@
 #ifndef SLIDERCONTROLWIDGET_H
 #define SLIDERCONTROLWIDGET_H
 
-#include <QWidget>
-
 #include "motorcontrolwidget.h"
 
 namespace Ui {
@@ -19,6 +17,7 @@ public:
     
 private:
     Ui::sliderControlWidget *ui;
+
 };
 
 #endif // SLIDERCONTROLWIDGET_H

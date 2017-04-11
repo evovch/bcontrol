@@ -31,7 +31,7 @@ SOURCES += \
     gui/zoomcontrolwidget.cpp \
     gui/focuscontrolwidget.cpp \
     motorwidget.cpp \
-    motorcontrolwidget.cpp \
+    gui/motorcontrolwidget.cpp \
     basic.cpp \
     bclient.cpp \
     controlgraph.cpp \
@@ -59,7 +59,7 @@ HEADERS += \
     gui/zoomcontrolwidget.h \
     gui/focuscontrolwidget.h \
     motorwidget.h \
-    motorcontrolwidget.h \
+    gui/motorcontrolwidget.h \
     bclient.h \
     controlgraph.h \
     fhead.h \
